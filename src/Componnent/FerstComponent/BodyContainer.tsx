@@ -47,7 +47,7 @@ export default function BodyContainer() {
         id={5}
         title="translator"
         discription="ابزاری قدرتمند برای ترجمه متون به زبان های مختلف است که دقت و سرعت بالایی را ارائه میدهد"
-        link="/"
+        link="/translate"
         key={1}
         bgClassName="bg-photoSE"
       />

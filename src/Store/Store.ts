@@ -18,6 +18,8 @@ interface RecordingState {
   setShowBTN: (showbtn: boolean) => void;
   indexMultiple:number,
   ChangeIndexMultiple: (index: number) => void
+  keywords:string
+  setKeywords:(value:string) => void
 }
 
 export const useStore = create<RecordingState>((set) => ({
@@ -36,6 +38,10 @@ export const useStore = create<RecordingState>((set) => ({
     set((state) => ({
       ...state,
       lang: val,
+    })),
+    keywords:'',
+    setKeywords:(value)=>set(()=>({
+       keywords:value
     })),
 
     indexMultiple:-1,

@@ -7,6 +7,7 @@ import ASRPage from "./Page/ASRPage";
 import VADPage from "./Page/VADPage";
 import SpeechEnhancementPage from "./Page/SpeechEnhancementPage";
 import OCRPage from "./Page/OCRPage";
+import TranslatorPage from "./Page/TranslatorPage";
 function App() {
   return (
     <BrowserRouter>
@@ -16,6 +17,7 @@ function App() {
         <Route path="/VAD" element={<VADPage />} />
         <Route path="/SpeechEnhancement" element={<SpeechEnhancementPage />} />
         <Route path="/OCR" element={<OCRPage />} />
+        <Route path="/translate" element={<TranslatorPage />} />
       </Routes>
     </BrowserRouter>
   );
