@@ -6,9 +6,9 @@ import WavesurferPlayer from "@wavesurfer/react";
 import { FaRegCirclePlay } from "react-icons/fa6";
 import { FaPauseCircle } from "react-icons/fa";
 import { useStore } from "../../Store/Store";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import api from "../../Config/api";
-
+import loader from "../../IMG/tail-spin.svg";
 export default function VADBody() {
   const { audioURLs, removeRecording, clearRecordings } = useStore();
   // clearRecordings();
@@ -20,13 +20,12 @@ export default function VADBody() {
   const [file, setFile] = useState<File | null>(null);
   // const [isOpen, setIsOpen] = useState(false);///open Modal for select Language
 
-  const [openModals, setOpenModals] = useState<boolean[]>([]);
-  const [text, setText] = useState<string[]>([]);
+ 
 
   useEffect(() => {
     setConverting(new Array(savedRecordings.length).fill(false));
     setSucsessFullConverting(new Array(savedRecordings.length).fill(false));
-    setText(new Array(savedRecordings.length).fill(""));
+   
   }, [savedRecordings]);
 
   const handleButtonClick = () => {
@@ -104,7 +103,7 @@ export default function VADBody() {
       wavesurfers[index].playPause();
     }
   };
-  const handelConvert = async (index: number, lang: string) => {
+  const handelConvert = async (index: number) => {
     try {
       const recording = savedRecordings[index];
       if (!recording || !recording.audio) {
@@ -131,19 +130,15 @@ export default function VADBody() {
       // ایجاد FormData و ارسال درخواست
       const formData = new FormData();
       formData.append("file", audioBlob, `${recording.name}.webm`);
-
+        
       console.log(formData);
 
       const response = await api.post("/api/vad/file", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       toast.success("پردازش با موفقیت به اتمام رسید");
-      console.log("نتیجه سرور:", response.data.transcription);
-      setText((prev: any) => {
-        const updated = [...prev];
-        updated[index] = response.data.transcription;
-        return updated;
-      });
+      console.log("نتیجه سرور:", response.data);
+    
       setSucsessFullConverting((prev: any) => {
         const updated = [...prev];
         updated[index] = true;
@@ -161,34 +156,7 @@ export default function VADBody() {
       });
     }
   };
-  const handelOpenModal = (index: number) => {
-    setOpenModals((prev: any) => {
-      const updated = [...prev];
-      updated[index] = true;
-      return updated;
-    });
-  };
 
-  const handleModalClose = (index: number) => {
-    const updatedOpenModals = [...openModals];
-    updatedOpenModals[index] = false;
-    setOpenModals(updatedOpenModals);
-  };
-  const handelDownLoadText = (index: number) => {
-    const content = text[index]; // متن مربوط به آیتم مورد نظر
-    if (!content) {
-      toast.error("مشکلی در دانلود فایل وجود دارد لطفا دوباره تلاش کنید");
-      return;
-    }
-
-    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `transcription-${index + 1}.txt`; // نام فایل دانلودی
-    link.click();
-    URL.revokeObjectURL(url);
-  };
 
   return (
     <div className="bg-blue-50 max-h-screen h-auto flex font-Byekan mt-20 justify-around">
@@ -197,12 +165,15 @@ export default function VADBody() {
           <>
             <div className="flex justify-end">
               <span className="text-gray-500 font-Byekan text-lg">
-                : فایل های موجود برای حذف قسمت های سکوت
+                : فایل های موجود برای تبدیل به متن قابل ویرایش
               </span>
             </div>
             <div className="border-b-2 w-7/12 mx-auto border-gray-600 max-h-[70vh] overflow-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-blue-300">
               {savedRecordings.map(
-                (item: { name: string; audio: string }, index: number) => (
+                (
+                  item: { name: string; audio: string; language: string },
+                  index: number
+                ) => (
                   <div className="mt-2 mb-3" key={index}>
                     <span>{item.name}:</span>
                     <div className="flex items-center w-full border rounded-full px-3 mb-2">
@@ -220,12 +191,12 @@ export default function VADBody() {
                           </span>
                         )}
                       </button>
-                      <div className="w-5/6 ">
+                      <div className="w-72 ">
                         <WavesurferPlayer
                           height={50}
                           waveColor="blue"
                           url={item.audio}
-                          onReady={(ws) => onReady(ws, index)}
+                          onReady={(ws: any) => onReady(ws, index)}
                           onPlay={() =>
                             setIsPlayingMap((prev) => ({
                               ...prev,
@@ -233,7 +204,7 @@ export default function VADBody() {
                             }))
                           }
                           onPause={() =>
-                            setIsPlayingMap((prev) => ({
+                            setIsPlayingMap((prev: any) => ({
                               ...prev,
                               [index]: false,
                             }))
@@ -249,11 +220,24 @@ export default function VADBody() {
                       >
                         <MdDeleteForever />
                       </span>
-
-                      <span className="text-white text-base mx-2 bg-gradient-to-r px-16 py-2 cursor-pointer hover:scale-105 duration-200 rounded-2xl from-blue-600 to-blue-950">
-                        {" "}
-                        تبدیل
-                      </span>
+                      {converting[index] ? (
+                        <span className="text-white text-base mx-2 bg-gradient-to-r px-16 py-2 cursor-pointer hover:scale-105 duration-200 rounded-2xl from-blue-600 to-blue-950">
+                          {" "}
+                          <img src={loader} className="w-6 h-5" />
+                        </span>
+                      ) : !sucsessFullConverting[index] ? (
+                        <span
+                          onClick={() => handelConvert(index)}
+                          className="text-white text-base mx-2 bg-gradient-to-r px-16 py-2 cursor-pointer hover:scale-105 duration-200 rounded-2xl from-blue-600 to-blue-950"
+                        >
+                          {" "}
+                          شروع پردازش
+                        </span>
+                      ) : (<span>slam</span>)}
+                    
+                    </div>
+                    <div className="w-1/2">
+                 
                     </div>
                   </div>
                 )
@@ -262,10 +246,10 @@ export default function VADBody() {
           </>
         ) : (
           <div className="flex justify-center">
-          <span className="text-xl font-bold text-gray-600">
-            فایلی برای نمایش وجود ندارد
-          </span>
-        </div>
+            <span className="text-xl font-bold text-gray-600">
+              فایلی برای نمایش وجود ندارد
+            </span>
+          </div>
         )}
       </div>
 
@@ -322,6 +306,7 @@ export default function VADBody() {
           onRecordingComplete={handleNewRecording}
         />
       </div>
+      <ToastContainer position="bottom-right" />
     </div>
   );
 }
