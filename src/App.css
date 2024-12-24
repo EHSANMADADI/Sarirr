@@ -73,3 +73,14 @@
   background-repeat: no-repeat;
   /* background-position: center; */
 }
+.bg-photoTranslator{
+  background-image: url("../src/IMG/translator.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+
+}
+.bg-photoSuper{
+  background-image: url("../src/IMG/super.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+}

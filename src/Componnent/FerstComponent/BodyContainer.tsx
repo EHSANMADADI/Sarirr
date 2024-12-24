@@ -49,7 +49,7 @@ export default function BodyContainer() {
         discription="ابزاری قدرتمند برای ترجمه متون به زبان های مختلف است که دقت و سرعت بالایی را ارائه میدهد"
         link="/translate"
         key={1}
-        bgClassName="bg-photoSE"
+        bgClassName="bg-photoTranslator"
       />
        <ItemsComponnets
         id={6}
@@ -57,7 +57,7 @@ export default function BodyContainer() {
         discription="یک تکنیک پردازش تصویر است که برای افزایش وضوح یا رزولوشن داده های بصری استفاده میشود.این تکنیک با تولید جزئیات بیشتر از تصویر اولیه ی به بهبود کیفیت و نمایش دقیق تر آن کمک میکند"
         link="/"
         key={1}
-        bgClassName="bg-photoSE"
+        bgClassName="bg-photoSuper"
       />
       <ItemsComponnets
         id={7}
@@ -68,7 +68,7 @@ export default function BodyContainer() {
         bgClassName="bg-photoSE"
       />
       <ItemsComponnets
-        id={6}
+        id={8}
         title="Decryption"
         discription="فرآیندی است که داده های رمزگذاری روش خاص به حالت اصلی و قابل فهم برمیگرداند.این فناوری به کاربران مجاز اجازه میدهد تا به اطلاعات محرمانه دسترسی پیدا کنند"
         link="/"

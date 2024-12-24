@@ -22,9 +22,11 @@ export default function ItemsComponents({
       className="flex flex-col cursor-pointer justify-between max-w-sm  bg-white border border-gray-200 rounded-tl-3xl rounded-tr-3xl shadow mb-5 hover:border-blue-700 hover:border-2 duration-100"
       style={{ minHeight: "420px" }}
     >
-      <div className={`${bgClassName} w-full rounded-tl-3xl rounded-tr-3xl h-96 relative overflow-hidden`}>
+      <div
+        className={`${bgClassName} w-full rounded-tl-3xl rounded-tr-3xl h-96 relative overflow-hidden`}
+      >
         <a
-        target="_blank"
+          target="_blank"
           href={link}
           className="absolute z-50 inset-0 flex bg-black  bg-opacity-30 h-[20.7rem]  items-center justify-center text-white text-xl font-bold opacity-0 hover:opacity-100 transition-opacity duration-300"
         >
