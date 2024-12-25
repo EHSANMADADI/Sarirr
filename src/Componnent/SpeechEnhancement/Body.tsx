@@ -173,7 +173,7 @@ export default function Body() {
 
   return (
     <>
-      <div className="bg-blue-50 max-h-screen h-auto flex font-Byekan  mt-20 justify-around">
+      <div className="bg-blue-50 max-h-screen h-auto flex flex-wrap-reverse font-Byekan  mt-20 justify-around">
         <div className="extended-file">
           {savedRecordings.length > 0 ? (
             <>
@@ -296,17 +296,21 @@ export default function Body() {
           )}
         </div>
 
-        <div className="change-languege">
+        <div className="change-languege lg:w-auto w-full justify-center items-center flex lg:block flex-col lg:mb-0 my-5">
           <div
             onClick={() => setIsOpen(!isOpen)}
             className="flex justify-end cursor-pointer"
           >
-            <span className="text-gray-500 font-Byekan  text-lg">
+            <span className="text-gray-500 font-Byekan font-bold  text-lg">
               :انتخاب مدل
             </span>
           </div>
           <div className="mt-5 flex items-center" dir="rtl">
-            <span
+            <select className="p-3 rounded-md" value={selectedModel} onChange={e=>setSelectedModel(e.target.value)}>
+              <option className="p-2" value="gagnet">GAGNET</option>
+              <option className="p-2" value="dbaiat" >DBAIAT</option>
+            </select>
+            {/* <span
               onClick={() => setIsOpen(!isOpen)}
               className="text-gray-400 flex items-center cursor-pointer text-lg bg-white rounded-lg px-6 py-3 "
             >
@@ -314,10 +318,10 @@ export default function Body() {
               <span className="mr-3">
                 <CiSquareChevDown />
               </span>
-            </span>
+            </span> */}
           </div>
-          {isOpen && (
-            <div className="flex mt-2  w-40 items-center z-50 flex-col origin-top-right absolute py-5 px-2 bg-white text-gray-700 rounded-xl text-base">
+          {/* {isOpen && (
+            <div className="flex mt-2  w-40 items-center z-50 flex-col lg:origin-top-right absolute py-5 px-2 bg-white text-gray-700 rounded-xl text-base">
               {listModel.map((item, i) => (
                 <div
                   key={i}
@@ -331,7 +335,7 @@ export default function Body() {
                 </div>
               ))}
             </div>
-          )}
+          )} */}
         </div>
 
         <div className="input-div  border border-dashed border-gray-800 rounded-md p-12 flex items-center flex-col h-[60vh] max-h[60vh] justify-center ">
