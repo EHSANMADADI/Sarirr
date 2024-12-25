@@ -35,7 +35,7 @@ export default function VoiceRecorder({
       };
       mediaRecorderRef.current.onstop = () => {
         const audioBlob = new Blob(audioChunksRef.current, {
-          type: "audio/web",
+          type: "audio/mp3",
         });
         const reader = new FileReader();
         reader.onloadend = () => {

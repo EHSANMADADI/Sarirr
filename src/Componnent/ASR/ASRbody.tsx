@@ -223,12 +223,12 @@ export default function ASRbody() {
   };
 
   return (
-    <div className="bg-blue-50 max-h-screen h-auto flex font-Byekan mx-auto mt-20 justify-around overflow-x-clip">
-      <div className="extended-file w-5/12 mx-auto">
+    <div className="bg-blue-50 max-h-screen h-auto flex flex-wrap-reverse font-Byekan mx-auto mt-20 justify-around">
+      <div className="extended-file xl:w-5/12 lg:mt-0 mt-5 w-full mx-auto">
         {savedRecordings.length > 0 ? (
           <>
             <div className="flex justify-end">
-              <span className="text-gray-500 font-Byekan text-lg">
+              <span className="text-gray-500 font-Byekan text-lg m-1 p-2 font-bold">
                 : فایل های موجود برای تبدیل به متن قابل ویرایش
               </span>
             </div>
@@ -346,7 +346,7 @@ export default function ASRbody() {
         )}
       </div>
 
-      <div className="input-div justify-center border border-dashed  border-gray-800 p-10 rounded-md w-3/12 max-h-[60vh] mx-auto">
+      <div className="input-div justify-center border border-dashed  border-gray-800 p-10 rounded-md xl:w-3/12 w-8/12 max-h-[66vh] mx-auto">
         <input
           id="dropzone-file"
           type="file"
