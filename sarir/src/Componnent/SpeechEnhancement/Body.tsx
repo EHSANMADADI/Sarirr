@@ -13,9 +13,9 @@ import { toast, ToastContainer } from "react-toastify";
 import { useStore } from "../../Store/Store";
 import api from "../../Config/api";
 import loader from "../../IMG/tail-spin.svg";
-
+import axios from "axios";
 export default function Body() {
-  const { audioURLs, removeRecording, clearRecordings } = useStore();
+  const { audioURLs, removeRecording } = useStore();
   const [savedRecordings, setSavedRecordings] = useState(audioURLs);
   const [converting, setConverting] = useState<boolean[]>([]);
   const [sucsessFullConverting, setSucsessFullConverting] = useState<boolean[]>(
@@ -24,7 +24,6 @@ export default function Body() {
   const [convertedAddressFile, setConvertedAddressFile] = useState<string[]>(
     []
   );
-  const [time, setTime] = useState(new Date());
   const [file, setFile] = useState<File | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState("GAGNET");
@@ -46,9 +45,8 @@ export default function Body() {
         const newRecording = {
           name: selectedFile.name,
           audio: base64Audio,
-          language: selectedModel,
         };
-        setSavedRecordings([newRecording]);
+        setSavedRecordings((prev: any) => [...prev, newRecording]);
       };
       reader.readAsDataURL(selectedFile);
     }
@@ -114,6 +112,8 @@ export default function Body() {
         alert("فایلی برای ارسال یافت نشد.");
         return;
       }
+     
+      
 
       // فعال کردن وضعیت "صبر کنید" برای دکمه مربوطه
       setConverting((prev: any) => {
@@ -129,23 +129,25 @@ export default function Body() {
         .fill(0)
         .map((_, i) => byteCharacters.charCodeAt(i));
       const byteArray = new Uint8Array(byteNumbers);
-      const audioBlob = new Blob([byteArray], { type: "audio/mp3" });
-      console.log(audioBlob);
+      const audioBlob = new Blob([byteArray], { type: "audio/webm" });
+console.log(audioBlob);
 
       // ایجاد FormData و ارسال درخواست
       const formData = new FormData();
-      setTime(new Date());
-      formData.append("file", audioBlob, `${recording.name}`);
+      formData.append("file", audioBlob,`${recording.name}.webm`);
       if (selectedModel) {
         formData.append("model_type", selectedModel);
       }
 
+     
       const response = await api.post("/api/enh/file", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       console.log("نتیجه سرور:", response.data);
 
       if (response.data.success) {
+        console.log("نتیجه سرور:", response.data);
+
         toast.success("پردازش با موفقیت به اتمام رسید");
         setSucsessFullConverting((prev: any) => {
           const updated = [...prev];
@@ -170,6 +172,8 @@ export default function Body() {
       });
     }
   };
+
+
 
   return (
     <>
@@ -235,24 +239,18 @@ export default function Body() {
                           <MdDeleteForever />
                         </span>
                         {converting[index] ? (
-                          <>
-                            <span className="text-white text-base mx-2 bg-gradient-to-r px-16 py-2 cursor-pointer hover:scale-105 duration-200 rounded-2xl from-blue-600 to-blue-950">
-                              {" "}
-                              <img src={loader} className="w-6 h-5" />
-                            </span>
-                            <span>{item.language}</span>
-                          </>
+                          <span className="text-white text-base mx-2 bg-gradient-to-r px-16 py-2 cursor-pointer hover:scale-105 duration-200 rounded-2xl from-blue-600 to-blue-950">
+                            {" "}
+                            <img src={loader} className="w-6 h-5" />
+                          </span>
                         ) : !sucsessFullConverting[index] ? (
-                          <>
-                            <span
-                              onClick={() => handelConvert(index)}
-                              className="text-white text-base mx-2 bg-gradient-to-r px-16 py-2 cursor-pointer hover:scale-105 duration-200 rounded-2xl from-blue-600 to-blue-950"
-                            >
-                              {" "}
-                              شروع پردازش
-                            </span>
-                            <span>{item.language}</span>
-                          </>
+                          <span
+                            onClick={() => handelConvert(index)}
+                            className="text-white text-base mx-2 bg-gradient-to-r px-16 py-2 cursor-pointer hover:scale-105 duration-200 rounded-2xl from-blue-600 to-blue-950"
+                          >
+                            {" "}
+                            شروع پردازش
+                          </span>
                         ) : (
                           <span
                             // onClick={() => handelConvert(index)}
@@ -265,27 +263,6 @@ export default function Body() {
                       </div>
                     </div>
                   )
-                )}
-              </div>
-              <div className="my-4">
-                {sucsessFullConverting.map((item, index: number) =>
-                  item ? (
-                    <div
-                      key={index}
-                      className="my-2 flex flex-col justify-center"
-                    >
-                      <span dir="rtl" className="text-lg font-bold my-2 mx-3">
-                        {" "}
-                        فایل های نهایی
-                      </span>
-                      <audio controls>
-                        <source
-                          src={`https://192.168.4.177:17017${convertedAddressFile}`}
-                          type="audio/mpeg"
-                        />
-                      </audio>
-                    </div>
-                  ) : null
                 )}
               </div>
             </>
@@ -334,7 +311,7 @@ export default function Body() {
           )}
         </div>
 
-        <div className="input-div  border border-dashed border-gray-800 rounded-md p-12 flex items-center flex-col h-[60vh] max-h[60vh] justify-center ">
+        <div className="input-div  border border-dashed border-gray-800 rounded-md p-10 max-h-[60vh] justify-center ">
           <input
             id="dropzone-file"
             type="file"
@@ -347,7 +324,7 @@ export default function Body() {
               <FaCloudUploadAlt />
             </span>
           </div>
-          <div className="flex justify-center mb-7">
+          <div className="flex justify-center mb-5">
             <span className="text-gray-500 font-Byekan font-bold text-lg">
               : انتخاب فایل از سیستم
             </span>
@@ -373,10 +350,10 @@ export default function Body() {
             )}
           </div>
 
-          {/* <VoiceRecorder
+          <VoiceRecorder
             nameComponent="Speech"
             onRecordingComplete={handleNewRecording}
-          /> */}
+          />
         </div>
       </div>
       <ToastContainer position="bottom-right" />
