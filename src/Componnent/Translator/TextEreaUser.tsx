@@ -19,8 +19,8 @@ export default function TextEreaUser() {
     setResult("");
     const txt = text + "به فارسی ترجمه کن";
     axios
-      .post("http://127.0.0.1:1234/v1/chat/completions", {
-        model: keywords,
+      .post("http://127.0.0.1:17016/v1/chat/completions", {
+        model:'aya-23-8b:2',
         messages: [
           {
             role: "user",

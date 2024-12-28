@@ -15,7 +15,7 @@ import api from "../../Config/api";
 import loader from "../../IMG/tail-spin.svg";
 
 export default function Body() {
-  const { audioURLs, removeRecording, clearRecordings } = useStore();
+  const { audioURLs, removeRecording } = useStore();
   const [savedRecordings, setSavedRecordings] = useState(audioURLs);
   const [converting, setConverting] = useState<boolean[]>([]);
   const [sucsessFullConverting, setSucsessFullConverting] = useState<boolean[]>(
@@ -280,7 +280,7 @@ export default function Body() {
                       </span>
                       <audio controls>
                         <source
-                          src={`https://192.168.4.177:17017${convertedAddressFile}`}
+                          src={`http://195.191.45.56:17017${convertedAddressFile}`}
                           type="audio/mpeg"
                         />
                       </audio>
@@ -296,49 +296,31 @@ export default function Body() {
           )}
         </div>
 
-        <div className="change-languege lg:w-auto w-full justify-center items-center flex lg:block flex-col lg:mb-0 my-5">
-          <div
-            onClick={() => setIsOpen(!isOpen)}
-            className="flex justify-end cursor-pointer"
-          >
-            <span className="text-gray-500 font-Byekan font-bold  text-lg">
-              :انتخاب مدل
-            </span>
-          </div>
-          <div className="mt-5 flex items-center" dir="rtl">
-            <select className="p-3 rounded-md" value={selectedModel} onChange={e=>setSelectedModel(e.target.value)}>
-              <option className="p-2" value="gagnet">GAGNET</option>
-              <option className="p-2" value="dbaiat" >DBAIAT</option>
-            </select>
-            {/* <span
+        <div className="input-div lg:w-3/12 w-8/12  border border-dashed border-gray-800 rounded-md p-12 flex items-center flex-col h-[60vh] max-h-[60vh] justify-center ">
+          <div className="change-languege lg:w-auto w-full justify-center items-center flex lg:block flex-col lg:mb-0 my-5">
+            <div
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-400 flex items-center cursor-pointer text-lg bg-white rounded-lg px-6 py-3 "
+              className="flex justify-end cursor-pointer"
             >
-              {selectedModel}
-              <span className="mr-3">
-                <CiSquareChevDown />
+              <span className="text-gray-500 font-Byekan font-bold  text-lg">
+                :انتخاب مدل
               </span>
-            </span> */}
-          </div>
-          {/* {isOpen && (
-            <div className="flex mt-2  w-40 items-center z-50 flex-col lg:origin-top-right absolute py-5 px-2 bg-white text-gray-700 rounded-xl text-base">
-              {listModel.map((item, i) => (
-                <div
-                  key={i}
-                  onClick={() => {
-                    setSelectedModel(item);
-                    setIsOpen(false);
-                  }}
-                  className="hover:bg-gray-200 justify-center hover:text-blue-600 py-3 px-5 border-b-2 w-full cursor-pointer  flex text-center items-center"
-                >
-                  <span className="mr-2">{item}</span>
-                </div>
-              ))}
             </div>
-          )} */}
-        </div>
-
-        <div className="input-div  border border-dashed border-gray-800 rounded-md p-12 flex items-center flex-col h-[60vh] max-h[60vh] justify-center ">
+            <div className="mt-5 flex items-center" dir="rtl">
+              <select
+                className="p-3 rounded-md"
+                value={selectedModel}
+                onChange={(e) => setSelectedModel(e.target.value)}
+              >
+                <option className="p-2" value="gagnet">
+                  GAGNET
+                </option>
+                <option className="p-2" value="dbaiat">
+                  DBAIAT
+                </option>
+              </select>
+            </div>
+          </div>
           <input
             id="dropzone-file"
             type="file"
@@ -376,11 +358,6 @@ export default function Body() {
               </div>
             )}
           </div>
-
-          {/* <VoiceRecorder
-            nameComponent="Speech"
-            onRecordingComplete={handleNewRecording}
-          /> */}
         </div>
       </div>
       <ToastContainer position="bottom-right" />

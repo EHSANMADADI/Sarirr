@@ -32,7 +32,7 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
     };
     reader.readAsDataURL(fileState.file);
 
-    axios.post('https://195.191.45.56:17017/process_image?type=excel', formData, {
+    axios.post('http://195.191.45.56:17017/process_image?type=excel', formData, {
       onUploadProgress: (progressEvent) => {
         const percentage = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
         setFileStates(prevStates => {

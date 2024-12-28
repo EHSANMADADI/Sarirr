@@ -9,6 +9,23 @@
 @media (max-width: 1300px) {
   .hero-banr {
     background-image: url("../src/IMG/test.jpg");
+    background-position: right;
+  }
+}
+@media(max-width:833px){
+  .hero-banr {
+    background-image: url("../src/IMG/mid.png");
+    background-size: auto;
+    height: 52vh;
+    background-position: center;
+  
+  }
+}
+@media(max-width:480px){
+  .hero-banr {
+    background-image: url("../src/IMG/sm.png");
+    background-size: cover;
+    height: 27vh;
   }
 }
 @font-face {
@@ -93,4 +110,14 @@
   background-image: url("../src/IMG/encript.png");
   background-size: contain;
   background-repeat: no-repeat;
+}
+.bg-llmui{
+  background-image: url("../src/IMG/llmui.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+@media(max-width:500px){
+  .bg-llmui ,.bg-descreiption ,.bg-ketWord, .bg-photoSuper, .bg-photoTranslator, .bg-photoOCR, .bg-photoSEGA, .bg-photoASR,  .bg-photoVAD, .bg-photoSE  {
+    background-size: cover;
+  }
 }

@@ -1,0 +1,13 @@
+195.191.45.56:17019
+
+
+curl --location 'http://192.168.4.81:5000/restore' \
+--form 'image=@"/C:/Users/DEZH/Desktop/Behnama/V6/download.jpg"' \
+--form 'fidelity_weight="0.7"'
+
+
+
+http://192.168.4.81:5000/restore
+POST
+
+https://192.168.4.177:17019

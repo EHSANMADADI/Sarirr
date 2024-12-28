@@ -19,16 +19,16 @@ export default function ItemsComponents({
 }: ItemsType) {
   return (
     <div
-      className="flex flex-col cursor-pointer justify-between max-w-sm  bg-white border border-gray-200 rounded-tl-3xl rounded-tr-3xl shadow mb-5 hover:border-blue-700 hover:border-2 duration-100"
-      style={{ minHeight: "420px" }}
+      className="flex flex-col cursor-pointer justify-between max-w-sm w-96  bg-white border border-gray-200 rounded-tl-3xl rounded-tr-3xl shadow mb-5 hover:border-blue-700 hover:border-2 duration-100"
+      
     >
       <div
-        className={`${bgClassName} w-full rounded-tl-3xl rounded-tr-3xl h-96 relative overflow-hidden`}
+        className={`${bgClassName} w-full rounded-tl-3xl rounded-tr-3xl sm:h-96 h-[17.8rem] relative overflow-hidden`}
       >
         <a
           target="_blank"
           href={link}
-          className="absolute z-50 inset-0 flex bg-black  bg-opacity-30 h-[20.7rem]  items-center justify-center text-white text-xl font-bold opacity-0 hover:opacity-100 transition-opacity duration-300"
+          className="sm:absolute z-50 inset-0 sm:flex hidden bg-black  bg-opacity-30 sm:h-[20.7rem]  items-center justify-center text-white text-xl font-bold opacity-0 hover:opacity-100 transition-opacity duration-300"
         >
           ورود به وب سایت
           <span className="text-4xl">
@@ -38,7 +38,7 @@ export default function ItemsComponents({
       </div>
 
       {/* بخش توضیحات */}
-      <div className="p-5 flex flex-col h-full">
+      <div className="md:p-5 p-3 flex flex-col sm:h-48 h-32">
         <a href={link}>
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-blue-900">
             {title}

@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "./logo.svg";
+// import 'bootstrap/dist/css/bootstrap-grid.rtl.min.css'
 import "./App.css";
 import FerstPage from "./Page/FerstPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -8,6 +8,8 @@ import VADPage from "./Page/VADPage";
 import SpeechEnhancementPage from "./Page/SpeechEnhancementPage";
 import OCRPage from "./Page/OCRPage";
 import TranslatorPage from "./Page/TranslatorPage";
+import LLMUIPage from "./Page/LLMUIPage";
+import SuperResolutionPage from "./Page/SuperResolutionPage";
 function App() {
   return (
     <BrowserRouter>
@@ -18,6 +20,8 @@ function App() {
         <Route path="/SpeechEnhancement" element={<SpeechEnhancementPage />} />
         <Route path="/OCR" element={<OCRPage />} />
         <Route path="/translate" element={<TranslatorPage />} />
+        <Route path="/LLMUI" element={<LLMUIPage />} />
+        <Route path="/SuperResolution" element={<SuperResolutionPage />} />
       </Routes>
     </BrowserRouter>
   );

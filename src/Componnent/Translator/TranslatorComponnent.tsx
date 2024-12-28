@@ -9,10 +9,8 @@ export default function TranslatorComponnent() {
     <HeaderMenue />
     <div className="pb-20 overflow-auto h-[90vh] w-full bg-blue-50">
       <TitleDetails
-        title={"ASRابزار تبدیل گفتار انسان به متن"}
-        detailes={
-          "فناوری ای است که گفتار انسان را به متن قابل ویرایش تبدیل میکند"
-        }
+        title={"ابزار تبدیل ترجه قدرتمند"}
+        detailes="ابزاری قدرتمند برای ترجمه متون به زبان های مختلف است که دقت و سرعت بالایی را ارائه میدهد"
       />
       <TranslatorBody />
     </div>
