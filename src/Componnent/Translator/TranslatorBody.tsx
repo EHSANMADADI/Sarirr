@@ -60,8 +60,8 @@ export default function TranslatorBody() {
 
   return (
     <>
-      <div className="flex justify-evenly  my-5">
-        <div className="result-box px-5 pb-5 pt-2 bg-white border-[3px] rounded-lg border-gray-300 xl:w-5/12">
+      <div className="flex justify-around  my-5">
+        <div className="result-box px-5 pb-5 pt-2 bg-white border-[3px] rounded-lg border-gray-300 xl:w-5/12 w-full">
           <div className="flex items-center justify-end px-2 border-b-2 w-full p-1">
             {ListLanguage.map((item, index) => {
               return (
@@ -84,7 +84,7 @@ export default function TranslatorBody() {
           </div>
         </div>
 
-        <div className="text-box p-5 flex bg-white border-[3px] px-2 rounded-lg border-gray-300 xl:w-5/12">
+        <div className="text-box p-5 flex bg-white border-[3px] px-2 rounded-lg border-gray-300 xl:w-5/12 w-full">
           <div className="w-full">
             <textarea
               value={text}

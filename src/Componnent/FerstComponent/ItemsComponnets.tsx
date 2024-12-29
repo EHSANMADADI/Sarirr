@@ -38,14 +38,14 @@ export default function ItemsComponents({
       </div>
 
       {/* بخش توضیحات */}
-      <div className="md:p-5 p-3 flex flex-col sm:h-48 h-32">
+      <div className="md:p-5 p-3 flex flex-col sm:h-44 h-32">
         <a href={link}>
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-blue-900">
+          <h5 className=" text-2xl font-bold tracking-tight text-blue-900">
             {title}
           </h5>
         </a>
         <p
-          className="font-medium text-lg text-gray-700 mt-auto"
+          className="font-medium text-lg text-gray-700 mt-3"
           style={{ textAlign: "justify" }}
         >
           {discription}
