@@ -232,7 +232,7 @@ export default function ASRbody() {
                 : فایل های موجود برای تبدیل به متن قابل ویرایش
               </span>
             </div>
-            <div className="border-b-2 w-7/12 mx-auto border-gray-600 max-h-[70vh] overflow-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-blue-300">
+            <div className="border-b-2 sm:w-7/12 w-full mx-auto border-gray-600 max-h-[70vh] overflow-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-blue-300">
               {savedRecordings.map(
                 (
                   item: { name: string; audio: string; language: string },
@@ -292,7 +292,7 @@ export default function ASRbody() {
                       ) : !sucsessFullConverting[index] ? (
                         <span
                           onClick={() => handelConvert(index, item.language)}
-                          className="text-white text-base mx-2 bg-gradient-to-r px-16 py-2 cursor-pointer hover:scale-105 duration-200 rounded-2xl from-blue-600 to-blue-950"
+                          className="text-white text-base mx-2 bg-gradient-to-r sm:px-16 px-12 py-2 cursor-pointer hover:scale-105 duration-200 rounded-2xl from-blue-600 to-blue-950"
                         >
                           {" "}
                           شروع پردازش
@@ -301,7 +301,7 @@ export default function ASRbody() {
                         <>
                           <span
                             onClick={() => handelOpenModal(index)}
-                            className="text-black border-black border-2 border-dashed text-base mx-2 px-14 py-1 cursor-pointer  rounded-2xl hover:bg-gray-50"
+                            className="text-black border-black border-2 border-dashed text-base mx-2 sm:px-14 px-10 py-1 cursor-pointer  rounded-2xl hover:bg-gray-50"
                           >
                             نمایش
                           </span>
@@ -358,13 +358,13 @@ export default function ASRbody() {
           <span>لطفا ابتدا زبان را انتخاب کنید</span>
         </div>
 
-        <div className="flex justify-around items-center w-full">
+        <div className="flex sm:justify-around justify-center sm:p-0 items-center w-full">
           <input
             id="en"
             type="radio"
             value="english"
             name="language"
-            className="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+            className="sm:w-6 sm:h-6 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
             checked={selectedLanguages === "english"}
             onChange={handleChange}
           />
@@ -377,7 +377,7 @@ export default function ASRbody() {
             type="radio"
             value="arabic"
             name="language"
-            className="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+            className="sm:w-6 sm:h-6 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
             checked={selectedLanguages === "arabic"}
             onChange={handleChange}
           />
@@ -390,7 +390,7 @@ export default function ASRbody() {
             type="radio"
             value="hebrew"
             name="language"
-            className="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+            className="sm:w-6 sm:h-6 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
             checked={selectedLanguages === "hebrew"}
             onChange={handleChange}
           />
@@ -403,7 +403,7 @@ export default function ASRbody() {
             type="radio"
             value="persian"
             name="language"
-            className="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+            className="sm:w-6 sm:h-6 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
             checked={selectedLanguages === "persian"}
             onChange={handleChange}
           />
@@ -418,15 +418,15 @@ export default function ASRbody() {
         </div>
 
         <div className="flex justify-center mb-5">
-          <span className="text-gray-500 text-2xl">
+          <span className="text-gray-500 md:text-2xl text-base">
             فایل های خود را انتخاب کنید
           </span>
         </div>
 
-        <div className="mb-5 flex justify-center" dir="rtl">
+        <div className="mb-5 flex z-0 justify-center" dir="rtl">
           <button
             onClick={handleButtonClick}
-            className="flex items-center px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-950 opacity-80 rounded-xl font-black text-xl shadow-2xl hover:opacity-100 border-[3px] border-blue-200 text-white"
+            className="flex items-center sm:px-6 sm:py-2 px-3 py-1 bg-gradient-to-r from-blue-600 to-blue-950 opacity-80 rounded-xl font-black sm:text-xl text-base shadow-2xl hover:opacity-100 border-[3px] border-blue-200 text-white"
           >
             انتخاب فایل ها
             <span className="mr-2">
@@ -438,13 +438,13 @@ export default function ASRbody() {
               <span className="text-red-700 cursor-pointer">
                 <MdDeleteSweep />
               </span>
-              <span className="ml-4 text-gray-700">{file.name} </span>
+              <span className="text-gray-700">{file.name} </span>
             </div>
           )}
         </div>
 
         <div className="flex justify-center">
-          <span className="text-gray-400 text-2xl">یا رکورد را شروع کنید </span>
+          <span className="text-gray-400 md:text-2xl text-base">یا رکورد را شروع کنید </span>
         </div>
 
         <VoiceRecorder

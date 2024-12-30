@@ -124,7 +124,7 @@ export default function VoiceRecorder({
           dir="rtl"
           value={fileName}
           onChange={(e) => setFileName(e.target.value)}
-          className="bg-white focus:outline-blue-600 focus:outline-4 border border-gray-100 rounded px-5 py-1"
+          className="bg-white focus:outline-blue-600 focus:outline-4 border border-gray-100 rounded sm:px-5 px-2 py-1"
         />
       </div>
       <div className="flex items-center justify-center my-5">
@@ -137,7 +137,7 @@ export default function VoiceRecorder({
                 : "bg-blue-700 cursor-not-allowed"
             } p-3 rounded-full mx-1`}
           >
-            <span className="text-white text-6xl">
+            <span className="text-white sm:text-6xl text-4xl">
               <CiMicrophoneOn />
             </span>
           </div>
