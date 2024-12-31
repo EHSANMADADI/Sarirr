@@ -305,10 +305,10 @@ export default function VADBody() {
           <div className="mb-16 flex justify-center" dir="rtl">
             <button
               onClick={handleButtonClick}
-              className="flex items-center px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-950 opacity-80 rounded-xl font-black text-xl shadow-2xl hover:opacity-100 border-[3px] border-blue-200 text-white"
+              className="flex items-center md:px-6 px-3 py-2 bg-gradient-to-r from-blue-600 to-blue-950 opacity-80 rounded-xl font-black text-xl shadow-2xl hover:opacity-100 border-[3px] border-blue-200 text-white"
             >
-              انتخاب فایل ها
-              <span className="mr-2">
+              انتخاب فایل 
+              <span className="mr-2 sm:inline hidden">
                 <FaCloudUploadAlt />
               </span>
             </button>

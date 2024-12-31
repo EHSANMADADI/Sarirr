@@ -98,7 +98,7 @@ export default function HeaderMenu() {
         </div>
 
         {/* sm< */}
-        <div className="relative sm:hidden z-50 ">
+        {/* <div className="relative sm:hidden z-50 ">
           <div
             className={`fixed z-50 top-0 right-0 h-screen bg-gradient-to-r from-blue-600 to-blue-900 text-white w-64 transform transition-transform duration-300 p-2 ${
               openMenu ? "translate-x-0" : "translate-x-full"
@@ -168,7 +168,6 @@ export default function HeaderMenu() {
 
               <span
                 className="font-extrabold cursor-pointer hover:border-b-2  hover:border-b-blue-200 hover:scale-110 duration-200"
-                // value="/translate"
                 onClick={() => navigate("/translate")}
               >
                 ترجمه
@@ -176,14 +175,13 @@ export default function HeaderMenu() {
             </div>
           </div>
 
-          {/* دکمه همبرگر */}
           <span
             onClick={() => setOpenMenue(true)}
             className="xl:text-4xl text-2xl mx-5  cursor-pointer text-blue-600"
           >
             <CiMenuFries />
           </span>
-        </div>
+        </div> */}
       </div>
     </div>
   );

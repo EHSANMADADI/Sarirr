@@ -11,6 +11,7 @@ export default function TranslatorBody() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState("");
   const [dir, setDir] = useState("rtl");
+  const [model, setModel] = useState("aya-23-8b");
 
   const handleLanguageClick = (language: string) => {
     setSelectedLanguage(language); // تنظیم زبان انتخاب‌شده
@@ -25,7 +26,7 @@ export default function TranslatorBody() {
 
     axios
       .post("http://195.191.45.56:17021/v1/chat/completions", {
-        model: "aya-23-8b",
+        model: model,
         messages: [
           {
             role: "user",
@@ -47,6 +48,7 @@ export default function TranslatorBody() {
   };
 
   useEffect(() => {
+    setResult("   ");
     switch (selectedLanguage) {
       case "انگلیسی":
         setDir("ltr");
@@ -60,6 +62,26 @@ export default function TranslatorBody() {
 
   return (
     <>
+      <div className="flex items-center justify-center text-lg font-black">
+        <select
+          className="bg-blue-500 text-white font-black rounded-xl"
+          value={model}
+          onChange={(e) => setModel(e.target.value)}
+        >
+          <option
+            className="bg-white hover:bg-blue-400 text-blue-600 hover:text-white cursor-pointer my-2 p-5"
+            value="aya-expanse-32b"
+          >
+            مدل دقیق
+          </option>
+          <option
+            className="bg-white hover:bg-blue-400 text-blue-600 hover:text-white cursor-pointer my-2 p-5"
+            value="aya-23-8b"
+          >
+            مدل سریع
+          </option>
+        </select>
+      </div>
       <div className="flex justify-around  my-5">
         <div className="result-box px-5 pb-5 pt-2 bg-white border-[3px] rounded-lg border-gray-300 xl:w-5/12 w-full">
           <div className="flex items-center justify-end px-2 border-b-2 w-full p-1">
@@ -93,7 +115,7 @@ export default function TranslatorBody() {
               }}
               dir="rtl"
               placeholder="متن مورد نظر خود را وارد کنید..."
-              className="w-full h-[30vh] border-none text-sm font-bold focus:outline-none p-5"
+              className="w-full h-[30vh] border-none text-sm font-bold outline-none focus:outline-none focus:border-none  p-5"
             />
           </div>
         </div>

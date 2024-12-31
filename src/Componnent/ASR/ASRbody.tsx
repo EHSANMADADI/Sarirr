@@ -428,7 +428,7 @@ export default function ASRbody() {
             onClick={handleButtonClick}
             className="flex items-center sm:px-6 sm:py-2 px-3 py-1 bg-gradient-to-r from-blue-600 to-blue-950 opacity-80 rounded-xl font-black sm:text-xl text-base shadow-2xl hover:opacity-100 border-[3px] border-blue-200 text-white"
           >
-            انتخاب فایل ها
+          انتخاب فایل 
             <span className="mr-2">
               <FaCloudUploadAlt />
             </span>

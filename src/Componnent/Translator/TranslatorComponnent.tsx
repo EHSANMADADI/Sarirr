@@ -9,7 +9,7 @@ export default function TranslatorComponnent() {
     <HeaderMenue />
     <div className="pb-20 overflow-auto h-[90vh] w-full bg-blue-50">
       <TitleDetails
-        title={"ابزار تبدیل ترجه قدرتمند"}
+        title={"ابزار ترجمه قدرتمند"}
         detailes="ابزاری قدرتمند برای ترجمه متون به زبان های مختلف است که دقت و سرعت بالایی را ارائه میدهد"
       />
       <TranslatorBody />
