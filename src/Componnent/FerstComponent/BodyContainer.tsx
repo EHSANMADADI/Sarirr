@@ -71,7 +71,7 @@ export default function BodyContainer() {
         id={8}
         title="Decryptor"
         discription="ابزار یافتن رمزینه فایل های رمزگذاری شده"
-        link="/"
+        link="/Decryptor"
         key={1}
         bgClassName="bg-descreiption"
       />

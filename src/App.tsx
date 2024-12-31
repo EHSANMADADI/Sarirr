@@ -10,6 +10,7 @@ import OCRPage from "./Page/OCRPage";
 import TranslatorPage from "./Page/TranslatorPage";
 import LLMUIPage from "./Page/LLMUIPage";
 import SuperResolutionPage from "./Page/SuperResolutionPage";
+import DecryptorPage from "./Page/DecryptorPage";
 function App() {
   return (
     <BrowserRouter>
@@ -22,6 +23,8 @@ function App() {
         <Route path="/translate" element={<TranslatorPage />} />
         <Route path="/LLMUI" element={<LLMUIPage />} />
         <Route path="/SuperResolution" element={<SuperResolutionPage />} />
+        <Route path="/Decryptor" element={<DecryptorPage />} />
+
       </Routes>
     </BrowserRouter>
   );
