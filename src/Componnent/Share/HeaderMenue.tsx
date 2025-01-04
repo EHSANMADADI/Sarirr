@@ -73,7 +73,7 @@ export default function HeaderMenu() {
             onClick={() => handlePageChange("/translate")}
             className="font-black md:text-lg text-sm mx-3 cursor-pointer hover:bg-gray-200 duration-200 lg:border-none border-b-2  lg:w-auto w-full items-center p-5 lg:p-4 rounded-md flex justify-center"
           >
-            ترجمه
+            ترجمه 
           </span>
 
           {/* Dropdowns */}

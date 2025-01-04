@@ -106,7 +106,7 @@ export default function TranslatorBody() {
           </div>
         </div>
 
-        <div className="text-box p-5 flex bg-white border-[3px] px-2 rounded-lg border-gray-300 xl:w-5/12 w-full">
+        <div className="text-box p-5 flex bg-white border-[3px] px-2 h-auto rounded-lg border-gray-300 xl:w-5/12 w-full">
           <div className="w-full">
             <textarea
               value={text}
