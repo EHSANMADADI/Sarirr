@@ -6,51 +6,82 @@ import logo from "../../../src/IMG/logo.png";
 import { IoMdHome } from "react-icons/io";
 import { FaAngleDown } from "react-icons/fa";
 import { Dropdown, DropdownItem } from "flowbite-react";
+
 export default function HeaderMenu() {
   const [activePage, setActivePage] = useState("/");
   const navigate = useNavigate();
   const location = useLocation();
+  const [openMenu, setOpenMenu] = useState(false);
+
   const handlePageChange = (value: string) => {
     setActivePage(value);
     navigate(value); // هدایت به آدرس جدید
   };
+
   useEffect(() => {
     setActivePage(location.pathname);
-  }, []);
-  const [openMenu, setOpenMenue] = useState(false);
+  }, [location.pathname]);
 
   return (
     <div className="flex border-b-2 relative items-center">
       <div className="w-full sticky flex px-5 pb-2 mx-auto justify-between items-center">
+        {/* لوگو */}
         <div className="flex items-center text-blue-800">
           <span>
             <img src={logo} alt="logo" className="h-auto w-16" />
           </span>
           <span className="font-nastaliq text-5xl px-1">سریر</span>
         </div>
+
+        {/* دکمه منوی همبرگری */}
+        <div className="md:hidden flex items-center">
+          <button onClick={() => setOpenMenu(!openMenu)}>
+            {openMenu ? (
+              <IoMdClose className="text-3xl text-blue-800" />
+            ) : (
+              <CiMenuFries className="text-3xl text-blue-800" />
+            )}
+          </button>
+        </div>
+
+        {/* منوی اصلی */}
         <div
-          className="sm:flex hidden items-center justify-between mr-2 
-          text-blue-800"
+          className={`${
+            openMenu ? "flex" : "hidden"
+          } md:flex text-blue-800 flex-col-reverse md:flex-row items-center justify-between absolute md:static md:top-16 top-24 left-0 w-full md:w-auto bg-white md:bg-transparent z-50`}
         >
           <span
-            onClick={() => navigate("/LLMUI")}
-            className="font-black md:text-lg text-sm mx-3 cursor-pointer"
+            onClick={() => handlePageChange("/")}
+            className="font-black md:text-lg text-sm mx-3 cursor-pointer  hover:bg-gray-200 duration-200 md:border-none border-b-2  md:w-auto w-full items-center p-5 md:p-0 flex justify-center"
+          >
+            keyword spotting
+          </span>
+          <span
+            onClick={() => handlePageChange("/Decryptor")}
+            className="font-black md:text-lg text-sm mx-3 cursor-pointer hover:bg-gray-200 duration-200 md:border-none border-b-2  md:w-auto w-full items-center p-5 md:p-0 flex justify-center"
+          >
+            Decryptor
+          </span>
+          <span
+            onClick={() => handlePageChange("/LLMUI")}
+            className="font-black md:text-lg text-sm mx-3 cursor-pointer hover:bg-gray-200 duration-200 md:border-none border-b-2  md:w-auto w-full items-center p-5 md:p-0 flex justify-center"
           >
             LLMUI
           </span>
           <span
-            onClick={() => navigate("/translate")}
-            className="font-black md:text-lg text-sm mx-3 cursor-pointer"
+            onClick={() => handlePageChange("/translate")}
+            className="font-black md:text-lg text-sm mx-3 cursor-pointer hover:bg-gray-200 duration-200 md:border-none border-b-2  md:w-auto w-full items-center p-5 md:p-0 flex justify-center"
           >
             ترجمه
           </span>
 
+          {/* Dropdowns */}
           <Dropdown
-            className="md:text-xl text-sm font-bold "
+            className="md:text-xl text-sm font-bold"
             label=""
             inline
             renderTrigger={() => (
-              <div className="flex items-center mx-3 cursor-pointer">
+              <div className=" mx-3 cursor-pointer md:border-none hover:bg-gray-200 duration-200 border-b-2  md:w-auto w-full items-center p-5 md:p-0 flex justify-center">
                 <span className="md:text-2xl text-lg">
                   <FaAngleDown />
                 </span>
@@ -60,128 +91,43 @@ export default function HeaderMenu() {
               </div>
             )}
           >
-            <DropdownItem onClick={() => navigate("/OCR")}>OCR</DropdownItem>
-            <DropdownItem onClick={() => navigate("/SuperResolution")}>
+            <DropdownItem onClick={() => handlePageChange("/OCR")}>
+              OCR
+            </DropdownItem>
+            <DropdownItem onClick={() => handlePageChange("/SuperResolution")}>
               SuperResolution
             </DropdownItem>
           </Dropdown>
 
           <Dropdown
-            className="md:text-xl text-sm font-bold "
+            className="md:text-xl text-sm font-bold"
             label=""
             inline
             renderTrigger={() => (
-              <div className="flex items-center mx-3 cursor-pointer">
+              <div className=" mx-3 cursor-pointer md:border-none hover:bg-gray-200 duration-200 border-b-2  md:w-auto w-full items-center p-5 md:p-0 flex justify-center">
                 <span className="md:text-2xl text-lg">
                   <FaAngleDown />
                 </span>
                 <span className="font-black md:text-lg text-sm">
-                  {" "}
                   ابزارهای پردازش صوت
                 </span>
               </div>
             )}
           >
-            <DropdownItem onClick={() => navigate("/ASR")}>ASR</DropdownItem>
-            <DropdownItem onClick={() => navigate("/VAD")}>VAD</DropdownItem>
-            <DropdownItem onClick={() => navigate("/SpeechEnhancement")}>
+            <DropdownItem onClick={() => handlePageChange("/ASR")}>ASR</DropdownItem>
+            <DropdownItem onClick={() => handlePageChange("/VAD")}>VAD</DropdownItem>
+            <DropdownItem onClick={() => handlePageChange("/SpeechEnhancement")}>
               SpeechEnhancement
             </DropdownItem>
           </Dropdown>
 
           <span
-            onClick={() => navigate("/")}
-            className="md:text-4xl text-2xl cursor-pointer"
+            onClick={() => handlePageChange("/")}
+            className="md:text-4xl md:border-none border-b-2  hover:bg-gray-200 duration-200 md:w-auto w-full items-center p-5 md:p-0 flex justify-center text-2xl cursor-pointer"
           >
             <IoMdHome />
           </span>
         </div>
-
-        {/* sm< */}
-        {/* <div className="relative sm:hidden z-50 ">
-          <div
-            className={`fixed z-50 top-0 right-0 h-screen bg-gradient-to-r from-blue-600 to-blue-900 text-white w-64 transform transition-transform duration-300 p-2 ${
-              openMenu ? "translate-x-0" : "translate-x-full"
-            }`}
-          >
-            <span
-              onClick={() => {
-                setOpenMenue(false);
-              }}
-              className="text-3xl cursor-pointer"
-            >
-              <IoMdClose />
-            </span>
-
-            <div className="flex flex-col items-center justify-around font-black text-lg w-full h-4/6 my-auto">
-              <span
-                className="font-extrabold cursor-pointer hover:border-b-2  hover:border-b-blue-200 hover:scale-110 duration-200"
-                onClick={() => navigate("/")}
-              >
-                صفحه اصلی
-              </span>
-
-              <Dropdown
-                className="font-bold "
-                label=""
-                inline
-                renderTrigger={() => (
-                  <div className="flex items-center mx-3 cursor-pointer">
-                    <span className="md:text-2xl text-xl">
-                      <FaAngleDown />
-                    </span>
-                    <span className="font-black ">ابزارهای پردازش تصویر</span>
-                  </div>
-                )}
-              >
-                <DropdownItem onClick={() => navigate("/OCR")}>
-                  OCR
-                </DropdownItem>
-                <DropdownItem onClick={() => navigate("/SuperResolution")}>
-                  SuperResolution
-                </DropdownItem>
-              </Dropdown>
-
-              <Dropdown
-                className="font-bold "
-                label=""
-                inline
-                renderTrigger={() => (
-                  <div className="flex items-center mx-3 cursor-pointer">
-                    <span className="md:text-2xl text-xl">
-                      <FaAngleDown />
-                    </span>
-                    <span className="font-black "> ابزارهای پردازش صوت</span>
-                  </div>
-                )}
-              >
-                <DropdownItem onClick={() => navigate("/ASR")}>
-                  ASR
-                </DropdownItem>
-                <DropdownItem onClick={() => navigate("/VAD")}>
-                  VAD
-                </DropdownItem>
-                <DropdownItem onClick={() => navigate("/SpeechEnhancement")}>
-                  SpeechEnhancement
-                </DropdownItem>
-              </Dropdown>
-
-              <span
-                className="font-extrabold cursor-pointer hover:border-b-2  hover:border-b-blue-200 hover:scale-110 duration-200"
-                onClick={() => navigate("/translate")}
-              >
-                ترجمه
-              </span>
-            </div>
-          </div>
-
-          <span
-            onClick={() => setOpenMenue(true)}
-            className="xl:text-4xl text-2xl mx-5  cursor-pointer text-blue-600"
-          >
-            <CiMenuFries />
-          </span>
-        </div> */}
       </div>
     </div>
   );

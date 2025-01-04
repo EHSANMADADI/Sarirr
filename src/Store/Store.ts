@@ -16,10 +16,14 @@ interface RecordingState {
   ////for Ocr
   showBTN: boolean;
   setShowBTN: (showbtn: boolean) => void;
-  indexMultiple:number,
-  ChangeIndexMultiple: (index: number) => void
-  keywords:string
-  setKeywords:(value:string) => void
+  indexMultiple: number;
+  ChangeIndexMultiple: (index: number) => void;
+  keywords: string;
+  setKeywords: (value: string) => void;
+
+  ///for Descriptor
+  characterValue: String[];
+  addCharacterValue: (value: string) => void;
 }
 
 export const useStore = create<RecordingState>((set) => ({
@@ -30,7 +34,7 @@ export const useStore = create<RecordingState>((set) => ({
     })),
   removeRecording: (id) =>
     set((state) => ({
-      audioURLs: state.audioURLs.filter( (_: any, i: number) => i !== id),
+      audioURLs: state.audioURLs.filter((_: any, i: number) => i !== id),
     })),
   clearRecordings: () => set(() => ({ audioURLs: [] })),
   lang: "persian",
@@ -39,13 +43,20 @@ export const useStore = create<RecordingState>((set) => ({
       ...state,
       lang: val,
     })),
-    keywords:'',
-    setKeywords:(value)=>set(()=>({
-       keywords:value
+  keywords: "",
+  setKeywords: (value) =>
+    set(() => ({
+      keywords: value,
     })),
 
-    indexMultiple:-1,
-    ChangeIndexMultiple:(index:number)=>set((state)=>({indexMultiple:index})),
-    showBTN:true,
-    setShowBTN:(showbtn:boolean)=>set((state)=>({showBTN:showbtn})),
+  indexMultiple: -1,
+  ChangeIndexMultiple: (index: number) =>
+    set((state) => ({ indexMultiple: index })),
+  showBTN: true,
+  setShowBTN: (showbtn: boolean) => set((state) => ({ showBTN: showbtn })),
+  characterValue: [],
+  addCharacterValue: (value: string) =>
+    set((state) => ({
+      characterValue: [...state.characterValue, value],
+    })),
 }));

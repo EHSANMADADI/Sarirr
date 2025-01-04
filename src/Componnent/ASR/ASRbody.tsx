@@ -318,7 +318,7 @@ export default function ASRbody() {
                         {item.language}
                       </span>
                     </div>
-                    <div className="w-1/2">
+                    <div className="md:w-1/2 w-full">
                       <Modal
                         Open={openModals[index]}
                         onClose={() => handleModalClose(index)}

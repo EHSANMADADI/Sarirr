@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 import { HiExternalLink } from "react-icons/hi";
+import {useNavigate } from "react-router-dom";
 interface ItemsType {
   id: number;
   title: string;
@@ -17,8 +18,10 @@ export default function ItemsComponents({
   link,
   bgClassName,
 }: ItemsType) {
+  const navigate = useNavigate();
   return (
     <div
+      onClick={()=>navigate(link)}
       className="flex flex-col cursor-pointer justify-between max-w-sm w-96  bg-white border border-gray-200 rounded-tl-3xl rounded-tr-3xl shadow mb-5 hover:border-blue-700 hover:border-2 duration-100"
       
     >

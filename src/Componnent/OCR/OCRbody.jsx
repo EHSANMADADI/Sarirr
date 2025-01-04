@@ -82,8 +82,6 @@ export default function Multipel() {
         setOpenModals(updatedOpenModals);
     };
 
-
-
     const handelDownloadExcell = async (index) => {
         try {
             const zip = new JSZip(); // ایجاد یک فایل ZIP

@@ -20,11 +20,6 @@ export default function InputMultiple({ files, setFiles, error, setError }) {
                     alert('File size must be less than 10MB');
                     hasError = true;
                 }
-            // } else {
-            //     setError('Only JPG or PNG files are allowed');
-            //     alert('Only JPG or PNG files are allowed');
-            //     hasError = true;
-            // }
         });
 
         if (!hasError) {
@@ -38,7 +33,7 @@ export default function InputMultiple({ files, setFiles, error, setError }) {
     const handleButtonClick = () => {
         document.getElementById('dropzone-file').click();
     };
-    console.log(files);
+    
     
 
     return (
@@ -54,8 +49,11 @@ export default function InputMultiple({ files, setFiles, error, setError }) {
 
                         <input multiple id="dropzone-file" type="file" accept='.jpg,.jpeg,.png' className="hidden" onChange={handleFileChange} />
                     </label>
+
+                    
                 </div>
             </div>
+
         </div>
     );
 }
