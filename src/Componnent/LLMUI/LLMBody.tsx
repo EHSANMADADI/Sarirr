@@ -5,7 +5,7 @@ export const LLMBody = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <div className="w-full h-full relative">
+    <div className="w-full h-full">
       {isLoading && (
         <div className="w-full flex justify-center h-full items-center">
           <div className="lds-roller">
@@ -20,7 +20,7 @@ export const LLMBody = () => {
         </div>
       )}
       <iframe
-        className="w-full h-full"
+        className="w-full h-full z-0"
         src="http://195.191.45.56:17022/auth"
         onLoad={() => setIsLoading(false)}
       ></iframe>

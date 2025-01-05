@@ -23,7 +23,7 @@ export default function HeaderMenu() {
   }, [location.pathname]);
 
   return (
-    <div className="flex border-b-2 relative items-center">
+    <div className="flex border-b-2 relative items-center z-50">
       <div className="w-full sticky flex px-5 pb-2 mx-auto justify-between items-center">
         {/* لوگو */}
         <div className="flex items-center text-blue-800">
@@ -43,7 +43,6 @@ export default function HeaderMenu() {
             )}
           </button>
         </div>
-
 
         {/* منوی اصلی */}
         <div
@@ -73,7 +72,7 @@ export default function HeaderMenu() {
             onClick={() => handlePageChange("/translate")}
             className="font-black md:text-lg text-sm mx-3 cursor-pointer hover:bg-gray-200 duration-200 lg:border-none border-b-2  lg:w-auto w-full items-center p-5 lg:p-4 rounded-md flex justify-center"
           >
-            ترجمه 
+            ترجمه
           </span>
 
           {/* Dropdowns */}
@@ -115,9 +114,15 @@ export default function HeaderMenu() {
               </div>
             )}
           >
-            <DropdownItem onClick={() => handlePageChange("/ASR")}>ASR</DropdownItem>
-            <DropdownItem onClick={() => handlePageChange("/VAD")}>VAD</DropdownItem>
-            <DropdownItem onClick={() => handlePageChange("/SpeechEnhancement")}>
+            <DropdownItem onClick={() => handlePageChange("/ASR")}>
+              ASR
+            </DropdownItem>
+            <DropdownItem onClick={() => handlePageChange("/VAD")}>
+              VAD
+            </DropdownItem>
+            <DropdownItem
+              onClick={() => handlePageChange("/SpeechEnhancement")}
+            >
               SpeechEnhancement
             </DropdownItem>
           </Dropdown>
