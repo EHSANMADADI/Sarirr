@@ -25,7 +25,7 @@ export default function HeaderMenu() {
   return (
     <div className="flex border-b-2 relative items-center z-50">
       <div className="w-full sticky flex px-5 pb-2 mx-auto justify-between items-center">
-        {/* لوگو */}
+        {/* Logo */}
         <div className="flex items-center text-blue-800">
           <span>
             <img src={logo} alt="logo" className="h-auto w-16" />
@@ -33,18 +33,18 @@ export default function HeaderMenu() {
           <span className="font-nastaliq text-5xl px-1">سریر</span>
         </div>
 
-        {/* دکمه منوی همبرگری */}
+        {/* btn humberger menue */}
         <div className="lg:hidden flex items-center">
           <button onClick={() => setOpenMenu(!openMenu)}>
             {openMenu ? (
               <IoMdClose className="text-3xl text-blue-800" />
-            ) : (
+            ) : (    
               <CiMenuFries className="text-3xl text-blue-800" />
             )}
           </button>
         </div>
 
-        {/* منوی اصلی */}
+        {/* orginal menue */}
         <div
           className={`${
             openMenu ? "flex" : "hidden"

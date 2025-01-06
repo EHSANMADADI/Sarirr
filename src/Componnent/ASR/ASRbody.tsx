@@ -1,11 +1,8 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
-import { PiRecordFill } from "react-icons/pi";
-import { FaPlay } from "react-icons/fa";
-import { MdDeleteForever, MdRectangle } from "react-icons/md";
+import { MdDeleteForever } from "react-icons/md";
 import { MdDeleteSweep } from "react-icons/md";
-import { CiSquareChevDown } from "react-icons/ci";
 import VoiceRecorder from "../Share/VoiceRecorder";
 import WavesurferPlayer from "@wavesurfer/react";
 import { FaRegCirclePlay } from "react-icons/fa6";

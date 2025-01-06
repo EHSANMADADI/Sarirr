@@ -2,10 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { CiSquareChevDown } from "react-icons/ci";
 import { FaCloudUploadAlt, FaPlay } from "react-icons/fa";
-import { IoPauseOutline } from "react-icons/io5";
-import { MdDeleteForever, MdDeleteSweep, MdRectangle } from "react-icons/md";
-import { PiRecordFill } from "react-icons/pi";
-import VoiceRecorder from "../Share/VoiceRecorder";
+import { MdDeleteForever, MdDeleteSweep } from "react-icons/md";
 import WavesurferPlayer from "@wavesurfer/react";
 import { FaRegCirclePlay } from "react-icons/fa6";
 import { FaPauseCircle } from "react-icons/fa";

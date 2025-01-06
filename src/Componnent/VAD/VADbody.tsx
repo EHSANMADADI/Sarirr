@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { MdDeleteForever, MdDeleteSweep } from "react-icons/md";
-import VoiceRecorder from "../Share/VoiceRecorder";
 import WavesurferPlayer from "@wavesurfer/react";
 import { FaRegCirclePlay } from "react-icons/fa6";
 import { FaPauseCircle } from "react-icons/fa";

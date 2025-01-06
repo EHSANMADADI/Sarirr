@@ -1,5 +1,4 @@
 import React from 'react'
-import { IoIosCloseCircle } from "react-icons/io";
 import { MdClose } from "react-icons/md";
 interface ModalInput {
   Open: boolean,

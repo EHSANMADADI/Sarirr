@@ -4,7 +4,6 @@ import { CiCircleRemove } from "react-icons/ci";
 import { FaCheckCircle } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
-import { IoMdEye } from "react-icons/io";
 export default function UploadFile({ files, setSaveItems, saveItems, setAllFilesUploaded, allFilesUploaded }) {
     const [fileStates, setFileStates] = useState([]);
     const [progressAll, setProgressAll] = useState(0);
