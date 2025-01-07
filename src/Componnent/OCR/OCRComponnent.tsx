@@ -7,7 +7,7 @@ export default function OCRComponnent() {
   return (
     <div className="overflow-hidden mx-auto h-screen">
       <HeaderMenue />
-      <div className="pb-20 overflow-auto h-[90vh] w-full bg-blue-50">
+      <div className="pb-20 overflow-auto h-[90vh] w-full bg-blue-50 font-Byekan">
         <TitleDetails
           title={"ابزار تبدیل عکس به متن"}
           detailes={

@@ -41,7 +41,10 @@
 }
 @font-face{
   font-family:"Byekan";
-  src: url("./font/Yekan.ttf") format("ttf");
+  src: url("./font/Yekan.ttf") format("ttf")و
+  url("./font/Yekan.eot") format('eot'),
+  url('./font/Yekan.woff') format('woff'),
+  url('./font/Yekan.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
 }

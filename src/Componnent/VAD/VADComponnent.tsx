@@ -10,7 +10,7 @@ export default function VADComponnent() {
     return (
         <div className='overflow-hidden h-screen'>
           <HeaderMenue />
-          <div className="pb-20 overflow-auto h-[90vh]  bg-blue-50">
+          <div className="pb-20 overflow-auto h-[90vh]  bg-blue-50 font-Byekan">
             <TitleDetails
               title={"VAD ابزار تفکیک بخش های گفتار از سکوت"}
               detailes={

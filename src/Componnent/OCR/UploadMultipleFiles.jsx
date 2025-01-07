@@ -97,18 +97,19 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
         !allFilesUploaded && <div className='w-full'>
           <div className='border border-gray-100 shadow-2xl rounded-lg xl:mx-6 mx-1 xl:p-5 py-2 mb-10 bg-white'>
             <div className='flex justify-between items-center md:mx-5 mx-2'>
-              <p className='text-xl font-semibold overflow-clip'>درحال پردازش لطفا صبر کنید</p>
+              <p className='text-lg  font-semibold overflow-clip py-2'>درحال پردازش لطفا صبر کنید</p>
               {
                 progressAll === 100 && <div className='text-lg text-green-500'>
                   <FaCheckCircle />
                 </div>
               }
-              {
+              {/* {
                 progressAll !== 100 && <div className='text-3xl text-red-500 font-bold cursor-pointer hover:scale-110 duration-200'>
                   <CiCircleRemove />
                 </div>
-              }
+              } */}
             </div>
+            
             <div className='mx-6 mt-1'>
               <div className="bg-gray-200 rounded-full h-2 ">
                 <div className="bg-blue-700 h-2 rounded-full" style={{ width: `${progressAll}%` }}></div>
@@ -116,7 +117,7 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
               <div className="flex justify-end mb-1">
                 <span className="text-sm font-medium text-gray-400 ">{progressAll}%</span>
               </div>
-              <div className='flex'>
+              {/* <div className='flex'>
                 <div className='flex justify-between w-full items-center'>
                   <button className='border-dotted border-black rounded-md border-2 sm:px-4 px-2 pt-1 pb-2 mx-2 sm:text-xl text-xs font-semibold flex items-center text-center hover:scale-105 duration-200'>
                     <span className='text-center mr-2 text-2xl text-red-600'><RiDeleteBin6Line /></span>حذف
@@ -125,7 +126,7 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
                     <span className='text-center mr-2 text-2xl'><IoMdEye /></span>نمایش
                   </button>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

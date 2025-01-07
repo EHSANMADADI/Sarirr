@@ -7,7 +7,7 @@ export default function ASRComponnent() {
   return (
     <div className='overflow-hidden mx-auto h-screen'>
       <HeaderMenue />
-      <div className="pb-10 overflow-auto h-[90vh] w-full bg-blue-50">
+      <div className="pb-10 overflow-auto h-[90vh] w-full bg-blue-50 font-Byekan">
         <TitleDetails
           title={"ASRابزار تبدیل گفتار انسان به متن"}
           detailes={

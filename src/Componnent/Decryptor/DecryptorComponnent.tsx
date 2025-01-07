@@ -5,7 +5,7 @@ import DecryptorBody from './DecryptorBody'
 
 export default function DecryptorComponnent() {
   return (
-    <div className='overflow-hidden mx-auto h-screen'>
+    <div className='overflow-hidden mx-auto h-screen font-Byekan'>
     <HeaderMenue />
     <div className="pb-20 overflow-auto h-[90vh] w-full bg-blue-50">
       <TitleDetails

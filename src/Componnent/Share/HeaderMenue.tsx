@@ -48,7 +48,7 @@ export default function HeaderMenu() {
         <div
           className={`${
             openMenu ? "flex" : "hidden"
-          } lg:flex text-blue-800 flex-col-reverse lg:flex-row items-center justify-between absolute lg:static lg:top-16 top-24 left-0 w-full lg:w-auto bg-white lg:bg-transparent z-50`}
+          } lg:flex text-blue-800 flex-col-reverse font-Byekan lg:flex-row items-center justify-between absolute lg:static lg:top-16 top-24 left-0 w-full lg:w-auto bg-white lg:bg-transparent z-50`}
         >
           <span
             onClick={() => handlePageChange("/")}

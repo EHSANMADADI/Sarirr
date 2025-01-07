@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import SelectRole from "./SelectRole";
+import axios from "axios";
 
 export default function InputFile({ files, setFiles, error, setError }) {
   const MAX_FILE_SIZE = 104857600; // 10MB
-  const [know, setKnow] = useState('')
+  const [token, settoken] = useState('')
   const handleFileChange = (event) => {
     const selectedFiles = Array.from(event.target.files);
     const validFiles = [];
@@ -31,6 +32,18 @@ export default function InputFile({ files, setFiles, error, setError }) {
   const handleButtonClick = () => {
     document.getElementById('dropzone-file').click();
   };
+
+
+  useEffect(() => {
+    axios.post('https://192.168.4.161:8081/api/auth/signin', {
+      login: "ehsan",
+      password: "123456"
+    }).then((res)=>{
+      console.log(res);
+      settoken(res.data.accessToken)
+    })
+  }, [])
+
 
   const [InputValue, setInputValue] = useState(0)
   return (

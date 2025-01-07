@@ -6,7 +6,7 @@ export default function BodyContainer() {
   // const [showWebSite, setShowWebsite] = useState(false);
   return (
     <div
-      className="flex flex-wrap items-start xl:justify-between justify-center xl:gap-5 gap-2 w-2/3 mx-auto"
+      className="flex flex-wrap font-Byekan items-start xl:justify-between justify-center xl:gap-5 gap-2 w-2/3 mx-auto"
       dir="rtl"
     >
       <ItemsComponnets
