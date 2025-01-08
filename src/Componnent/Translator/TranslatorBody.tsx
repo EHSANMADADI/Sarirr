@@ -82,8 +82,8 @@ export default function TranslatorBody() {
           </option>
         </select>
       </div>
-      <div className="flex justify-around  my-5">
-        <div className="result-box px-5 pb-5 pt-2 bg-white border-[3px] rounded-lg border-gray-300 xl:w-5/12 w-full">
+      <div className="lg:flex flex-reverse justify-around lg:flex-nowrap my-5">
+        <div className="result-box min-h-72 px-5 pb-5 pt-2 bg-white border-[3px] rounded-lg border-gray-300 lg:mb-0 mb-5 xl:w-5/12 w-10/12 mx-auto order-2 lg:order-1">
           <div className="flex items-center justify-end px-2 border-b-2 w-full p-1">
             {ListLanguage.map((item, index) => {
               return (
@@ -106,7 +106,7 @@ export default function TranslatorBody() {
           </div>
         </div>
 
-        <div className="text-box p-5 flex bg-white border-[3px] px-2 h-auto rounded-lg border-gray-300 xl:w-5/12 w-full">
+        <div className="text-box p-1 min-h-60 flex bg-white border-[3px] px-2 h-auto rounded-lg outline-none border-gray-300 xl:w-5/12 w-10/12 mx-auto order-1 lg:order-2">
           <div className="w-full">
             <textarea
               value={text}
@@ -115,11 +115,12 @@ export default function TranslatorBody() {
               }}
               dir="rtl"
               placeholder="متن مورد نظر خود را وارد کنید..."
-              className="w-full h-[30vh] border-none text-sm font-bold outline-none focus:outline-none focus:border-none  p-5"
+              className="w-full h-[30vh] border-none text-sm font-bold outline-none focus:outline-none focus:border-none p-5"
             />
           </div>
         </div>
       </div>
+
       <div className="flex justify-center items-center my-2">
         <button
           onClick={translate}

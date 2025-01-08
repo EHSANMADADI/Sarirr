@@ -63,7 +63,7 @@ export default function BodyContainer() {
         id={7}
         title="keyword spotting"
         discription="ابزار جست و جو کلمات کلیدی درفایل های صوتی"
-        link="/"
+        link="/keywordSpotting"
         key={1}
         bgClassName="bg-ketWord"
       />

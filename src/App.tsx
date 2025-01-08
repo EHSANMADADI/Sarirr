@@ -11,6 +11,8 @@ import TranslatorPage from "./Page/TranslatorPage";
 import LLMUIPage from "./Page/LLMUIPage";
 import SuperResolutionPage from "./Page/SuperResolutionPage";
 import DecryptorPage from "./Page/DecryptorPage";
+import KeywordSpotting from "./Page/KeywordSpotting";
+
 function App() {
   return (
     <BrowserRouter>
@@ -24,6 +26,7 @@ function App() {
         <Route path="/LLMUI" element={<LLMUIPage />} />
         <Route path="/SuperResolution" element={<SuperResolutionPage />} />
         <Route path="/Decryptor" element={<DecryptorPage />} />
+        <Route path="/keywordSpotting" element={<KeywordSpotting/>} />
 
       </Routes>
     </BrowserRouter>

@@ -3,7 +3,7 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import SelectRole from "./SelectRole";
 import axios from "axios";
 
-export default function InputFile({ files, setFiles, error, setError }) {
+export default function InputFile({ setFiles, setError }) {
   const MAX_FILE_SIZE = 104857600; // 10MB
   const [token, settoken] = useState('')
   const handleFileChange = (event) => {
@@ -34,18 +34,17 @@ export default function InputFile({ files, setFiles, error, setError }) {
   };
 
 
-  useEffect(() => {
-    axios.post('https://192.168.4.161:8081/api/auth/signin', {
-      login: "ehsan",
-      password: "123456"
-    }).then((res)=>{
-      console.log(res);
-      settoken(res.data.accessToken)
-    })
-  }, [])
+  // useEffect(() => {
+  //   axios.post('https://192.168.4.161:8081/api/auth/signin', {
+  //     login: "ehsan",
+  //     password: "123456"
+  //   }).then((res)=>{
+  //     console.log(res);
+  //     settoken(res.data.accessToken)
+  //   })
+  // }, [])
 
 
-  const [InputValue, setInputValue] = useState(0)
   return (
     <div className="md:w-1/2 w-full mx-auto max-h-full  flex justify-center">
       <div className="flex items-center w-full flex-col justify-center">
@@ -74,39 +73,10 @@ export default function InputFile({ files, setFiles, error, setError }) {
               multiple
               id="dropzone-file"
               type="file"
-
               className="hidden"
               onChange={handleFileChange}
             />
           </label>
-
-          {/* <div className='flex items-center justify-around py-5'>
-            <div>
-              <input dir="rtl" placeholder="تعداد کاراکتر..." className="rounded-2xl font-bold border-2 border-blue-600 px-2 py-1 text-black" type="number" value={InputValue} onChange={e => {
-                console.log(e.target.value);
-                setInputValue(e.target.value);
-              }} />
-            </div>
-            <select onChange={(e) => setKnow(e.target.value)} dir="rtl" className="rounded-2xl border-2 border-blue-600 text-center">
-              <option className="text-center" value="know">ساختار را میدانم</option>
-              <option className="text-center" value="Dontknow">ساختار را نمیدانم</option>
-            </select>
-
-          </div> */}
-          {/* {know === 'know' ? (
-            InputValue > 0 && (
-              <div className="flex flex-wrap items-center justify-center">
-                {Array.from({ length: InputValue }).map((_, index) => (
-                  <div key={index} className="mx-auto mb-2">
-                    <SelectRole />
-                  </div>
-                ))}
-              </div>
-            )
-          ) : null} */}
-
-
-
         </div>
       </div>
     </div>
