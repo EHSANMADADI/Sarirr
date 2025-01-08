@@ -51,33 +51,33 @@ export default function HeaderMenu() {
           } lg:flex text-blue-800 flex-col-reverse font-Byekan lg:flex-row items-center justify-between absolute lg:static lg:top-16 top-24 left-0 w-full lg:w-auto bg-white lg:bg-transparent z-50`}
         >
           <span
-            onClick={() => handlePageChange("/")}
-            className="font-black md:text-lg text-sm mx-3 cursor-pointer  hover:bg-gray-200 duration-200 lg:border-none border-b-2  lg:w-auto w-full items-center p-5 lg:p-4 rounded-md flex justify-center"
+            onClick={() => handlePageChange("/keywordSpotting")}
+            className="font-semibold  md:text-lg text-sm mx-3 cursor-pointer  hover:bg-gray-200 duration-200 lg:border-none border-b-2  lg:w-auto w-full items-center p-5 lg:p-4 rounded-md flex justify-center"
           >
             keyword spotting
           </span>
           <span
             onClick={() => handlePageChange("/Decryptor")}
-            className="font-black md:text-lg text-sm mx-3 cursor-pointer hover:bg-gray-200 duration-200 lg:border-none border-b-2  lg:w-auto w-full items-center p-5 lg:p-4 rounded-md  flex justify-center"
+            className="font-semibold  md:text-lg text-sm mx-3 cursor-pointer hover:bg-gray-200 duration-200 lg:border-none border-b-2  lg:w-auto w-full items-center p-5 lg:p-4 rounded-md  flex justify-center"
           >
             Decryptor
           </span>
           <span
             onClick={() => handlePageChange("/LLMUI")}
-            className="font-black md:text-lg text-sm mx-3 cursor-pointer hover:bg-gray-200 duration-200 lg:border-none border-b-2  lg:w-auto w-full items-center p-5 lg:p-4 rounded-md  flex justify-center"
+            className="font-semibold  md:text-lg text-sm mx-3 cursor-pointer hover:bg-gray-200 duration-200 lg:border-none border-b-2  lg:w-auto w-full items-center p-5 lg:p-4 rounded-md  flex justify-center"
           >
             LLMUI
           </span>
           <span
             onClick={() => handlePageChange("/translate")}
-            className="font-black md:text-lg text-sm mx-3 cursor-pointer hover:bg-gray-200 duration-200 lg:border-none border-b-2  lg:w-auto w-full items-center p-5 lg:p-4 rounded-md flex justify-center"
+            className="font-semibold md:text-lg text-sm mx-3 cursor-pointer hover:bg-gray-200 duration-200 lg:border-none border-b-2  lg:w-auto w-full items-center p-5 lg:p-4 rounded-md flex justify-center"
           >
             ترجمه
           </span>
 
           {/* Dropdowns */}
           <Dropdown
-            className="md:text-xl text-sm font-bold"
+            className="md:text-xl text-sm"
             label=""
             inline
             renderTrigger={() => (
@@ -100,7 +100,7 @@ export default function HeaderMenu() {
           </Dropdown>
 
           <Dropdown
-            className="md:text-xl text-sm font-bold"
+            className="md:text-xl text-sm "
             label=""
             inline
             renderTrigger={() => (
