@@ -345,7 +345,7 @@ export default function Multipel() {
                                                     </span>
                                                     مشاهده
                                                 </button>
-                                              
+
                                                 <button
                                                     className='border-dotted border-black rounded-md border-2 md:px-4 px-2 pt-1 pb-2 mx-2 sm:text-xl text-xs font-semibold text-center flex items-center hover:scale-105 duration-200'
                                                     onClick={() => handelDownloadPdf(index)}

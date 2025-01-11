@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 interface ItemTable {
   saveItems: { file: any; name: string; size: number; status: string }[];
@@ -99,6 +100,8 @@ export default function TabeleShowItem({ saveItems, setSaveItems }: ItemTable) {
           return true; // پردازش تمام شده
         } catch (error) {
           console.error("Error checking processing status:", error);
+          toast.error("مشکلی پیش آمده لطفا دوباره تلاش کنید");
+
           return false;
         }
       };
@@ -116,12 +119,15 @@ export default function TabeleShowItem({ saveItems, setSaveItems }: ItemTable) {
                 i === index ? { ...prev, status: "Completed" } : prev
               )
             );
+            toast.success("فایل با موفقیت رمز گشایی شد");
           }
         }, 2000);
       };
 
       await pollStatus();
     } catch (error) {
+      toast.error("مشکلی پیش آمده لطفا دوباره تلاش کنید");
+
       console.error("Error in startProgress:", error);
       setLoadingStates((prev) =>
         prev.map((state, i) => (i === index ? false : state))
