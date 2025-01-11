@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 interface ItemTable {
@@ -12,58 +12,128 @@ interface ItemTable {
 
 export default function TabeleShowItem({ saveItems, setSaveItems }: ItemTable) {
   const [token, setToken] = useState("");
-  const [loading, setLoading] = useState(false);
-  const startProgress = (index: number) => {
-    setLoading(true);
-    const file = saveItems[index].file;
-    console.log(file);
+  const [loadingStates, setLoadingStates] = useState<boolean[]>([]);
+  const [passwords, setPasswords] = useState<string[]>([]);
 
-    const formData = new FormData();
-    formData.append("files", file);
+  useEffect(() => {
+    setPasswords((prevPasswords) => {
+      const updatedPasswords = [...prevPasswords];
+      for (let i = prevPasswords.length; i < saveItems.length; i++) {
+        updatedPasswords.push("");
+      }
+      return updatedPasswords;
+    });
 
-    axios
-      .post("http://192.168.4.161:5000/api/auth", {
-        login: "ehsan",
-        password: "123456",
-      })
-      .then((response) => {
-        setToken(response.data.accessToken);
-        axios
-          .post("http://192.168.4.161:5000/api/UploadesFile", formData, {
-            headers: {
-              Authorization: `Bearer ${response.data.accessToken}`,
-            },
-          })
-          .then((res) => {
-            console.log(res.data);
-            const match = res.data.match(/Process id = (\d+)/);
-            if (match) {
-              var processId = match[1]; // مقدار id
-              console.log("Process ID:", processId);
+    setLoadingStates((prevLoadingStates) => {
+      const updatedLoadingStates = [...prevLoadingStates];
+      for (let i = prevLoadingStates.length; i < saveItems.length; i++) {
+        updatedLoadingStates.push(false);
+      }
+      return updatedLoadingStates;
+    });
+  }, [saveItems]);
+
+  const startProgress = async (index: number) => {
+    try {
+      // وضعیت loading برای فایل انتخاب‌شده به true تغییر می‌کند
+      setLoadingStates((prev) =>
+        prev.map((state, i) => (i === index ? true : state))
+      );
+
+      const file = saveItems[index].file;
+      const formData = new FormData();
+      formData.append("files", file);
+
+      // مرحله 1: دریافت توکن
+      const authResponse = await axios.post(
+        "http://192.168.4.161:5000/api/auth",
+        {
+          login: "ehsan",
+          password: "123456",
+        }
+      );
+
+      const token = authResponse.data.accessToken;
+      setToken(token);
+
+      // مرحله 2: آپلود فایل
+      const uploadResponse = await axios.post(
+        "http://192.168.4.161:5000/api/UploadesFile",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const match = uploadResponse.data.match(/Process id = (\d+)/);
+      if (!match) {
+        throw new Error("Process ID not found in response");
+      }
+
+      const processId = match[1];
+
+      // مرحله 3: بررسی وضعیت پردازش
+      const checkProcessingStatus = async () => {
+        try {
+          const resultResponse = await axios.get(
+            `http://192.168.4.161:5000/api/result?request_id=${processId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
             }
-            axios
-              .get(
-                `http://192.168.4.161:5000/api/result?request_id=${processId}`,
-                {
-                  headers: {
-                    Authorization: `Bearer ${response.data.accessToken}`,
-                  },
-                }
+          );
+
+          const job = resultResponse.data.jobs[0];
+
+          if (job.status === "Processing") {
+            return false; // هنوز تمام نشده
+          }
+
+          setPasswords((prev) =>
+            prev.map((pass, i) => (i === index ? job.extractedPassword : pass))
+          );
+
+          return true; // پردازش تمام شده
+        } catch (error) {
+          console.error("Error checking processing status:", error);
+          return false;
+        }
+      };
+
+      const pollStatus = async () => {
+        const interval = setInterval(async () => {
+          const isCompleted = await checkProcessingStatus();
+          if (isCompleted) {
+            clearInterval(interval);
+            setLoadingStates((prev) =>
+              prev.map((state, i) => (i === index ? false : state))
+            );
+            setSaveItems((prevItem) =>
+              prevItem.map((prev, i) =>
+                i === index ? { ...prev, status: "Completed" } : prev
               )
-              .then((res) => console.log(res.data.jobs));
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => console.log(err));
+            );
+          }
+        }, 2000);
+      };
+
+      await pollStatus();
+    } catch (error) {
+      console.error("Error in startProgress:", error);
+      setLoadingStates((prev) =>
+        prev.map((state, i) => (i === index ? false : state))
+      );
+    }
   };
 
   return (
     <div className="w-full h-full flex justify-center">
-      <div dir="rtl" className="relative overflow-x-auto sm:rounded-lg">
+      <div dir="rtl" className="relative w-full overflow-x-auto sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-100">
             <tr>
               <th scope="col" className="px-6 py-3">
                 نام فایل
@@ -71,31 +141,37 @@ export default function TabeleShowItem({ saveItems, setSaveItems }: ItemTable) {
               <th scope="col" className="px-6 py-3">
                 وضعیت
               </th>
+              <th scope="col" className="px-6 py-3">
+                رمز
+              </th>
             </tr>
           </thead>
           <tbody>
-            {saveItems.map((seaveItem, index) => {
-              return (
-                <tr
-                  key={index}
-                  className="odd:bg-white  even:bg-gray-50  border-b hover:bg-gray-200 cursor-pointer hover:scale-110 duration-200 "
+            {saveItems.map((seaveItem, index) => (
+              <tr
+                key={index}
+                className="odd:bg-white even:bg-gray-50 border-b hover:bg-gray-200 cursor-pointer duration-200 "
+              >
+                <th
+                  scope="row"
+                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
                 >
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
-                  >
-                    {seaveItem.name}
-                  </th>
-                  <td
-                    onClick={() => startProgress(index)}
-                    className="px-6 py-4"
-                  >
-                    {loading && <span>loading...</span>}
-                    {!loading && <span>{seaveItem.status}</span>}
-                  </td>
-                </tr>
-              );
-            })}
+                  {seaveItem.name}
+                </th>
+                <td
+                  onClick={() => startProgress(index)}
+                  className={`px-6 py-4 ${
+                    seaveItem.status === "Completed"
+                      ? "text-green-600 font-bold"
+                      : ""
+                  }`}
+                >
+                  {loadingStates[index] && <span>...Processing</span>}
+                  {!loadingStates[index] && <span>{seaveItem.status}</span>}
+                </td>
+                <td className="px-6 py-4">{passwords[index]}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

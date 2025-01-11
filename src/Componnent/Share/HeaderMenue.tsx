@@ -15,7 +15,7 @@ export default function HeaderMenu() {
 
   const handlePageChange = (value: string) => {
     setActivePage(value);
-    navigate(value); // هدایت به آدرس جدید
+    navigate(value); //routing to new address
   };
 
   useEffect(() => {

@@ -27,7 +27,6 @@ function App() {
         <Route path="/SuperResolution" element={<SuperResolutionPage />} />
         <Route path="/Decryptor" element={<DecryptorPage />} />
         <Route path="/keywordSpotting" element={<KeywordSpotting/>} />
-
       </Routes>
     </BrowserRouter>
   );
