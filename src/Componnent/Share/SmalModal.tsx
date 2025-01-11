@@ -6,7 +6,7 @@ interface ModalInput {
   children: any,
   
 }
-export default function Modal({ Open, onClose, children }: ModalInput) {
+export default function SmalModal({ Open, onClose, children }: ModalInput) {
 
 
   if (!Open) return null;
@@ -17,11 +17,11 @@ export default function Modal({ Open, onClose, children }: ModalInput) {
   }
 
   return (
-    <div className='md:fixed  inset-y-0 right-0 lg:w-2/3 w-full flex justify-center h-screen items-center transition-colors bg-opacity-25 z-50 ' id='wrapper' onClick={() => Handelclose}>
-      <div className='w-full sm:w-5/6 flex flex-col sm:mx-0 mx-auto'>
-        <div className='bg-gray-50 border-4 border-blue-700 rounded p-5 h-[78vh] overflow-auto '>
+    <div className='md:fixed  inset-y-32 right-0 lg:w-2/3 w-full flex justify-center h-screen items-center transition-colors bg-opacity-25 z-50 ' id='wrapper' onClick={() => Handelclose}>
+      <div className='w-1/4 sm:w-2/5 max-h-96  flex flex-col sm:mx-0 mx-auto'>
+        <div className='bg-gray-50 border-2 border-blue-300 rounded p-5 h-[78vh] overflow-auto flex-col '>
           <button className=' text-3xl bg-transparent p-2 mb-1' onClick={() => onClose()}><MdClose className='text-3xl bg-white' /></button>
-          <div className='w-full'>
+          <div className='w-full flex-col items-center justify-center'>
             {children}
           </div>
         </div>

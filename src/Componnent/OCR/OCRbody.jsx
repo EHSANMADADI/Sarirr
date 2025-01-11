@@ -382,7 +382,7 @@ export default function Multipel() {
                                                     <div dir='rtl' className="md:w-1/2 w-full overflow-x-auto max-h-[80vh] p-2">
                                                         <div className={`grid grid-cols-1 gap-1 md:grid-cols-2 xl:grid-cols-${Math.ceil(itemArray.length - 1 / 2)}`}>
                                                             {itemArray.map((detail, index) => (
-                                                                <div key={index} className="relative">
+                                                                <div key={index} className="relative w-full">
                                                                     <img
                                                                         className="w-full h-auto  object-cover rounded-lg"
                                                                         src={detail.src}

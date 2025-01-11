@@ -147,7 +147,7 @@ export default function KeyWordSpottingBody() {
             </div>
           </>
         ) : (
-          <div className="flex justify-center">
+          <div className="flex w-full h-full justify-center items-center">
             <span className="text-xl font-bold text-gray-600">
               فایلی برای نمایش وجود ندارد
             </span>

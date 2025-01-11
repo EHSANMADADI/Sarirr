@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { CiCircleRemove } from "react-icons/ci";
 import { FaCheckCircle } from "react-icons/fa";
-import { IoMdEye } from "react-icons/io";
-import { RiDeleteBin6Line } from "react-icons/ri";
+
+import { useStore } from '../../Store/Store';
 
 export default function UploadMultipleFiles({ files, setSaveItems, saveItems, setAllFilesUploaded, allFilesUploaded }) {
+  const { type } = useStore()
   const [fileStates, setFileStates] = useState(files.map(file => ({
     file,
     responseText: '',
@@ -19,11 +20,11 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
 
   const handleUpload = (fileState, index) => {
     console.log(fileState);
-    
+
     const formData = new FormData();
     formData.append('image', fileState.file);
     console.log(formData);
-    
+
 
     let imageUrls;
     const reader = new FileReader();
@@ -31,32 +32,58 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
       imageUrls = e.target.result;
     };
     reader.readAsDataURL(fileState.file);
-
-    axios.post('http://195.191.45.56:17017/process_image?type=excel', formData, {
-      onUploadProgress: (progressEvent) => {
-        const percentage = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
+    console.log(type);
+    if (type === "Hebrew") {
+      axios.post('http://195.191.45.56:17017/process_Hebrew', formData, {
+        onUploadProgress: (progressEvent) => {
+          const percentage = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
+          setFileStates(prevStates => {
+            const updatedStates = [...prevStates];
+            updatedStates[index].progress = percentage;
+            return updatedStates;
+          });
+        }
+      }).then(res => {
+        console.log("res form Hebrow=>", res);
         setFileStates(prevStates => {
           const updatedStates = [...prevStates];
-          updatedStates[index].progress = percentage;
+          updatedStates[index].isSent = true;
+          updatedStates[index].responseText = res.data.Translated_Text;
+          updatedStates[index].src = imageUrls;
+          updatedStates[index].url_document = res.data.document_url || '';
           return updatedStates;
         });
-      }
-    })
-    .then(res => {
-      console.log("res form eliaaa=>",res);
-      setFileStates(prevStates => {
-        const updatedStates = [...prevStates];
-        updatedStates[index].isSent = true;
-        updatedStates[index].responseText = res.data.pages[0].text;
-        updatedStates[index].src = imageUrls;
-        updatedStates[index].url_document = res.data.document_url;
-        return updatedStates;
-      });
-    })
-    .catch(err => {
-      alert(`فایل ${fileState.file.name} ارسال نشد`);
-      console.log(err);
-    });
+      })
+    }
+    else {
+      axios.post(`http://195.191.45.56:17017/process_image?type=${type}`, formData, {
+        onUploadProgress: (progressEvent) => {
+          const percentage = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
+          setFileStates(prevStates => {
+            const updatedStates = [...prevStates];
+            updatedStates[index].progress = percentage;
+            return updatedStates;
+          });
+        }
+      })
+        .then(res => {
+          console.log("res form eliaaa=>", res);
+          setFileStates(prevStates => {
+            const updatedStates = [...prevStates];
+            updatedStates[index].isSent = true;
+            updatedStates[index].responseText = res.data.pages[0].text;
+            updatedStates[index].src = imageUrls;
+            updatedStates[index].url_document = res.data.document_url;
+            return updatedStates;
+          });
+        })
+        .catch(err => {
+          alert(`فایل ${fileState.file.name} ارسال نشد`);
+          console.log(err);
+        });
+    }
+
+
   };
 
   useEffect(() => {
@@ -72,10 +99,10 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
     const sentFiles = fileStates.filter(fileState => fileState.isSent).length;
     const newProgressAll = totalFiles === 0 ? 0 : Math.floor((sentFiles / totalFiles) * 100);
     setProgressAll(newProgressAll);
-    
+
     if (sentFiles === totalFiles && totalFiles > 0) {
       setAllFilesUploaded(true);
-      
+
       // Manage the localStorage storage
       const storedArray = localStorage.getItem('multiSeavedItems');
       const parsedArray = storedArray ? JSON.parse(storedArray) : [];
@@ -109,7 +136,7 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
                 </div>
               } */}
             </div>
-            
+
             <div className='mx-6 mt-1'>
               <div className="bg-gray-200 rounded-full h-2 ">
                 <div className="bg-blue-700 h-2 rounded-full" style={{ width: `${progressAll}%` }}></div>
