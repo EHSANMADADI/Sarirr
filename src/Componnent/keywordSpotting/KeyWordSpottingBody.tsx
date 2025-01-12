@@ -1,23 +1,30 @@
+/* eslint-disable array-callback-return */
 import React, { useState } from "react";
 import { useStore } from "../../Store/Store";
 import { FaCloudUploadAlt, FaPauseCircle } from "react-icons/fa";
 import { FaRegCirclePlay } from "react-icons/fa6";
 import WavesurferPlayer from "@wavesurfer/react";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import loader from "../../IMG/tail-spin.svg";
+import axios from "axios";
+import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
+import { ImCancelCircle } from "react-icons/im";
 
 export default function KeyWordSpottingBody() {
   const [keyWord, setKeyword] = useState("");
-  const [selectedLanguages, setSelectedLanguages] = useState("persian");
+  const [selectedLanguages, setSelectedLanguages] = useState("fa");
   const handleChange = (event: { target: { value: any } }) => {
     setSelectedLanguages(event.target.value); // مقدار گزینه انتخاب‌شده
   };
   const { lang, audioURLs, removeRecording } = useStore();
   const [savedRecordings, setSavedRecordings] = useState(audioURLs);
   const [suportsFile, setSuportsFile] = useState(audioURLs);
+  const [loading, setLoading] = useState(false);
   const [isPlayingMap, setIsPlayingMap] = useState<{ [key: number]: boolean }>(
     {}
   );
   const [wavesurfers, setWavesurfers] = useState<any>({});
+  const [foundedFiles, setFoundedFiles] = useState<string[]>();
 
   const onReady = (ws: any, index: number) => {
     setWavesurfers((prev: any) => ({
@@ -107,7 +114,49 @@ export default function KeyWordSpottingBody() {
   };
   console.log(suportsFile);
   console.log(savedRecordings);
+  // تبدیل Base64 به Blob
+  const dataURItoBlob = (dataURI: string) => {
+    const byteString = atob(dataURI.split(",")[1]);
+    const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  };
 
+  const sendFiles = () => {
+    setLoading(true);
+    const formdata = new FormData();
+    formdata.append("support_name", keyWord);
+    formdata.append("lang", selectedLanguages);
+    savedRecordings.forEach((item, index) => {
+      const blob = dataURItoBlob(item.audio); //  convert base64 to blob
+      formdata.append("files", blob, item.name);
+    });
+    suportsFile.forEach((item, index) => {
+      const blob = dataURItoBlob(item.audio); //  convert base64 to blob
+      formdata.append("support_files", blob, item.name);
+    });
+    // Send files to server
+    axios
+      .post("http://192.168.4.177:17010/process", formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        console.log(res.data.founded_files);
+        setFoundedFiles(res.data.founded_files);
+        toast.success("پردازش با موفقیت انجام شد");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("مشکلی پیش آمده لطفا دوباره تلاش کنید");
+      })
+      .finally(() => setLoading(false));
+  };
   return (
     <div className="bg-blue-50 max-h-screen h-auto flex flex-wrap-reverse font-Byekan mx-auto mt-20 justify-around">
       <div className="extended-file xl:w-5/12 lg:mt-0 mt-5 w-full mx-auto">
@@ -118,7 +167,7 @@ export default function KeyWordSpottingBody() {
                 : فایل های موجود
               </span>
             </div>
-            <div className="border-b-2 sm:w-7/12 w-full mx-auto border-gray-600 max-h-[70vh] overflow-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-blue-300">
+            <div className="border-b-2 sm:w-7/12 w-full mx-auto border-gray-600 max-h-max overflow-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-blue-300">
               {savedRecordings.map(
                 (
                   item: { name: string; audio: string; language: string },
@@ -162,6 +211,27 @@ export default function KeyWordSpottingBody() {
                         />
                       </div>
                     </div>
+                    {foundedFiles?.includes(item.name) ? (
+                      <div
+                        dir="rtl"
+                        className="text-gray-500 text-base flex items-center"
+                      >
+                        <span className="text-green-500">
+                          <IoCheckmarkDoneCircleSharp />
+                        </span>
+                        <span>کلمه کلیدی در این فایل یافت شد</span>
+                      </div>
+                    ) : (
+                      <div
+                        dir="rtl"
+                        className="text-gray-500 text-base flex items-center"
+                      >
+                        <span className="text-red-500">
+                          <ImCancelCircle />
+                        </span>
+                        <span>در این فایل کلمه کلیدی یافت نشد</span>
+                      </div>
+                    )}
                   </div>
                 )
               )}
@@ -193,10 +263,10 @@ export default function KeyWordSpottingBody() {
           <input
             id="en"
             type="radio"
-            value="english"
+            value="en"
             name="language"
             className="sm:w-6 sm:h-6 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-            checked={selectedLanguages === "english"}
+            checked={selectedLanguages === "en"}
             onChange={handleChange}
           />
           <label htmlFor="en" className="text-base font-bold text-gray-900">
@@ -206,10 +276,10 @@ export default function KeyWordSpottingBody() {
           <input
             id="fa"
             type="radio"
-            value="persian"
+            value="fa"
             name="language"
             className="sm:w-6 sm:h-6 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-            checked={selectedLanguages === "persian"}
+            checked={selectedLanguages === "fa"}
             onChange={handleChange}
           />
           <label htmlFor="fa" className="text-base font-bold text-gray-900">
@@ -249,7 +319,7 @@ export default function KeyWordSpottingBody() {
         </div>
         <div className="flex items-center justify-center my-3 md:text-xl text-base">
           <span className="text-gray-600 text-center">
-            اضافه کردن فولدر صوت کلمات کلیدی
+            اضافه کردن صوت های کلمه کلیدی
           </span>
         </div>
 
@@ -269,9 +339,30 @@ export default function KeyWordSpottingBody() {
             <span className="mr-2">
               <FaCloudUploadAlt />
             </span>
-            انتخاب فولدر
+            انتخاب صوت کلمه کلیدی
           </button>
         </div>
+        {suportsFile.length > 0 && savedRecordings.length > 0 && keyWord && (
+          <button
+            onClick={sendFiles}
+            disabled={loading}
+            className="bg-green-500 px-4 py-2 rounded-xl text-white my-2"
+          >
+            {loading && (
+              <div className="flex items-center justify-between">
+                <span>لطفا صبر کنید</span>
+                <img
+                  className="mr-1 ml-2"
+                  src={loader}
+                  alt="loading"
+                  width={20}
+                  height={20}
+                />
+              </div>
+            )}
+            {!loading && <span>شروع فرآیند</span>}
+          </button>
+        )}
       </div>
       <ToastContainer position="bottom-right" />
     </div>
