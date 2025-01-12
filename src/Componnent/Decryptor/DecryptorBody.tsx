@@ -46,7 +46,7 @@ export default function DecryptorBody() {
       <div className="w-2/3 mx-auto">
         <InputFile setFiles={setFiles} setError={setError} />
       </div>
-      <div className="h-screen lg:w-1/2 w-full mx-auto sm:mr-20 flex items-center">
+      <div className="h-screen lg:w-1/2 w-full mx-auto lg:mr-20 flex items-center justify-center">
         <div className="w-full md:h-4/5 h-full overflow-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full  scrollbar-thumb-yellow-600 scrollbar-track-gray-50 ">
           {files.length === 0 && saveItems.length === 0 && (
             <div className="flex-col justify-center items-center text-gray-500 sm:text-2xl text-base font-bold mt-10 text-center">

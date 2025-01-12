@@ -20,13 +20,11 @@ interface RecordingState {
   ChangeIndexMultiple: (index: number) => void;
   keywords: string;
   setKeywords: (value: string) => void;
-  type:string;
-  setType:(value:string)=>void;
+  type: string;
+  setType: (value: string) => void;
   ///for Descriptor
   characterValue: String[];
   addCharacterValue: (value: string) => void;
-
-
 }
 
 export const useStore = create<RecordingState>((set) => ({
@@ -52,9 +50,10 @@ export const useStore = create<RecordingState>((set) => ({
       keywords: value,
     })),
 
-    type:"",
-    setType:(value)=>set(() => ({
-      type:value,
+  type: "",
+  setType: (value) =>
+    set(() => ({
+      type: value,
     })),
 
   indexMultiple: -1,

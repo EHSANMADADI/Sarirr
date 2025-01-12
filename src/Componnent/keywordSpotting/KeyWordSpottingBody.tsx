@@ -3,9 +3,7 @@ import { useStore } from "../../Store/Store";
 import { FaCloudUploadAlt, FaPauseCircle } from "react-icons/fa";
 import { FaRegCirclePlay } from "react-icons/fa6";
 import WavesurferPlayer from "@wavesurfer/react";
-import VoiceRecorder from "../Share/VoiceRecorder";
 import { ToastContainer } from "react-toastify";
-import { MdDeleteSweep } from "react-icons/md";
 
 export default function KeyWordSpottingBody() {
   const [keyWord, setKeyword] = useState("");
@@ -15,6 +13,7 @@ export default function KeyWordSpottingBody() {
   };
   const { lang, audioURLs, removeRecording } = useStore();
   const [savedRecordings, setSavedRecordings] = useState(audioURLs);
+  const [suportsFile, setSuportsFile] = useState(audioURLs);
   const [isPlayingMap, setIsPlayingMap] = useState<{ [key: number]: boolean }>(
     {}
   );
@@ -30,6 +29,7 @@ export default function KeyWordSpottingBody() {
       [index]: false,
     }));
   };
+
   const deleteItem = (index: number) => {
     removeRecording(index);
     const updatedRecordings = savedRecordings.filter(
@@ -62,31 +62,52 @@ export default function KeyWordSpottingBody() {
   const handleButtonClick = () => {
     document.getElementById("dropzone-file")?.click();
   };
+  const clickSuportChange = () => {
+    document.getElementById("suports-file")?.click();
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0];
-    if (selectedFile) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64Audio = reader.result as string;
-        const newRecording = {
-          name: selectedFile.name,
-          audio: base64Audio,
-          language: selectedLanguages, // افزودن زبان انتخاب‌شده
+    const selectedFiles = event.target.files;
+    if (selectedFiles && selectedFiles.length > 0) {
+      Array.from(selectedFiles).forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const base64Audio = reader.result as string;
+          const newRecording = {
+            name: file.name,
+            audio: base64Audio,
+            language: selectedLanguages, // افزودن زبان انتخاب‌شده
+          };
+          setSavedRecordings((prev: any) => [...prev, newRecording]);
         };
-        setSavedRecordings((prev: any) => [...prev, newRecording]);
-      };
-      reader.readAsDataURL(selectedFile);
+        reader.readAsDataURL(file);
+      });
     }
   };
 
-  const handleNewRecording = (recording: { name: string; audio: string }) => {
-    const newRecording = {
-      ...recording,
-      language: selectedLanguages, // افزودن زبان انتخاب‌شده
-    };
-    setSavedRecordings((prev: any) => [...prev, newRecording]);
+  const handleChangeSuportFile = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      Array.from(files).forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const base64Audio = reader.result as string;
+          const newRecording = {
+            name: file.name,
+            audio: base64Audio,
+            language: selectedLanguages, // افزودن زبان انتخاب‌شده
+          };
+          setSuportsFile((prev: any) => [...prev, newRecording]);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
   };
+  console.log(suportsFile);
+  console.log(savedRecordings);
+
   return (
     <div className="bg-blue-50 max-h-screen h-auto flex flex-wrap-reverse font-Byekan mx-auto mt-20 justify-around">
       <div className="extended-file xl:w-5/12 lg:mt-0 mt-5 w-full mx-auto">
@@ -160,8 +181,9 @@ export default function KeyWordSpottingBody() {
           id="dropzone-file"
           type="file"
           accept=".mp3"
+          multiple
           className="hidden"
-          // onChange={handleFileChange}
+          onChange={handleFileChange}
         />
         <div className="flex justify-end mb-3">
           <span>لطفا ابتدا زبان را انتخاب کنید</span>
@@ -232,15 +254,22 @@ export default function KeyWordSpottingBody() {
         </div>
 
         <div className="flex items-center justify-center">
-        <button
-            onClick={handleButtonClick}
+          <input
+            id="suports-file"
+            type="file"
+            accept=".mp3"
+            className="hidden"
+            multiple
+            onChange={handleChangeSuportFile}
+          />
+          <button
+            onClick={clickSuportChange}
             className="flex items-center sm:px-6 sm:py-2 px-3 py-1 bg-gradient-to-r from-blue-600 to-blue-950 opacity-80 rounded-xl  sm:text-xl text-base shadow-2xl hover:opacity-100 border-[3px] border-blue-200 text-white"
           >
             <span className="mr-2">
               <FaCloudUploadAlt />
             </span>
             انتخاب فولدر
-            
           </button>
         </div>
       </div>
