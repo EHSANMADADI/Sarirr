@@ -16,6 +16,7 @@ export default function KeyWordSpottingBody() {
   const handleChange = (event: { target: { value: any } }) => {
     setSelectedLanguages(event.target.value); // مقدار گزینه انتخاب‌شده
   };
+  const [isProcessingDone, setIsProcessingDone] = useState(false);
   const { lang, audioURLs, removeRecording } = useStore();
   const [savedRecordings, setSavedRecordings] = useState(audioURLs);
   const [suportsFile, setSuportsFile] = useState(audioURLs);
@@ -24,7 +25,7 @@ export default function KeyWordSpottingBody() {
     {}
   );
   const [wavesurfers, setWavesurfers] = useState<any>({});
-  const [foundedFiles, setFoundedFiles] = useState<string[]>();
+  const [foundedFiles, setFoundedFiles] = useState<string[]>([]);
 
   const onReady = (ws: any, index: number) => {
     setWavesurfers((prev: any) => ({
@@ -149,6 +150,7 @@ export default function KeyWordSpottingBody() {
       .then((res) => {
         console.log(res.data.founded_files);
         setFoundedFiles(res.data.founded_files);
+        setIsProcessingDone(true);
         toast.success("پردازش با موفقیت انجام شد");
       })
       .catch((err) => {
@@ -190,7 +192,7 @@ export default function KeyWordSpottingBody() {
                           </span>
                         )}
                       </button>
-                      <div className="w-72 ">
+                      <div className="w-72">
                         <WavesurferPlayer
                           height={50}
                           waveColor="blue"
@@ -211,26 +213,30 @@ export default function KeyWordSpottingBody() {
                         />
                       </div>
                     </div>
-                    {foundedFiles?.includes(item.name) ? (
-                      <div
-                        dir="rtl"
-                        className="text-gray-500 text-base flex items-center"
-                      >
-                        <span className="text-green-500">
-                          <IoCheckmarkDoneCircleSharp />
-                        </span>
-                        <span>کلمه کلیدی در این فایل یافت شد</span>
-                      </div>
+                    {isProcessingDone ? ( // نمایش پیام‌ها پس از اتمام پردازش
+                      foundedFiles.includes(item.name) ? (
+                        <div
+                          dir="rtl"
+                          className="text-gray-500 text-base flex items-center"
+                        >
+                          <span className="text-green-500">
+                            <IoCheckmarkDoneCircleSharp />
+                          </span>
+                          <span>کلمه کلیدی در این فایل یافت شد</span>
+                        </div>
+                      ) : (
+                        <div
+                          dir="rtl"
+                          className="text-gray-500 text-base flex items-center"
+                        >
+                          <span className="text-red-500">
+                            <ImCancelCircle />
+                          </span>
+                          <span>در این فایل کلمه کلیدی یافت نشد</span>
+                        </div>
+                      )
                     ) : (
-                      <div
-                        dir="rtl"
-                        className="text-gray-500 text-base flex items-center"
-                      >
-                        <span className="text-red-500">
-                          <ImCancelCircle />
-                        </span>
-                        <span>در این فایل کلمه کلیدی یافت نشد</span>
-                      </div>
+                   null
                     )}
                   </div>
                 )
