@@ -12,7 +12,7 @@ export default function TranslatorBody() {
   const [result, setResult] = useState("");
   const [dir, setDir] = useState("rtl");
   const [model, setModel] = useState("aya-23-8b");
-
+ 
   const handleLanguageClick = (language: string) => {
     setSelectedLanguage(language); // تنظیم زبان انتخاب‌شده
   };
@@ -22,7 +22,10 @@ export default function TranslatorBody() {
     setResult("");
     const txttranslate = text + `به ${selectedLanguage}  ترجمه کن `;
 
-    console.log(txttranslate);
+    // console.log(txttranslate);
+    const content = `
+     {phrase:${text},/n  language:${selectedLanguage}} `;
+    console.log(content);
 
     axios
       .post("http://195.191.45.56:17021/v1/chat/completions", {
@@ -30,13 +33,18 @@ export default function TranslatorBody() {
         messages: [
           {
             role: "user",
-            content: txttranslate,
+            content:content
           },
+          // {
+          //   phrase: "Your phrase here",
+          //   language: "fa",
+          // },
         ],
       })
       .then((res) => {
         console.log(res.data?.choices[0].message.content);
-        setResult(res.data?.choices[0].message.content);
+        const resulttranslation=JSON.parse(res.data?.choices[0].message.content)
+        setResult(resulttranslation.translation);
       })
       .catch((err) => {
         console.log(err);

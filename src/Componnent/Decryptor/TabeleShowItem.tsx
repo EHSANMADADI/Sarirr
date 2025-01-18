@@ -47,7 +47,7 @@ export default function TabeleShowItem({ saveItems, setSaveItems }: ItemTable) {
 
       // مرحله 1: دریافت توکن
       const authResponse = await axios.post(
-        "http://192.168.4.161:5000/api/auth",
+        "http://195.191.45.56:17023/api/auth",
         {
           login: "ehsan",
           password: "123456",
@@ -59,7 +59,7 @@ export default function TabeleShowItem({ saveItems, setSaveItems }: ItemTable) {
 
       // مرحله 2: آپلود فایل
       const uploadResponse = await axios.post(
-        "http://192.168.4.161:5000/api/UploadesFile",
+        "http://195.191.45.56:17023/api/UploadesFile",
         formData,
         {
           headers: {
@@ -79,7 +79,7 @@ export default function TabeleShowItem({ saveItems, setSaveItems }: ItemTable) {
       const checkProcessingStatus = async () => {
         try {
           const resultResponse = await axios.get(
-            `http://192.168.4.161:5000/api/result?request_id=${processId}`,
+            `http://195.191.45.56:17023/api/result?request_id=${processId}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
