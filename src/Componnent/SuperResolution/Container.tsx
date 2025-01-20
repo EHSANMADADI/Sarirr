@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useState } from "react";
-import { SRImages, getSRImages } from "./service";
+import { OutputImageCard } from "./OutputImageCard";
+import { SRImagesAddresses, download, getSRFaces } from "./service";
 
 type CardProp = {
   width?: string;
@@ -37,7 +38,7 @@ const CardDefault = (props: CardProp) => (
 export default function Container() {
   const [fidelity, setFidelity] = useState(0.5);
   const [image, setImage] = useState<File | null>(null);
-  const [imagePaths, setImagePaths] = useState<SRImages | null>(null);
+  const [imagePaths, setImagePaths] = useState<SRImagesAddresses | null>(null);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
@@ -53,7 +54,7 @@ export default function Container() {
       return;
     }
 
-    let result = await getSRImages({
+    let result = await getSRFaces({
       fidelity,
       image,
     });
@@ -65,6 +66,15 @@ export default function Container() {
 
     setImagePaths(result);
   };
+
+  const handleDownloadAll = async () => {
+    if (!imagePaths)
+      return;
+
+    download(imagePaths.zipFile, {
+      internalDownload: false
+    })
+  }
 
   return (
     <div dir="rtl" className="sr-container m-auto">
@@ -147,7 +157,7 @@ export default function Container() {
         {!imagePaths?.final ? null : (
           <>
             <hr className="m-3" />
-            <button className="px-3 py-2 bg-green-700 text-white rounded w-1/2">دانلود همه تصاویر</button>
+            <button onClick={handleDownloadAll} className="px-3 py-2 bg-green-700 text-white rounded w-1/2">دانلود همه تصاویر</button>
             <h2 className="font-black text-2xl mb-3">عکس نهایی</h2>
             <Card
               width="100%"
@@ -168,27 +178,16 @@ export default function Container() {
             <hr className="m-3" />
             <h2 className="font-black text-2xl mb-3">صورت های داخل تصویر</h2>
             <div className="flex flex-wrap justify-between">
-              {imagePaths?.parts.map((path) => (
-                <div
-                  className="max-w-full m-3"
-                  style={{
-                    width: "500px",
-                    height: "500px",
-                    border: "1px solid black",
-                    borderRadius: "20px",
-                    overflow: "hidden",
-                  }}
-                >
-                  <img
-                    style={{ maxWidth: "100%", maxHeight: "100%" }}
-                    src={path}
-                  />
-                </div>
-              ))}
+              {imagePaths?.parts.map((path) =>
+                (<OutputImageCard imageUrl={path} />)
+              )}
             </div>
           </>
         )}
+
       </div>
     </div>
   );
 }
+
+

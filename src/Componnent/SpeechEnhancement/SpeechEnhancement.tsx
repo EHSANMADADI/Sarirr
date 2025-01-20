@@ -9,8 +9,8 @@ export default function SpeechEnhancement() {
       <HeaderMenue />
       <div className="pb-20 overflow-auto h-[90vh] bg-blue-50 font-Byekan">
         <TitleDetails
-          title={"Speech Enhancement ابزار افزایش کیفیت و وضوح صدای ظبط شده "}
-          detailes="فناوری است که کیفیت و وضوح صدای ظبط شده را با کاهش نویز و تقویت سیگنال های گفتاری بهبود می بخشد"
+          title={"Speech Enhancement ابزار افزایش کیفیت و وضوح صدای ضبط شده "}
+          detailes="فناوری است که کیفیت و وضوح صدای ضبط شده را با کاهش نویز و تقویت سیگنال های گفتاری بهبود می بخشد"
         />
         <Body />
       </div>

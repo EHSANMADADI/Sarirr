@@ -161,9 +161,9 @@ export default function KeyWordSpottingBody() {
   };
   return (
     <div className="bg-blue-50 max-h-screen h-auto flex flex-wrap-reverse font-Byekan mx-auto mt-20 justify-around">
-      <div className="extended-file xl:w-5/12 lg:mt-0 mt-5 w-full mx-auto">
+      <div className="extended-file xl:w-5/12 lg:mt-0 mt-5 w-full mx-auto ">
         {savedRecordings.length > 0 ? (
-          <>
+          <div className="max-h-[30rem] overflow-auto">
             <div className="flex justify-end">
               <span className="text-gray-500 font-Byekan text-lg m-1 p-2 font-bold">
                 : فایل های موجود
@@ -242,7 +242,7 @@ export default function KeyWordSpottingBody() {
                 )
               )}
             </div>
-          </>
+          </div>
         ) : (
           <div className="flex w-full h-full justify-center items-center">
             <span className="text-xl font-bold text-gray-600">
