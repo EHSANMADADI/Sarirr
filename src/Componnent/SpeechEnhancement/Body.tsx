@@ -10,7 +10,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { useStore } from "../../Store/Store";
 import api from "../../Config/api";
 import loader from "../../IMG/tail-spin.svg";
-
+import { FaAngleDown } from "react-icons/fa";
 export default function Body() {
   const { audioURLs, removeRecording } = useStore();
   const [savedRecordings, setSavedRecordings] = useState(audioURLs);
@@ -26,6 +26,7 @@ export default function Body() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState("GAGNET");
   const listModel = ["GAGNET", "DBAIAT"];
+  const [OpenModel, setOpenModel] = useState(false);
   useEffect(() => {
     setConverting(new Array(savedRecordings.length).fill(false));
     setSucsessFullConverting(new Array(savedRecordings.length).fill(false));
@@ -303,19 +304,32 @@ export default function Body() {
                 :انتخاب مدل
               </span>
             </div>
-            <div className="mt-5 flex items-center" dir="rtl">
-              <select
-                className="p-3 rounded-md"
-                value={selectedModel}
-                onChange={(e) => setSelectedModel(e.target.value)}
+            <div className="mt-5 flex items-center relative" dir="rtl">
+              <div
+                className="py-3 rounded-md flex items-center w-28 bg-white justify-center cursor-pointer  "
+                onClick={()=>setOpenModel(!OpenModel)}
               >
-                <option className="p-2" value="gagnet">
-                  GAGNET
-                </option>
-                <option className="p-2" value="dbaiat">
-                  DBAIAT
-                </option>
-              </select>
+                <span>{selectedModel}</span>
+                <span>
+                  <FaAngleDown />
+                </span>
+              </div>
+              {OpenModel && (
+                <div className="flex mt-48  w-full z-50 flex-col origin-top-right absolute py-5 px-2 bg-white text-gray-700 rounded-2xl text-base">
+                  {listModel.map((item, i) => (
+                    <div
+                      key={i}
+                      onClick={() => {
+                        setSelectedModel(item);
+                        setOpenModel(!OpenModel)
+                      }}
+                      className="hover:bg-gray-200 cursor-pointer hover:text-blue-600 py-3 px-1 rounded-md flex items-center"
+                    >
+                      <span className="mr-2">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
           <input
@@ -341,14 +355,14 @@ export default function Body() {
               onClick={handleButtonClick}
               className="flex items-center md:px-6 px-3 py-2 bg-gradient-to-r from-blue-600 to-blue-950 opacity-80 rounded-xl font-black sm:text-xl text-base shadow-2xl hover:opacity-100 border-[3px] border-blue-200 text-white"
             >
-               انتخاب فایل 
+              انتخاب فایل
               <span className="mr-2 sm:inline hidden">
                 <FaCloudUploadAlt />
               </span>
             </button>
             {file && (
               <div className="flex items-center mx-2">
-                <span className="text-red-700 cursor-pointer"> 
+                <span className="text-red-700 cursor-pointer">
                   <MdDeleteSweep />
                 </span>
                 <span className="ml-4 text-gray-700">{file.name} </span>

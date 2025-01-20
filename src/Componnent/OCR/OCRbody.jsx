@@ -304,6 +304,7 @@ export default function Multipel() {
                                 setAllFilesUploaded={setAllFilesUploaded}
                                 keys={files.length}
                                 files={files}
+                               
                                 setFiles={setFiles}
                                 setSaveItems={setSaveItems}
                                 saveItems={saveItems}
