@@ -13,7 +13,8 @@ import JSZip from 'jszip';
 import axios from 'axios';
 import { FaRegFilePdf } from "react-icons/fa";
 import api from '../../Config/api';
-
+import { FaAngleDown } from "react-icons/fa6";
+import { Dropdown, DropdownItem } from "flowbite-react";
 export default function Multipel() {
     const [files, setFiles] = useState(null);
     const [error, setError] = useState('');
@@ -81,7 +82,7 @@ export default function Multipel() {
         setOpenModals(updatedOpenModals);
     };
 
-    const handelDownloadExcell = async (index) => {
+    const handelDownloadExcellDB = async (index) => {
         try {
             const zip = new JSZip(); // ایجاد یک فایل ZIP
             const updatedIsDownloadExcell = [...isDownloadExcell];
@@ -122,22 +123,22 @@ export default function Multipel() {
                     formData.append('file', excelBlob, 'uploaded_file.xlsx');
 
                     // بارگذاری فایل اکسل به سرور
-                    const responseUpload = await axios.post(
-                        'http://195.191.45.56:17011/upload',
+                    const responseUpload = await api.post(
+                        '/api/upload',
                         formData,
                         { headers: { 'Content-Type': 'multipart/form-data' } }
                     );
 
                     if (responseUpload.status === 200) {
-                        const res = await axios.post(
-                            'http://195.191.45.56:17011/extract',
+                        const res = await api.post(
+                            '/api/extract',
                             { file_path: responseUpload.data.file_path },
                             { headers: { 'Content-Type': 'application/json' } }
                         );
 
                         if (res.status === 200) {
-                            const fileUrl = `http://195.191.45.56:17011/download/${res.data.output_file}`;
-                            const fileResponse = await axios.get(fileUrl, { responseType: 'blob' });
+                            const fileUrl = `http://192.168.4.177:17017/api/download/${res.data.output_file}`;
+                            const fileResponse = await api.get(`/api/download/${res.data.output_file}`, { responseType: 'blob' });
 
                             // اضافه کردن فایل اکسل به زیپ
                             const fileName = res.data.output_file; // نام پیش‌فرض فایل دانلودی
@@ -146,7 +147,7 @@ export default function Multipel() {
                     }
                 }
             }
-
+        
             // ایجاد فایل زیپ و دانلود آن
             const zipBlob = await zip.generateAsync({ type: 'blob' });
             saveAs(zipBlob, 'excel_files.zip'); // فایل زیپ دانلود می‌شود
@@ -165,6 +166,67 @@ export default function Multipel() {
             setIsDownloadExcell(updatedIsDownloadExcell);
         }
     };
+    const handelDownloadExcell = async (index) => {
+        try {
+            const zip = new JSZip(); // ایجاد یک فایل ZIP
+            const updatedIsDownloadExcell = [...isDownloadExcell];
+            updatedIsDownloadExcell[index] = true; // وضعیت دانلود فعال می‌شود
+            setIsDownloadExcell(updatedIsDownloadExcell);
+    
+            for (let itemIndex = 0; itemIndex < saveItems[index].length; itemIndex++) {
+                const item = saveItems[index][itemIndex];
+                const url_document = item.url_document;
+    
+                let isProcessing = true;
+                let excelBlob = null;
+    
+                // دریافت فایل اکسل تا زمانی که پردازش تمام شود
+                while (isProcessing) {
+                    const response = await api.post(
+                        '/download_excel',
+                        { document_url: url_document }
+                    );
+    
+                    if (response.data.state === "processing") {
+                        console.log(response.data.state);
+                        await new Promise((resolve) => setTimeout(resolve, 3000));
+                    } else {
+                        const res = await api.post(
+                            '/download_excel',
+                            { document_url: url_document },
+                            { responseType: 'blob' }
+                        );
+                        console.log('excel file received');
+                        excelBlob = res.data;
+                        isProcessing = false;
+                    }
+                }
+    
+                // افزودن فایل اکسل به فایل ZIP
+                if (excelBlob) {
+                    const fileName = `file_${itemIndex + 1}.xlsx`; // نام فایل
+                    zip.file(fileName, excelBlob); // اضافه کردن فایل به ZIP
+                }
+            }
+    
+            // ایجاد فایل زیپ و دانلود آن
+            const zipBlob = await zip.generateAsync({ type: 'blob' });
+            saveAs(zipBlob, 'excel_files.zip'); // فایل زیپ دانلود می‌شود
+    
+        } catch (error) {
+            console.error('Error downloading Excel files:', error);
+            Swal.fire({
+                title: 'خطا در دانلود فایل اکسل',
+                icon: 'error',
+                text: 'لطفاً دوباره تلاش کنید.',
+            });
+        } finally {
+            const updatedIsDownloadExcell = [...isDownloadExcell];
+            updatedIsDownloadExcell[index] = false; // وضعیت دکمه را ریست می‌کنیم
+            setIsDownloadExcell(updatedIsDownloadExcell);
+        }
+    };
+    
 
     const handelDownloadPdf = async (index) => {
         try {
@@ -304,7 +366,7 @@ export default function Multipel() {
                                 setAllFilesUploaded={setAllFilesUploaded}
                                 keys={files.length}
                                 files={files}
-                               
+
                                 setFiles={setFiles}
                                 setSaveItems={setSaveItems}
                                 saveItems={saveItems}
@@ -312,7 +374,7 @@ export default function Multipel() {
                         )}
                         {saveItems.length > 0 &&
                             saveItems.map((itemArray, index) => (
-                                <div key={index} className='box-Item seavItem border bg-white border-gray-100 shadow-lg rounded-lg xl:mx-6 mx-1 xl:p-5 py-2 mb-10'>
+                                <div key={index} className='box-Item seavItem border bg-white border-gray-100 shadow-lg rounded-lg xl:mx-2 mx-1 xl:p-5 py-2 mb-10'>
                                     <div className='flex justify-between items-center md:mx-5 mx-2'>
                                         <p className='text-xl font-semibold'>پردازش تکمیل شد</p>
                                         <div className='text-lg text-green-500'>
@@ -368,6 +430,32 @@ export default function Multipel() {
                                                     {isDownloadWord[index] ? (<span className='text-sm'>صبر کنید</span>) : (<span>WORD</span>)}
 
                                                 </button>
+
+
+                                                <Dropdown
+                                                    className='border-dotted border-black rounded-md border-2 md:px-4 px-2 pt-1 pb-2 mx-2 sm:text-xl text-xs font-semibold text-center flex items-center hover:scale-105 duration-200'
+                                                    label=""
+                                                    inline
+                                                    renderTrigger={() => (
+                                                        <button
+                                                            className='border-dotted border-black rounded-md border-2 md:px-4 px-2 pt-1 pb-2 mx-2 sm:text-xl text-xs font-semibold text-center flex items-center hover:scale-105 duration-200'
+                                                        // onClick={() => handelDownloadExcell(index)}
+                                                        >
+                                                            <span className='text-center mr-2 text-xl text-yellow-600'>
+                                                                <FaAngleDown />
+                                                            </span>
+                                                            {isDownloadExcell[index] ? (<span className='text-sm'>صبر کنید</span>) : (<span>Excel</span>)}
+
+                                                        </button>
+                                                    )}
+                                                >
+                                                    <DropdownItem onClick={() => handelDownloadExcellDB(index)}>
+                                                        DB Excel
+                                                    </DropdownItem>
+                                                    <DropdownItem onClick={() => handelDownloadExcell(index)} >
+                                                        alefba Excel
+                                                    </DropdownItem>
+                                                </Dropdown>
                                             </div>
                                         </div>
                                     </div>
