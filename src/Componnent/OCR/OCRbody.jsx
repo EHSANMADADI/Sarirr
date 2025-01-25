@@ -16,6 +16,7 @@ import api from '../../Config/api';
 import { FaAngleDown } from "react-icons/fa6";
 import { Dropdown, DropdownItem } from "flowbite-react";
 import { RiFileExcel2Line } from "react-icons/ri";
+import { AiFillFileWord } from "react-icons/ai";
 export default function Multipel() {
     const [files, setFiles] = useState(null);
     const [error, setError] = useState('');
@@ -362,13 +363,13 @@ export default function Multipel() {
     return (
         <>
 
-            <div className='flex lg:overflow-hidden bg-blue-50 lg:flex-nowrap flex-wrap lg:h-screen '>
+            <div className='flex lg:overflow-hidden bg-blue-50 lg:flex-nowrap flex-wrap'>
 
-                <div className='w-2/3 mx-auto'>
+                <div className='w-2/3  mx-auto'>
                     <InputMultiple files={files} setFiles={setFiles} error={error} setError={setError} />
                 </div>
-                <div className='h-screen lg:w-1/2 w-full mx-auto sm:mr-20 flex items-center'>
-                    <div className='w-full md:h-1/2 h-full overflow-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full  scrollbar-thumb-yellow-600 scrollbar-track-gray-50 '>
+                <div className='lg:w-1/2 w-full mx-auto sm:mr-20 flex items-start'>
+                    <div className='w-full max-h-[35rem] lg:mt-20  h-full overflow-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full  scrollbar-thumb-yellow-600 scrollbar-track-gray-50 '>
                         {!files && saveItems.length === 0 && (
                             <div className='flex justify-center items-center text-gray-500 sm:text-2xl text-base font-bold mt-10 text-center'>
                                 <p>فایلی موجود نیست لطفا فایلی را انتخاب نمایید</p>
@@ -390,7 +391,7 @@ export default function Multipel() {
                             saveItems.map((itemArray, index) => (
                                 <div key={index} className='box-Item seavItem border bg-white border-gray-100 shadow-lg rounded-lg xl:mx-2 mx-1 xl:p-5 py-2 mb-10'>
                                     <div className='flex justify-between items-center md:mx-5 mx-2'>
-                                        <p className='text-xl font-semibold'>پردازش تکمیل شد</p>
+                                        <p className='sm:text-xl text-base font-semibold'>پردازش تکمیل شد</p>
                                         <div className='text-lg text-green-500'>
                                             <FaCheckCircle />
                                         </div>
@@ -422,10 +423,6 @@ export default function Multipel() {
                                                     </span>
                                                     مشاهده
                                                 </button>
-
-
-
-
 
                                                 <Dropdown
                                                     className='border-dotted border-black rounded-md border-2 md:px-4 px-2 pt-1 pb-2 mx-2 sm:text-xl text-xs font-semibold text-center flex items-center hover:scale-105 duration-200'
@@ -488,8 +485,8 @@ export default function Multipel() {
                                                             className='border-none rounded-md border-2 md:px-4 px-2 pt-1 pb-2 mx-2 sm:text-xl text-xs font-semibold text-center flex items-center hover:scale-105 duration-200'
                                                             onClick={() => handelDownloadWord(index)}
                                                         >
-                                                            <span className='text-center mr-2 text-xl text-yellow-600'>
-                                                                <FaDownload />
+                                                            <span className='text-center mr-2 text-xl text-blue-600'>
+                                                                <AiFillFileWord />
                                                             </span>
                                                             {isDownloadWord[index] ? (<span className='text-sm'>صبر کنید</span>) : (<span>WORD</span>)}
 

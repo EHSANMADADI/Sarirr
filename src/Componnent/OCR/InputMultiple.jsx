@@ -50,9 +50,9 @@ export default function InputMultiple({ files, setFiles, error, setError }) {
     return (
         <>
 
-            <div className="lg:w-1/2 w-full mx-auto max-h-full lg:flex flex-col justify-center">
+            <div className="lg:w-1/2 w-full mx-auto  max-h-full  lg:flex flex-col justify-center">
                 <div className="flex items-center w-full flex-col justify-center">
-                    <div className='w-full flex flex-col border-2 border-gray-300 border-dashed h-screen my-20 justify-center rounded-lg'>
+                    <div className='w-full flex flex-col border-2 border-gray-300 border-dashed h-[32rem] my-20 justify-center rounded-lg'>
                         <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full cursor-pointer">
                             <div className="flex flex-col items-center justify-center pt-5 pb-6 mt-5">
                                 <span className='text-8xl mb-4 text-blue-400'><FaCloudUploadAlt /></span>
@@ -68,7 +68,7 @@ export default function InputMultiple({ files, setFiles, error, setError }) {
                         Open={open}
                         onClose={handleModalClose} // Use the updated modal close handler
                     >
-                        <div dir='rtl' className='flex-col items-center justify-around p-3'>
+                        <div dir='rtl' className='flex-col items-center justify-around  max-h-[66vh]  p-3'>
                             <div>
                                 <input
                                     id="Hebrew"
