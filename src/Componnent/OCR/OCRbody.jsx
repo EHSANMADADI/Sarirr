@@ -15,6 +15,7 @@ import { FaRegFilePdf } from "react-icons/fa";
 import api from '../../Config/api';
 import { FaAngleDown } from "react-icons/fa6";
 import { Dropdown, DropdownItem } from "flowbite-react";
+import { RiFileExcel2Line } from "react-icons/ri";
 export default function Multipel() {
     const [files, setFiles] = useState(null);
     const [error, setError] = useState('');
@@ -24,6 +25,7 @@ export default function Multipel() {
     const [isDownloadExcell, setIsDownloadExcell] = useState([]);
     const [isDownloadPdf, setIsDownloadPdf] = useState([]);
     const [isDownloadWord, setIsDownloadWord] = useState([]);
+    const[disabled, setDisabled] = useState(false)
     console.log("multiple files", files);
     const hasSaved = useRef(false);
 
@@ -84,6 +86,7 @@ export default function Multipel() {
 
     const handelDownloadExcellDB = async (index) => {
         try {
+            setDisabled(true)
             const zip = new JSZip(); // ایجاد یک فایل ZIP
             const updatedIsDownloadExcell = [...isDownloadExcell];
             updatedIsDownloadExcell[index] = true; // وضعیت دانلود فعال می‌شود
@@ -147,7 +150,7 @@ export default function Multipel() {
                     }
                 }
             }
-        
+
             // ایجاد فایل زیپ و دانلود آن
             const zipBlob = await zip.generateAsync({ type: 'blob' });
             saveAs(zipBlob, 'excel_files.zip'); // فایل زیپ دانلود می‌شود
@@ -164,29 +167,31 @@ export default function Multipel() {
             const updatedIsDownloadExcell = [...isDownloadExcell];
             updatedIsDownloadExcell[index] = false; // وضعیت دکمه را ریست می‌کنیم
             setIsDownloadExcell(updatedIsDownloadExcell);
+            setDisabled(false)
         }
     };
     const handelDownloadExcell = async (index) => {
         try {
+            setDisabled(true)
             const zip = new JSZip(); // ایجاد یک فایل ZIP
             const updatedIsDownloadExcell = [...isDownloadExcell];
             updatedIsDownloadExcell[index] = true; // وضعیت دانلود فعال می‌شود
             setIsDownloadExcell(updatedIsDownloadExcell);
-    
+
             for (let itemIndex = 0; itemIndex < saveItems[index].length; itemIndex++) {
                 const item = saveItems[index][itemIndex];
                 const url_document = item.url_document;
-    
+
                 let isProcessing = true;
                 let excelBlob = null;
-    
+
                 // دریافت فایل اکسل تا زمانی که پردازش تمام شود
                 while (isProcessing) {
                     const response = await api.post(
                         '/download_excel',
                         { document_url: url_document }
                     );
-    
+
                     if (response.data.state === "processing") {
                         console.log(response.data.state);
                         await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -201,18 +206,18 @@ export default function Multipel() {
                         isProcessing = false;
                     }
                 }
-    
+
                 // افزودن فایل اکسل به فایل ZIP
                 if (excelBlob) {
                     const fileName = `file_${itemIndex + 1}.xlsx`; // نام فایل
                     zip.file(fileName, excelBlob); // اضافه کردن فایل به ZIP
                 }
             }
-    
+
             // ایجاد فایل زیپ و دانلود آن
             const zipBlob = await zip.generateAsync({ type: 'blob' });
             saveAs(zipBlob, 'excel_files.zip'); // فایل زیپ دانلود می‌شود
-    
+
         } catch (error) {
             console.error('Error downloading Excel files:', error);
             Swal.fire({
@@ -224,12 +229,15 @@ export default function Multipel() {
             const updatedIsDownloadExcell = [...isDownloadExcell];
             updatedIsDownloadExcell[index] = false; // وضعیت دکمه را ریست می‌کنیم
             setIsDownloadExcell(updatedIsDownloadExcell);
+            setDisabled(false)
+
         }
     };
-    
+
 
     const handelDownloadPdf = async (index) => {
         try {
+            setDisabled(true)
             const zip = new JSZip(); // ایجاد یک فایل ZIP
             const updatedIsDownloadPdf = [...isDownloadPdf];
             updatedIsDownloadPdf[index] = true; // وضعیت دانلود فعال می‌شود
@@ -283,12 +291,16 @@ export default function Multipel() {
             const updatedIsDownloadPdf = [...isDownloadPdf];
             updatedIsDownloadPdf[index] = false; // وضعیت دکمه را ریست می‌کنیم
             setIsDownloadPdf(updatedIsDownloadPdf);
+            setDisabled(false)
+
         }
     };
 
 
     const handelDownloadWord = async (index) => {
         try {
+            setDisabled(true)
+
             const zip = new JSZip(); // ایجاد یک فایل ZIP
             const updatedIsDownloadWord = [...isDownloadWord];
             updatedIsDownloadWord[index] = true; // وضعیت دانلود فعال می‌شود
@@ -342,6 +354,8 @@ export default function Multipel() {
             const updatedIsDownloadWord = [...isDownloadPdf];
             updatedIsDownloadWord[index] = false; // وضعیت دکمه را ریست می‌کنیم
             setIsDownloadWord(updatedIsDownloadWord);
+            setDisabled(false)
+
         }
     };
 
@@ -409,51 +423,77 @@ export default function Multipel() {
                                                     مشاهده
                                                 </button>
 
-                                                <button
-                                                    className='border-dotted border-black rounded-md border-2 md:px-4 px-2 pt-1 pb-2 mx-2 sm:text-xl text-xs font-semibold text-center flex items-center hover:scale-105 duration-200'
-                                                    onClick={() => handelDownloadPdf(index)}
-                                                    disabled={isDownloadPdf[index]}
-                                                >
-                                                    <span className='text-center mr-2 text-xl text-red-700'>
-                                                        <FaRegFilePdf />
-                                                    </span>
-                                                    {isDownloadPdf[index] ? (<span className='text-sm'>صبر کنید</span>) : (<span>PDF</span>)}
 
-                                                </button>
-                                                <button
-                                                    className='border-dotted border-black rounded-md border-2 md:px-4 px-2 pt-1 pb-2 mx-2 sm:text-xl text-xs font-semibold text-center flex items-center hover:scale-105 duration-200'
-                                                    onClick={() => handelDownloadWord(index)}
-                                                >
-                                                    <span className='text-center mr-2 text-xl text-yellow-600'>
-                                                        <FaDownload />
-                                                    </span>
-                                                    {isDownloadWord[index] ? (<span className='text-sm'>صبر کنید</span>) : (<span>WORD</span>)}
 
-                                                </button>
 
 
                                                 <Dropdown
                                                     className='border-dotted border-black rounded-md border-2 md:px-4 px-2 pt-1 pb-2 mx-2 sm:text-xl text-xs font-semibold text-center flex items-center hover:scale-105 duration-200'
                                                     label=""
                                                     inline
+                                                    disabled={disabled}
                                                     renderTrigger={() => (
                                                         <button
                                                             className='border-dotted border-black rounded-md border-2 md:px-4 px-2 pt-1 pb-2 mx-2 sm:text-xl text-xs font-semibold text-center flex items-center hover:scale-105 duration-200'
-                                                        // onClick={() => handelDownloadExcell(index)}
                                                         >
                                                             <span className='text-center mr-2 text-xl text-yellow-600'>
                                                                 <FaAngleDown />
                                                             </span>
-                                                            {isDownloadExcell[index] ? (<span className='text-sm'>صبر کنید</span>) : (<span>Excel</span>)}
+                                                            {isDownloadExcell[index] || isDownloadPdf[index] || isDownloadWord[index] ? (<span className='text-sm'>صبر کنید</span>) : (<span>Download</span>)}
 
                                                         </button>
                                                     )}
                                                 >
-                                                    <DropdownItem onClick={() => handelDownloadExcellDB(index)}>
-                                                        DB Excel
+                                                    <DropdownItem onClick={() => (index)}>
+                                                    <button
+                                                            className='border-none rounded-md border-2 md:px-4 px-2 pt-1 pb-2 mx-2 sm:text-xl text-xs font-semibold text-center flex items-center hover:scale-105 duration-200'
+                                                            onClick={() => handelDownloadExcellDB(index)}
+                                                            disabled={isDownloadExcell[index]}
+                                                        >
+                                                            <span className='text-center mr-2 text-xl text-green-700'>
+                                                                < RiFileExcel2Line/>
+                                                            </span>
+                                                            {isDownloadExcell[index] ? (<span className='text-sm'>صبر کنید</span>) : (<span>DB excell</span>)}
+
+                                                        </button>
                                                     </DropdownItem>
-                                                    <DropdownItem onClick={() => handelDownloadExcell(index)} >
-                                                        alefba Excel
+                                                    <DropdownItem>
+                                                        <button
+                                                            className='border-none rounded-md border-2 md:px-4 px-2 pt-1 pb-2 mx-2 sm:text-xl text-xs font-semibold text-center flex items-center hover:scale-105 duration-200'
+                                                            onClick={() => handelDownloadExcell(index)}
+                                                            disabled={isDownloadPdf[index]}
+                                                        >
+                                                            <span className='text-center mr-2 text-xl text-green-700'>
+                                                                < RiFileExcel2Line/>
+                                                            </span>
+                                                            {isDownloadExcell[index] ? (<span className='text-sm'>صبر کنید</span>) : (<span>Alefba excell</span>)}
+
+                                                        </button>
+                                                    </DropdownItem>
+                                                    <DropdownItem>
+                                                        <button
+                                                            className='border-none rounded-md border-2 md:px-4 px-2 pt-1 pb-2 mx-2 sm:text-xl text-xs font-semibold text-center flex items-center hover:scale-105 duration-200'
+                                                            onClick={() => handelDownloadPdf(index)}
+                                                            disabled={isDownloadPdf[index]}
+                                                        >
+                                                            <span className='text-center mr-2 text-xl text-red-700'>
+                                                                <FaRegFilePdf />
+                                                            </span>
+                                                            {isDownloadPdf[index] ? (<span className='text-sm'>صبر کنید</span>) : (<span>PDF</span>)}
+
+                                                        </button>
+                                                    </DropdownItem>
+                                                    <DropdownItem>
+                                                        <button
+                                                            className='border-none rounded-md border-2 md:px-4 px-2 pt-1 pb-2 mx-2 sm:text-xl text-xs font-semibold text-center flex items-center hover:scale-105 duration-200'
+                                                            onClick={() => handelDownloadWord(index)}
+                                                        >
+                                                            <span className='text-center mr-2 text-xl text-yellow-600'>
+                                                                <FaDownload />
+                                                            </span>
+                                                            {isDownloadWord[index] ? (<span className='text-sm'>صبر کنید</span>) : (<span>WORD</span>)}
+
+                                                        </button>
                                                     </DropdownItem>
                                                 </Dropdown>
                                             </div>
