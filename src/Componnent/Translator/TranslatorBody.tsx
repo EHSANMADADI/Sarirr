@@ -1,30 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { useStore } from "../../Store/Store";
+
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 
 export default function TranslatorBody() {
   const [selectedLanguage, setSelectedLanguage] = useState("فارسی"); // ذخیره زبان انتخاب‌شده
-  const ListLanguage = ["فارسی", "انگلیسی", "عربی", "عبری"];
+  const ListLanguage = [
+    "Persian",
+    "Hebrew",
+    "Arabic",
+    "English",
+    "Russian",
+    "Chinese",
+  ];
   const [text, setText] = useState("");
-  const { setKeywords } = useStore();
+
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState("");
   const [dir, setDir] = useState("rtl");
-  const [model, setModel] = useState("aya-23-8b");
- 
+  const [model, setModel] = useState("aya-expanse-32b");
+
   const handleLanguageClick = (language: string) => {
-    setSelectedLanguage(language); // تنظیم زبان انتخاب‌شده
+    setSelectedLanguage(language);
   };
   const translate = () => {
     console.log("click");
     setLoading(true);
     setResult("");
-    const txttranslate = text + `به ${selectedLanguage}  ترجمه کن `;
+    // const txttranslate = text + `به ${selectedLanguage}  ترجمه کن `;
 
     // console.log(txttranslate);
-    const content = `
-     {phrase:${text},/n  language:${selectedLanguage}} `;
+    const content = `{"phrase":"${text}",  "language":"${selectedLanguage}"} `;
     console.log(content);
 
     axios
@@ -33,17 +39,25 @@ export default function TranslatorBody() {
         messages: [
           {
             role: "user",
-            content:content
+            content,
           },
-          // {
-          //   phrase: "Your phrase here",
-          //   language: "fa",
-          // },
         ],
       })
       .then((res) => {
-        console.log(res.data?.choices[0].message.content);
-        const resulttranslation=JSON.parse(res.data?.choices[0].message.content)
+        console.log(res.data);
+
+        let content = res.data?.choices[0].message.content.replaceAll("\n", "")
+          .replace(/(?<=("|}|{|(",)))(\r|\n|\t|\v|\f| )+(?=(,|"|{|}))/gi,'')
+          .replaceAll(/\n/gi, "\\\\n")
+          .replaceAll(/(\r|\t|\v|\f)/gi, "")
+          .replaceAll(/`/gi, "");
+          // .replaceAll(/\r\n/gi, "\\\\r\\\\n")
+          // .replaceAll(/\r/gi, "\\\\r")
+          // .replaceAll(/\t/gi, "\\\\t")
+          // .replaceAll(/\f/gi, "\\\\f")
+          // .replaceAll(/\v/gi, "\\\\v");
+        console.log(content);
+        const resulttranslation = JSON.parse(content);
         setResult(resulttranslation.translation);
       })
       .catch((err) => {
@@ -58,7 +72,7 @@ export default function TranslatorBody() {
   useEffect(() => {
     setResult("   ");
     switch (selectedLanguage) {
-      case "انگلیسی":
+      case "english":
         setDir("ltr");
         break;
 
@@ -72,7 +86,7 @@ export default function TranslatorBody() {
     <>
       <div className="flex items-center justify-center text-lg font-black">
         <select
-          className="bg-blue-500 text-white font-black rounded-xl"
+          className="bg-blue-500 text-white font-black rounded-xl p-2 border-none focus:border-none cursor-pointer"
           value={model}
           onChange={(e) => setModel(e.target.value)}
         >
@@ -90,14 +104,14 @@ export default function TranslatorBody() {
           </option>
         </select>
       </div>
-      <div className="lg:flex flex-reverse justify-around lg:flex-nowrap my-5">
-        <div className="result-box min-h-72 px-5 pb-5 pt-2 bg-white border-[3px] rounded-lg border-gray-300 lg:mb-0 mb-5 xl:w-5/12 w-10/12 mx-auto order-2 lg:order-1">
-          <div className="flex items-center justify-end px-2 border-b-2 w-full p-1">
+      <div className="flex flex-wrap justify-around  lg:flex-nowrap my-5">
+        <div className="result-box lg:mt-0 mt-5 min-h-72 px-5 pb-5 pt-2 bg-white border-[3px] rounded-lg border-gray-300 lg:mb-0 mb-5 xl:w-5/12 w-10/12 mx-auto order-2 lg:order-1">
+          <div className="flex items-center sm:justify-end justify-center px-2 border-b-2 w-full p-1">
             {ListLanguage.map((item, index) => {
               return (
                 <span
                   key={index}
-                  className={`font-black text-lg font-Byekan px-3 pb-2 cursor-pointer ${
+                  className={`font-black lg:text-lg text-xs font-Byekan md:px-3 px-1 pb-2 cursor-pointer ${
                     selectedLanguage === item
                       ? "text-blue-600"
                       : "text-gray-800"
@@ -110,7 +124,9 @@ export default function TranslatorBody() {
             })}
           </div>
           <div dir={dir} className="w-full">
-            {result}
+            {result.split('\\n').map(line => (
+              <div>{line}</div>
+            ))}
           </div>
         </div>
 

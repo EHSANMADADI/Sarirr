@@ -86,6 +86,8 @@ export default function TabeleShowItem({ saveItems, setSaveItems }: ItemTable) {
               },
             }
           );
+          console.log("result",resultResponse.data);
+          
 
           const job = resultResponse.data.jobs[0];
 
@@ -127,7 +129,6 @@ export default function TabeleShowItem({ saveItems, setSaveItems }: ItemTable) {
       await pollStatus();
     } catch (error) {
       toast.error("مشکلی پیش آمده لطفا دوباره تلاش کنید");
-
       console.error("Error in startProgress:", error);
       setLoadingStates((prev) =>
         prev.map((state, i) => (i === index ? false : state))

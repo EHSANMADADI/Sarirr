@@ -229,7 +229,7 @@ export default function ASRbody() {
                 : فایل های موجود برای تبدیل به متن قابل ویرایش
               </span>
             </div>
-            <div className="border-b-2 sm:w-7/12 w-full mx-auto border-gray-600 max-h-[70vh] overflow-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-blue-300">
+            <div className="border-b-2 sm:w-8/12 w-full mx-auto border-gray-600 max-h-[70vh] overflow-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-blue-300">
               {savedRecordings.map(
                 (
                   item: { name: string; audio: string; language: string },
