@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { CiCircleRemove } from "react-icons/ci";
 import { FaCheckCircle } from "react-icons/fa";
-
+import api from "../../Config/api";
 import { useStore } from '../../Store/Store';
 
 export default function UploadMultipleFiles({ files, setSaveItems, saveItems, setAllFilesUploaded, allFilesUploaded,setFiles }) {
@@ -32,7 +32,7 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
       reader.readAsDataURL(fileState.file);
       console.log(type);
       if (type === "Hebrew") {
-        axios.post('http://195.191.45.56:17017/process_Hebrew', formData, {
+        api.post('/process_Hebrew', formData, {
           onUploadProgress: (progressEvent) => {
             const percentage = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
             setFileStates(prevStates => {
@@ -54,7 +54,7 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
         })
       }
       else {
-        axios.post(`http://195.191.45.56:17017/process_image?type=${type}`, formData, {
+        axios.post(`/process_image?type=${type}`, formData, {
           onUploadProgress: (progressEvent) => {
             const percentage = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
             setFileStates(prevStates => {

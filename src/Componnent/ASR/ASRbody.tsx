@@ -167,6 +167,8 @@ export default function ASRbody() {
         headers: { "Content-Type": "multipart/form-data" },
       });
       toast.success("پردازش با موفقیت به اتمام رسید");
+      console.log(response);
+      
       console.log("نتیجه سرور:", response.data.transcription);
       setText((prev: any) => {
         const updated = [...prev];

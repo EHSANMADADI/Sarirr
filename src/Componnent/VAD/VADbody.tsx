@@ -131,6 +131,8 @@ export default function VADBody() {
         headers: { "Content-Type": "multipart/form-data" },
       });
       if (response) {
+        console.log(response.data);
+        
         toast.success("پردازش با موفقیت به اتمام رسید");
         setSucsessFullConverting((prev: any) => {
           const updated = [...prev];
@@ -265,7 +267,7 @@ export default function VADBody() {
                       </span>
                       <audio controls>
                         <source
-                          src={`http://195.191.45.56:17017${convertedAddressFile}`}
+                          src={`http://195.191.45.56:18017${convertedAddressFile}`}
                           type="audio/mpeg"
                         />
                       </audio>
