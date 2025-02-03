@@ -13,13 +13,14 @@ import SuperResolutionPage from "./Page/SuperResolutionPage";
 import DecryptorPage from "./Page/DecryptorPage";
 import KeywordSpotting from "./Page/KeywordSpotting";
 import SignIn from "./Page/SignIn";
+import AdminPanel from "./Page/AdminPanel";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-      <Route path="/" element={<SignIn />} />
-        <Route path="/Home" element={<FerstPage />} />
+      <Route path="/signIn" element={<SignIn />} />
+        <Route path="/" element={<FerstPage />} />
         <Route path="/ASR" element={<ASRPage />} />
         <Route path="/VAD" element={<VADPage />} />
         <Route path="/SpeechEnhancement" element={<SpeechEnhancementPage />} />
@@ -29,6 +30,7 @@ function App() {
         <Route path="/SuperResolution" element={<SuperResolutionPage />} />
         <Route path="/Decryptor" element={<DecryptorPage />} />
         <Route path="/keywordSpotting" element={<KeywordSpotting/>} />
+        <Route path='/AdminPanel' element={<AdminPanel/>}/>
       </Routes>
     </BrowserRouter>
   );

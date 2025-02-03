@@ -2,10 +2,8 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
-import CssBaseline from "@mui/material/CssBaseline";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Divider from "@mui/material/Divider";
-import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
 import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
@@ -14,10 +12,8 @@ import Stack from "@mui/material/Stack";
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
 import rtlPlugin from "stylis-plugin-rtl";
-
-import { createTheme, ThemeProvider, Theme } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 // import ForgotPassword from './components/ForgotPassword';
-import AppTheme from "../them/AppTheme";
 // import ColorModeSelect from './theme/ColorModeSelect';
 // import { GoogleIcon, FacebookIcon, SitemarkIcon } from './components/CustomIcons';
 import createCache from "@emotion/cache";
@@ -34,7 +30,8 @@ const Card = styled(MuiCard)(({ theme }) => ({
   // backdropFilter:"20%" , // افکت بلور
   backgroundColor: "rgba(255, 255, 255, 0.5)",
   [theme.breakpoints.up("sm")]: {
-    maxWidth: "450px",
+    maxWidth: "550px",
+    
   },
   boxShadow:
     "hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px",
@@ -209,7 +206,7 @@ export default function SignInComponent(props: {
                 <div dir="rtl">
                   <FormControlLabel
                     control={<Checkbox value="remember" color="primary" />}
-                    label="مرا به خاطر بیاور"
+                    label="مرا به خاطر بسپار"
                   />
                 </div>
 
