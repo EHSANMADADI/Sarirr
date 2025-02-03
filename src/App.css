@@ -1,5 +1,15 @@
+
+
 .hero-banr {
   background-image: url("../src/IMG/test1.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* background-attachment: fixed; */
+  background-position: center;
+
+}
+.hero-banrlogin {
+  background-image: url("../src/IMG/test.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   /* background-attachment: fixed; */

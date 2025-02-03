@@ -18,7 +18,7 @@ export default function TranslatorBody() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState("");
   const [dir, setDir] = useState("rtl");
-  const [model, setModel] = useState("aya-expanse-32b");
+  // const [model, setModel] = useState("aya-expanse-32b");
 
   const handleLanguageClick = (language: string) => {
     setSelectedLanguage(language);
@@ -35,7 +35,8 @@ export default function TranslatorBody() {
 
     axios
       .post("http://195.191.45.56:17021/v1/chat/completions", {
-        model: model,
+        // model: model,
+        model: "gemma-2-27b-it",
         messages: [
           {
             role: "user",
@@ -46,16 +47,17 @@ export default function TranslatorBody() {
       .then((res) => {
         console.log(res.data);
 
-        let content = res.data?.choices[0].message.content.replaceAll("\n", "")
-          .replace(/(?<=("|}|{|(",)))(\r|\n|\t|\v|\f| )+(?=(,|"|{|}))/gi,'')
+        let content = res.data?.choices[0].message.content
+          .replaceAll("\n", "")
+          .replace(/(?<=("|}|{|(",)))(\r|\n|\t|\v|\f| )+(?=(,|"|{|}))/gi, "")
           .replaceAll(/\n/gi, "\\\\n")
           .replaceAll(/(\r|\t|\v|\f)/gi, "")
           .replaceAll(/`/gi, "");
-          // .replaceAll(/\r\n/gi, "\\\\r\\\\n")
-          // .replaceAll(/\r/gi, "\\\\r")
-          // .replaceAll(/\t/gi, "\\\\t")
-          // .replaceAll(/\f/gi, "\\\\f")
-          // .replaceAll(/\v/gi, "\\\\v");
+        // بررسی و حذف json اضافی
+        if (content.startsWith("json")) {
+          content = content.replace(/^json/, "");
+        }
+
         console.log(content);
         const resulttranslation = JSON.parse(content);
         setResult(resulttranslation.translation);
@@ -84,26 +86,7 @@ export default function TranslatorBody() {
 
   return (
     <>
-      <div className="flex items-center justify-center text-lg font-black">
-        <select
-          className="bg-blue-500 text-white font-black rounded-xl p-2 border-none focus:border-none cursor-pointer"
-          value={model}
-          onChange={(e) => setModel(e.target.value)}
-        >
-          <option
-            className="bg-white hover:bg-blue-400 text-blue-600 hover:text-white cursor-pointer my-2 p-5"
-            value="aya-expanse-32b"
-          >
-            مدل دقیق
-          </option>
-          <option
-            className="bg-white hover:bg-blue-400 text-blue-600 hover:text-white cursor-pointer my-2 p-5"
-            value="aya-23-8b"
-          >
-            مدل سریع
-          </option>
-        </select>
-      </div>
+    
       <div className="flex flex-wrap justify-around  lg:flex-nowrap my-5">
         <div className="result-box lg:mt-0 mt-5 min-h-72 px-5 pb-5 pt-2 bg-white border-[3px] rounded-lg border-gray-300 lg:mb-0 mb-5 xl:w-5/12 w-10/12 mx-auto order-2 lg:order-1">
           <div className="flex items-center sm:justify-end justify-center px-2 border-b-2 w-full p-1">
@@ -124,7 +107,7 @@ export default function TranslatorBody() {
             })}
           </div>
           <div dir={dir} className="w-full">
-            {result.split('\\n').map(line => (
+            {result.split("\\n").map((line) => (
               <div>{line}</div>
             ))}
           </div>

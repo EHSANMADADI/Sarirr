@@ -13,11 +13,15 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
+import rtlPlugin from "stylis-plugin-rtl";
+
+import { createTheme, ThemeProvider, Theme } from "@mui/material/styles";
 // import ForgotPassword from './components/ForgotPassword';
-// import AppTheme from './theme/AppTheme';
+import AppTheme from "../them/AppTheme";
 // import ColorModeSelect from './theme/ColorModeSelect';
 // import { GoogleIcon, FacebookIcon, SitemarkIcon } from './components/CustomIcons';
-
+import createCache from "@emotion/cache";
+import { CacheProvider } from "@emotion/react";
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -26,6 +30,9 @@ const Card = styled(MuiCard)(({ theme }) => ({
   padding: theme.spacing(4),
   gap: theme.spacing(2),
   margin: "auto",
+  direction: "rtl",
+  // backdropFilter:"20%" , // افکت بلور
+  backgroundColor: "rgba(255, 255, 255, 0.5)",
   [theme.breakpoints.up("sm")]: {
     maxWidth: "450px",
   },
@@ -50,13 +57,13 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
     position: "absolute",
     zIndex: -1,
     inset: 0,
-    backgroundImage:
-      "radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))",
-    backgroundRepeat: "no-repeat",
-    ...theme.applyStyles("dark", {
-      backgroundImage:
-        "radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))",
-    }),
+    // backgroundImage:
+    //   "radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))",
+    // backgroundRepeat: "no-repeat",
+    // ...theme.applyStyles("dark", {
+    //   backgroundImage:
+    //     "radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))",
+    // }),
   },
 }));
 
@@ -116,92 +123,116 @@ export default function SignInComponent(props: {
     return isValid;
   };
 
+  const theme = () =>
+    createTheme({
+      direction: "rtl",
+      // palette: {
+      //   mode: palette.mode,
+      // },
+    });
+
+  const cacheRtl = createCache({
+    key: "muirtl",
+    stylisPlugins: [rtlPlugin],
+  });
+
   return (
-    <div dir="rtl" className="bg-blue-50 ">
-      <CssBaseline enableColorScheme />
-      <SignInContainer dir="rtl" direction="column" justifyContent="space-between">
-       
-        <Card>
-        
-          <Typography
-            component="h1"
-            variant="h4"
-            sx={{ width: "100%" }}
+    <CacheProvider value={cacheRtl}>
+      <ThemeProvider theme={theme}>
+        <div dir="rtl" className="hero-banrlogin">
+          {/* <CssBaseline enableColorScheme /> */}
+          <div className="backdrop-blur-sm">
+          <SignInContainer
+            dir="rtl"
+            direction="column"
+            justifyContent="space-between"
           >
-            <span className="font-Byekan text-2xl">ورود</span>
-          </Typography>
-          <Divider><span className="font-nastaliqh text-xl">
-            سریر
-            </span></Divider>
-          <Box
-          
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              width: "100%",
-              gap: 2,
-            }}
-          >
-            <FormControl>
-              <TextField
-                dir="rtl"
-                label="نام کاربری"
-                error={emailError}
-                helperText={emailErrorMessage}
-                id="username"
-                type="text"
-                name="username"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-                color={emailError ? "error" : "primary"}
-              />
-            </FormControl>
-            <FormControl dir='rtl'>
-              <TextField
-                dir="rtl"
-                error={passwordError}
-                helperText={passwordErrorMessage}
-                name="password"
-                label="رمز عبور"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-                color={passwordError ? "error" : "primary"}
-              />
-            </FormControl>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="مرا به خاطر بیاور"
-            />
-            {/* <ForgotPassword open={open} handleClose={handleClose} /> */}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              onClick={validateInputs}
-            >
-              ورود
-            </Button>
-            <Link
-              component="button"
-              type="button"
-              onClick={handleClickOpen}
-              variant="body2"
-              sx={{ alignSelf: "center" }}
-            >
-              رمز عبور خود را فراموش کرده اید؟
-            </Link>
-          </Box>
-          {/* <Divider>or</Divider>
+            <Card>
+              <div dir="rtl">
+                <Typography component="h1" variant="h4" sx={{ width: "100%" }}>
+                  <span className="font-Byekan text-2xl">ورود</span>
+                </Typography>
+              </div>
+
+              <Divider>
+                <span className="font-nastaliqh text-xl">سریر</span>
+              </Divider>
+              <Box
+                component="form"
+                onSubmit={handleSubmit}
+                noValidate
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "100%",
+                  gap: 2,
+                }}
+              >
+                <FormControl>
+                  <div dir="rtl">
+                    <TextField
+                      className="text-right"
+                      dir="rtl"
+                      label="نام کاربری"
+                      error={emailError}
+                      helperText={emailErrorMessage}
+                      id="username"
+                      type="text"
+                      name="username"
+                      autoFocus
+                      required
+                      fullWidth
+                      variant="outlined"
+                      color={emailError ? "error" : "primary"}
+                    />
+                  </div>
+                </FormControl>
+                <FormControl>
+                  <div dir="rtl">
+                    <TextField
+                      dir="rtl"
+                      error={passwordError}
+                      helperText={passwordErrorMessage}
+                      name="password"
+                      label="رمز عبور"
+                      type="password"
+                      id="password"
+                      autoComplete="current-password"
+                      autoFocus
+                      required
+                      fullWidth
+                      variant="outlined"
+                      color={passwordError ? "error" : "primary"}
+                    />
+                  </div>
+                </FormControl>
+                <div dir="rtl">
+                  <FormControlLabel
+                    control={<Checkbox value="remember" color="primary" />}
+                    label="مرا به خاطر بیاور"
+                  />
+                </div>
+
+                {/* <ForgotPassword open={open} handleClose={handleClose} /> */}
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  onClick={validateInputs}
+                >
+                  ورود
+                </Button>
+                <Link
+                  component="button"
+                  type="button"
+                  onClick={handleClickOpen}
+                  variant="body2"
+                  sx={{ alignSelf: "center" }}
+                >
+                  رمز عبور خود را فراموش کرده اید؟
+                </Link>
+              </Box>
+              {/* <Divider>or</Divider>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Button
               fullWidth
@@ -230,8 +261,12 @@ export default function SignInComponent(props: {
               </Link>
             </Typography>
           </Box> */}
-        </Card>
-      </SignInContainer>
-    </div>
+            </Card>
+          </SignInContainer>
+          </div>
+         
+        </div>
+      </ThemeProvider>
+    </CacheProvider>
   );
 }
