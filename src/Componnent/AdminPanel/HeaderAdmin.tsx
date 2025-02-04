@@ -11,7 +11,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { ImTextColor } from "react-icons/im";
 import { Divider } from "@mui/material";
-
+import { Link } from "react-router-dom";
 export default function HeaderAdmin() {
   const [open, setOpen] = React.useState(false);
 
@@ -69,55 +69,53 @@ export default function HeaderAdmin() {
               },
             }}
           >
-            <ListItem sx={
-              {
-                textAlign:"center",
-                "&:hover": {
-      backgroundColor: "rgba(255, 255, 255, 0.2)", // Light white transparency on hover
+       <ListItem 
+  sx={{
+    textAlign: "center",
+    "&:hover": {
+      backgroundColor: "rgba(255, 255, 255, 0.2)", 
     },
-              }
-            } component="a" href="#">
-              <ListItemText primary="صفحه اصلی" sx={{ color: "white" }} />
-            </ListItem>
-            <Divider sx={{
-              backgroundColor: "white"
-            }}></Divider>
-            <ListItem sx={
-              {
-                textAlign:"center",
-                "&:hover": {
-      backgroundColor: "rgba(255, 255, 255, 0.2)", // Light white transparency on hover
+  }} 
+  component={Link} 
+  to="/" 
+  onClick={() => setOpen(false)} // بستن منو هنگام کلیک
+>
+  <ListItemText primary="صفحه اصلی" sx={{ color: "white" }} />
+</ListItem>
+
+<Divider sx={{ backgroundColor: "white" }} />
+
+<ListItem 
+  sx={{
+    textAlign: "center",
+    "&:hover": {
+      backgroundColor: "rgba(255, 255, 255, 0.2)", 
     },
-              }
-            } component="a" href="#">
-              <ListItemText primary="افزودن کاربر" sx={{ color: "white" }} />
-            </ListItem>
-            <Divider sx={{
-              backgroundColor: "white"
-            }}></Divider>
-            <ListItem sx={
-              {
-                textAlign:"center",
-                "&:hover": {
-      backgroundColor: "rgba(255, 255, 255, 0.2)", // Light white transparency on hover
+  }} 
+  component={Link} 
+  to="/AdminPanel/adduser" 
+  onClick={() => setOpen(false)} // بستن منو هنگام کلیک
+>
+  <ListItemText primary="افزودن کاربر" sx={{ color: "white" }} />
+</ListItem>
+
+<Divider sx={{ backgroundColor: "white" }} />
+
+<ListItem 
+  sx={{
+    textAlign: "center",
+    "&:hover": {
+      backgroundColor: "rgba(255, 255, 255, 0.2)", 
     },
-              }
-            } component="a" href="#">
-              <ListItemText primary="لیست کاربران" sx={{ color: "white" }} />
-            </ListItem>
-            {/* <Divider sx={{
-              backgroundColor: "white"
-            }}></Divider>
-            <ListItem sx={
-              {
-                textAlign:"center",
-                "&:hover": {
-      backgroundColor: "rgba(255, 255, 255, 0.2)", // Light white transparency on hover
-    },
-              }
-            } component="a" href="#">
-              <ListItemText primary="Contact" sx={{ color: "white" }} />
-            </ListItem> */}
+  }} 
+  component="a" 
+  href="#" 
+  onClick={() => setOpen(false)} // بستن منو هنگام کلیک
+>
+  <ListItemText primary="لیست کاربران" sx={{ color: "white" }} />
+</ListItem>
+
+      
           </List>
         </Drawer>
       </div>

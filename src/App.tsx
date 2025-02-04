@@ -14,6 +14,7 @@ import DecryptorPage from "./Page/DecryptorPage";
 import KeywordSpotting from "./Page/KeywordSpotting";
 import SignIn from "./Page/SignIn";
 import AdminPanel from "./Page/AdminPanel";
+import AddUser from "./Componnent/AdminPanel/AddUser";
 
 function App() {
   return (
@@ -30,7 +31,10 @@ function App() {
         <Route path="/SuperResolution" element={<SuperResolutionPage />} />
         <Route path="/Decryptor" element={<DecryptorPage />} />
         <Route path="/keywordSpotting" element={<KeywordSpotting/>} />
-        <Route path='/AdminPanel' element={<AdminPanel/>}/>
+        <Route path='/AdminPanel' element={<AdminPanel/>}>
+        <Route index element={<h1>صفحه اصلی</h1>} />
+        <Route path="adduser" element={<AddUser />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
