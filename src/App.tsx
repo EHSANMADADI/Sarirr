@@ -15,6 +15,7 @@ import KeywordSpotting from "./Page/KeywordSpotting";
 import SignIn from "./Page/SignIn";
 import AdminPanel from "./Page/AdminPanel";
 import AddUser from "./Componnent/AdminPanel/AddUser";
+import ListUser from "./Componnent/AdminPanel/ListUser";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path='/AdminPanel' element={<AdminPanel/>}>
         <Route index element={<h1>صفحه اصلی</h1>} />
         <Route path="adduser" element={<AddUser />} />
+        <Route path="listuser" element={<ListUser />} />
         </Route>
       </Routes>
     </BrowserRouter>

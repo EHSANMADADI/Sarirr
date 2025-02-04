@@ -108,8 +108,8 @@ export default function HeaderAdmin() {
       backgroundColor: "rgba(255, 255, 255, 0.2)", 
     },
   }} 
-  component="a" 
-  href="#" 
+  component={Link} 
+  to="/AdminPanel/listuser" 
   onClick={() => setOpen(false)} // بستن منو هنگام کلیک
 >
   <ListItemText primary="لیست کاربران" sx={{ color: "white" }} />
