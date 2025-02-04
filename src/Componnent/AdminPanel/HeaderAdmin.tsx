@@ -10,6 +10,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { ImTextColor } from "react-icons/im";
+import { Divider } from "@mui/material";
 
 export default function HeaderAdmin() {
   const [open, setOpen] = React.useState(false);
@@ -64,21 +65,59 @@ export default function HeaderAdmin() {
                 flexDirection: "column", // Align items in a column
                 justifyContent: "center", // Center items vertically
                 alignItems: "center", // Center items horizontally
+                textAlign: "center",
               },
             }}
           >
-            <ListItem component="a" href="#">
-              <ListItemText primary="اصلی" sx={{ color: "white" }} />
+            <ListItem sx={
+              {
+                textAlign:"center",
+                "&:hover": {
+      backgroundColor: "rgba(255, 255, 255, 0.2)", // Light white transparency on hover
+    },
+              }
+            } component="a" href="#">
+              <ListItemText primary="صفحه اصلی" sx={{ color: "white" }} />
             </ListItem>
-            <ListItem component="a" href="#">
-              <ListItemText primary="About" sx={{ color: "white" }} />
+            <Divider sx={{
+              backgroundColor: "white"
+            }}></Divider>
+            <ListItem sx={
+              {
+                textAlign:"center",
+                "&:hover": {
+      backgroundColor: "rgba(255, 255, 255, 0.2)", // Light white transparency on hover
+    },
+              }
+            } component="a" href="#">
+              <ListItemText primary="افزودن کاربر" sx={{ color: "white" }} />
             </ListItem>
-            <ListItem component="a" href="#">
-              <ListItemText primary="Services" sx={{ color: "white" }} />
+            <Divider sx={{
+              backgroundColor: "white"
+            }}></Divider>
+            <ListItem sx={
+              {
+                textAlign:"center",
+                "&:hover": {
+      backgroundColor: "rgba(255, 255, 255, 0.2)", // Light white transparency on hover
+    },
+              }
+            } component="a" href="#">
+              <ListItemText primary="لیست کاربران" sx={{ color: "white" }} />
             </ListItem>
-            <ListItem component="a" href="#">
+            {/* <Divider sx={{
+              backgroundColor: "white"
+            }}></Divider>
+            <ListItem sx={
+              {
+                textAlign:"center",
+                "&:hover": {
+      backgroundColor: "rgba(255, 255, 255, 0.2)", // Light white transparency on hover
+    },
+              }
+            } component="a" href="#">
               <ListItemText primary="Contact" sx={{ color: "white" }} />
-            </ListItem>
+            </ListItem> */}
           </List>
         </Drawer>
       </div>
