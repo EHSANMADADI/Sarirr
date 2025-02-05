@@ -25,9 +25,17 @@ interface RecordingState {
   ///for Descriptor
   characterValue: String[];
   addCharacterValue: (value: string) => void;
+
+  ///
+  IsAdmin: boolean;
+  setIsAdmin: (value: boolean) =>void
 }
 
 export const useStore = create<RecordingState>((set) => ({
+  IsAdmin: false,
+  setIsAdmin: (value: boolean) => set(() => ({ IsAdmin: value })),
+
+  ///////////////
   audioURLs: [],
   addRecording: (recording) =>
     set((state) => ({

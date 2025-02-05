@@ -12,7 +12,6 @@ import {
   Slide,
   TextField,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import rtlPlugin from "stylis-plugin-rtl";
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
