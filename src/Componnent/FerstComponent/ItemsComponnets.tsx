@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { HiExternalLink } from "react-icons/hi";
-import {useNavigate } from "react-router-dom";
+import {Link, useNavigate } from "react-router-dom";
 interface ItemsType {
   id: number;
   title: string;
@@ -27,16 +27,16 @@ export default function ItemsComponents({
       <div
         className={`${bgClassName} w-full rounded-tl-3xl rounded-tr-3xl sm:h-96 h-[17.8rem] relative overflow-hidden`}
       >
-        <a
-          target="_blank"
-          href={link}
+        <Link
+          
+          to={link}
           className="sm:absolute z-50 inset-0 sm:flex hidden bg-black  bg-opacity-30 sm:h-[20.7rem]  items-center justify-center text-white text-xl font-bold opacity-0 hover:opacity-100 transition-opacity duration-300"
         >
           ورود به وب سایت
           <span className="text-4xl">
             <HiExternalLink />
           </span>
-        </a>
+        </Link>
       </div>
 
       {/* بخش توضیحات */}
