@@ -6,12 +6,12 @@ import logo from "../../../src/IMG/logo.png";
 import { IoMdHome } from "react-icons/io";
 import { FaAngleDown } from "react-icons/fa";
 import { Dropdown, DropdownItem } from "flowbite-react";
-
+import { motion } from "framer-motion"; // اضافه کردن framer-motion
 export default function HeaderMenu() {
   const [activePage, setActivePage] = useState("/");
   const navigate = useNavigate();
   const location = useLocation();
-  const [openMenu, setOpenMenu] = useState(false);
+  const [openMenu, setOpenMenu] = useState(window.innerWidth >= 1024);
 
   const handlePageChange = (value: string) => {
     setActivePage(value);
@@ -21,6 +21,23 @@ export default function HeaderMenu() {
   useEffect(() => {
     setActivePage(location.pathname);
   }, [location.pathname]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setOpenMenu(true);
+      } else {
+        setOpenMenu(false);
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className="flex border-b-2 relative items-center z-50">
@@ -38,17 +55,24 @@ export default function HeaderMenu() {
           <button onClick={() => setOpenMenu(!openMenu)}>
             {openMenu ? (
               <IoMdClose className="text-3xl text-blue-800" />
-            ) : (    
+            ) : (
               <CiMenuFries className="text-3xl text-blue-800" />
             )}
           </button>
         </div>
 
         {/* orginal menue */}
-        <div
+        <motion.div
+          initial={{ maxHeight: 0, opacity: 0 }}
+          animate={
+            openMenu
+              ? { maxHeight: "500px", opacity: 1 }
+              : { maxHeight: 0, opacity: 0 }
+          }
+          transition={{ duration: 0.7, ease: "easeInOut" }}
           className={`${
             openMenu ? "flex" : "hidden"
-          } lg:flex text-blue-800 flex-col-reverse font-Byekan lg:flex-row items-center justify-between absolute lg:static lg:top-16 top-24 left-0 w-full lg:w-auto bg-white lg:bg-transparent z-50`}
+          } lg:flex text-blue-800 flex-col-reverse font-Byekan lg:flex-row items-center justify-between absolute lg:static lg:top-16 top-24 left-0 w-full lg:w-auto bg-white lg:bg-transparent z-50 overflow-hidden`}
         >
           <span
             onClick={() => handlePageChange("/keywordSpotting")}
@@ -77,7 +101,7 @@ export default function HeaderMenu() {
 
           {/* Dropdowns */}
           <Dropdown
-            className="md:text-xl text-sm"
+            className="md:text-xl text-sm "
             label=""
             inline
             renderTrigger={() => (
@@ -133,7 +157,7 @@ export default function HeaderMenu() {
           >
             <IoMdHome />
           </span>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
