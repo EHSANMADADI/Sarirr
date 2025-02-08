@@ -1,10 +1,11 @@
+
 import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 
 export default function TranslatorBody() {
-  const [selectedLanguage, setSelectedLanguage] = useState("فارسی"); // ذخیره زبان انتخاب‌شده
+  const [selectedLanguage, setSelectedLanguage] = useState("English"); // ذخیره زبان انتخاب‌شده
   const ListLanguage = [
     "Persian",
     "Hebrew",
@@ -27,9 +28,11 @@ export default function TranslatorBody() {
     console.log("click");
     setLoading(true);
     setResult("");
-    // const txttranslate = text + `به ${selectedLanguage}  ترجمه کن `;
+  if(text===''){
+    setLoading(false);
+    return toast.info("لطفا متن مورد نظر خود را برای ترجمه وارد کنید");
 
-    // console.log(txttranslate);
+  }
     const content = `{"phrase":"${text}",  "language":"${selectedLanguage}"} `;
     console.log(content);
 
@@ -74,7 +77,7 @@ export default function TranslatorBody() {
   useEffect(() => {
     setResult("   ");
     switch (selectedLanguage) {
-      case "english":
+      case "English":
         setDir("ltr");
         break;
 
@@ -132,7 +135,7 @@ export default function TranslatorBody() {
         <button
           onClick={translate}
           disabled={loading}
-          className="text-xl font-bold w-1/6 py-3 bg-gradient-to-r from-blue-600 to-blue-950 opacity-80 rounded-lg text-white hover:bg-blue-800 duration-200 hover:scale-105"
+          className="text-xl font-bold sm:w-1/6 w-2/6 py-3 bg-gradient-to-r from-blue-600 to-blue-950 opacity-80 rounded-lg text-white hover:bg-blue-800 duration-200 hover:scale-105"
         >
           {loading ? <span>Loading ...</span> : <span>ترجمه</span>}
         </button>
