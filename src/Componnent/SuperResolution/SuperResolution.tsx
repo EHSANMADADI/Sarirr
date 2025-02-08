@@ -1,7 +1,7 @@
 import React from "react";
 import HeaderMenue from "../Share/HeaderMenue";
 import TitleDetails from "../Share/TitleDetails";
-import Container from './Container';
+import Container from './Components/Container';
 import './styles.css'
 
 

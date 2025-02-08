@@ -9,9 +9,9 @@ import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import { ImTextColor } from "react-icons/im";
 import { Divider } from "@mui/material";
 import { Link } from "react-router-dom";
+import { IoPersonCircleOutline } from "react-icons/io5";
 export default function HeaderAdmin() {
   const [open, setOpen] = React.useState(false);
 
@@ -22,10 +22,18 @@ export default function HeaderAdmin() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: "#1877F2", padding: "5px" }}>
+      <AppBar
+        position="static"
+        sx={{ backgroundColor: "#1877F2", padding: "5px" }}
+      >
         <Toolbar>
           <div className="flex items-center justify-between w-full">
-            <Typography className="font-nastaliq" variant="h3" component="div" sx={{ flexGrow: 1, fontFamily: "nastaliq" }}>
+            <Typography
+              className="font-nastaliq"
+              variant="h3"
+              component="div"
+              sx={{ flexGrow: 1, fontFamily: "nastaliq" }}
+            >
               سریر
             </Typography>
 
@@ -52,70 +60,88 @@ export default function HeaderAdmin() {
           sx={{
             "& .MuiDrawer-paper": {
               width: 250,
-              backgroundColor: "#6CB4EE", // Adjust the background color as needed
+              backgroundColor: "#6CB4EE",
               textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              height: "100%",
             },
           }}
         >
           <List
             sx={{
-              "& .MuiDrawer-paper": {
-                width: 250,
-                display: "flex", // Set the drawer to be a flex container
-                flexDirection: "column", // Align items in a column
-                justifyContent: "center", // Center items vertically
-                alignItems: "center", // Center items horizontally
-                textAlign: "center",
-              },
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              flexGrow: 1,
+              textAlign: "center",
             }}
           >
-       <ListItem 
-  sx={{
-    textAlign: "center",
-    "&:hover": {
-      backgroundColor: "rgba(255, 255, 255, 0.2)", 
-    },
-  }} 
-  component={Link} 
-  to="/" 
-  onClick={() => setOpen(false)} // بستن منو هنگام کلیک
->
-  <ListItemText primary="صفحه اصلی" sx={{ color: "white" }} />
-</ListItem>
+            {/* آیتم‌های اصلی */}
+            <div>
+              <ListItem
+                sx={{
+                  textAlign: "center",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                  },
+                }}
+                component={Link}
+                to="/"
+                onClick={() => setOpen(false)}
+              >
+                <ListItemText primary="صفحه اصلی" sx={{ color: "white" }} />
+              </ListItem>
 
-<Divider sx={{ backgroundColor: "white" }} />
+              <Divider sx={{ backgroundColor: "white" }} />
 
-<ListItem 
-  sx={{
-    textAlign: "center",
-    "&:hover": {
-      backgroundColor: "rgba(255, 255, 255, 0.2)", 
-    },
-  }} 
-  component={Link} 
-  to="/AdminPanel/adduser" 
-  onClick={() => setOpen(false)} // بستن منو هنگام کلیک
->
-  <ListItemText primary="افزودن کاربر" sx={{ color: "white" }} />
-</ListItem>
+              <ListItem
+                sx={{
+                  textAlign: "center",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                  },
+                }}
+                component={Link}
+                to="/AdminPanel/adduser"
+                onClick={() => setOpen(false)}
+              >
+                <ListItemText primary="افزودن کاربر" sx={{ color: "white" }} />
+              </ListItem>
 
-<Divider sx={{ backgroundColor: "white" }} />
+              <Divider sx={{ backgroundColor: "white" }} />
 
-<ListItem 
-  sx={{
-    textAlign: "center",
-    "&:hover": {
-      backgroundColor: "rgba(255, 255, 255, 0.2)", 
-    },
-  }} 
-  component={Link} 
-  to="/AdminPanel/listuser" 
-  onClick={() => setOpen(false)} // بستن منو هنگام کلیک
->
-  <ListItemText primary="لیست کاربران" sx={{ color: "white" }} />
-</ListItem>
+              <ListItem
+                sx={{
+                  textAlign: "center",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                  },
+                }}
+                component={Link}
+                to="/AdminPanel/listuser"
+                onClick={() => setOpen(false)}
+              >
+                <ListItemText primary="لیست کاربران" sx={{ color: "white" }} />
+              </ListItem>
+            </div>
 
-      
+            {/* آیتم پایین منو */}
+            <div>
+              <Divider sx={{ backgroundColor: "white" }} />
+              <ListItem
+                sx={{
+                  font: "bold",
+                  textAlign: "center",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                  },
+                }}
+                onClick={() => setOpen(false)}
+              >
+                <ListItemText primary="احسان مددی" sx={{ color: "white" }} />
+              </ListItem>
+            </div>
           </List>
         </Drawer>
       </div>

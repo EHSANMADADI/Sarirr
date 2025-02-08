@@ -4,18 +4,18 @@
 }
 
 .sr-card {
-    padding: 20px;
+    padding: 17px;
     background-color: white;
-    border-radius: 20px;
-    box-shadow: 2px 2px 5px rgb(121, 121, 121);
+    border-radius: 17px;
+    box-shadow: 1px 1px 5px rgb(121, 121, 121);
 }
 
 .sr-card-container {
     width: 100%; 
     height: 100%;
 
-    border: 2px dotted rgb(13, 13, 163);
-    border-radius: 20px;
+    /* border: 2px dotted rgb(13, 13, 163);
+    border-radius: 20px; */
 
     display: flex;
     align-content: center;
@@ -25,6 +25,7 @@
 }
 
 .sr-card-field{
-    border: 1px solid #47474763;
+    /* border: 1px solid #47474763; */
     border-radius: 8px;
+    box-shadow: 0px 0px 3px rgb(175, 175, 175);
 }

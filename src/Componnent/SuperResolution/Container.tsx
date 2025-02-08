@@ -17,7 +17,7 @@ export function Card({ width, height, children, ...props }: CardProp) {
   return (
     <div
       {...props}
-      className={"sr-card m-2 " + props.className}
+      className={"sr-card m-2 " + (props.className || "")}
       style={{
         width,
         height,
@@ -30,8 +30,7 @@ export function Card({ width, height, children, ...props }: CardProp) {
 
 const CardDefault = (props: CardProp) => (
   <Card {...props}>
-    {" "}
-    <img src="/icon/NoPhoto.png" />{" "}
+    <img src="/icon/NoPhoto.png" />
   </Card>
 );
 
@@ -60,7 +59,7 @@ export default function Container() {
     });
 
     if (!result) {
-      alert("دریافت عکس ها با شکست مواجه شد.");
+      alert("دریافت عکس‌ها با شکست مواجه شد.");
       return;
     }
 
@@ -68,23 +67,18 @@ export default function Container() {
   };
 
   const handleDownloadAll = async () => {
-    if (!imagePaths)
-      return;
+    if (!imagePaths || !imagePaths.zipFile) return;
 
     download(imagePaths.zipFile, {
-      internalDownload: false
-    })
-  }
+      internalDownload: false,
+    });
+  };
 
   return (
     <div dir="rtl" className="sr-container m-auto">
       <div className="flex flex-wrap xl:justify-between justify-center">
         <Card width="550px" height="350px" className="max-w-full">
-          <input
-            type="file"
-            multiple={false}
-            onChange={handleImageChange}
-          ></input>
+          <input type="file" multiple={false} onChange={handleImageChange} />
         </Card>
         <Card width="550px" height="350px" className="max-w-full">
           <div className="flex w-full h-full justify-center items-center flex-wrap">
@@ -93,21 +87,19 @@ export default function Container() {
                 disabled
                 className="w-full bg-gray-400"
                 style={{
-                  // backgroundColor: "#184193",
                   color: "white",
                   borderRadius: "15px",
                   height: "60px",
                   textAlign: "center",
                 }}
               >
-                {" "}
-                تنظیمات مدل و قیاس افزایش سایز{" "}
+                تنظیمات مدل و قیاس افزایش سایز
               </button>
             </div>
 
             <div className="flex flex-wrap items-center w-full justify-around">
               <div className="w-2/6 bg-gray-400 p-1 rounded">
-                <span>بزرگ نمایی:</span>
+                <span>بزرگ‌نمایی:</span>
                 <select disabled>
                   <option>مقدار 1</option>
                   <option>مقدار 2</option>
@@ -117,16 +109,14 @@ export default function Container() {
 
               <div className="sr-card-field w-3/6 flex items-center p-2">
                 <span>شباهت</span>
-                <span>
-                  <input
-                    type="range"
-                    onChange={(e) => setFidelity(parseFloat(e.target.value))}
-                    value={fidelity}
-                    step={0.1}
-                    min={0}
-                    max={1}
-                  />
-                </span>
+                <input
+                  type="range"
+                  onChange={(e) => setFidelity(parseFloat(e.target.value))}
+                  value={fidelity}
+                  step={0.1}
+                  min={0}
+                  max={1}
+                />
                 <span>کیفیت</span>
               </div>
             </div>
@@ -143,7 +133,6 @@ export default function Container() {
                   textAlign: "center",
                 }}
               >
-                {" "}
                 تایید / انجام عملیات
               </button>
             </div>
@@ -151,43 +140,43 @@ export default function Container() {
         </Card>
       </div>
 
-
-
       <div className="flex flex-col">
-        {!imagePaths?.final ? null : (
+        {imagePaths?.final && (
           <>
             <hr className="m-3" />
-            <button onClick={handleDownloadAll} className="px-3 py-2 bg-green-700 text-white rounded w-1/2">دانلود همه تصاویر</button>
+            <button
+              onClick={handleDownloadAll}
+              className="px-3 py-2 bg-green-700 text-white rounded w-1/2"
+            >
+              دانلود همه تصاویر
+            </button>
             <h2 className="font-black text-2xl mb-3">عکس نهایی</h2>
             <Card
               width="100%"
               height="100%"
               style={{
-                maxWidht: "100%",
+                maxWidth: "100%",
                 maxHeight: "50vh",
                 borderRadius: "20px",
               }}
             >
-              <img src={imagePaths?.final} />
+              <img src={imagePaths.final} />
             </Card>
           </>
         )}
 
-        {!imagePaths?.parts.length ? null : (
+        {imagePaths && Array.isArray(imagePaths.parts) && imagePaths.parts.length > 0 && (
           <>
             <hr className="m-3" />
-            <h2 className="font-black text-2xl mb-3">صورت های داخل تصویر</h2>
+            <h2 className="font-black text-2xl mb-3">صورت‌های داخل تصویر</h2>
             <div className="flex flex-wrap justify-between">
-              {imagePaths?.parts.map((path) =>
-                (<OutputImageCard imageUrl={path} />)
-              )}
+              {imagePaths.parts.map((path, index) => (
+                <OutputImageCard key={index} imageUrl={path} />
+              ))}
             </div>
           </>
         )}
-
       </div>
     </div>
   );
 }
-
-

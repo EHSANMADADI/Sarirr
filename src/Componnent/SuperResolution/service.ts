@@ -3,9 +3,9 @@ import api from "../../Config/api";
 type ImageReq = { fidelity: number; image: File };
 
 export type SRImagesAddresses = {
-  zipFile: string;
+  zipFile?: string;
   final: string;
-  parts: string[];
+  parts?: string[];
 };
 
 
@@ -44,20 +44,6 @@ function mapToServerAddress(path: string): string {
   return result
 }
 
-async function getFile(url: string, name?: string) {
-  let response = await fetch(url);
-  let data = await response.blob();
-
-  name ??= 'unititled.' + data.type.split('/').slice(-1);
-
-  let options = {
-    type: data.type //'image/jpeg'
-  }
-
-  let file = new File([data], name, options)
-
-  return file
-}
 
 
 function mapSrResponseToSrImages(res: any): SRImagesAddresses | null {
@@ -97,13 +83,13 @@ export async function getSRFaces({
   return mapSrResponseToSrImages(res);
 }
 
-export async function getSRFacesWithNature(image: File): Promise<SRImagesAddresses | null> {
+export async function getSRFaceAndScene(image: File): Promise<SRImagesAddresses | null> {
   let data = new FormData();
 
   console.log("image", image);
   data.append("image", image);
 
-  let response = await api.post("/restore", data, {
+  let response = await api.post("/gfgpan", data, {
     headers: { "Content-Type": "multipart/form-data" },
   });
   let res = await response?.data
@@ -111,7 +97,7 @@ export async function getSRFacesWithNature(image: File): Promise<SRImagesAddress
   return mapSrResponseToSrImages(res);
 }
 
-export async function getSRNature(image: File): Promise<string | null> {
+export async function getSRScene(image: File): Promise<string | null> {
 
   let data = new FormData();
 
@@ -128,6 +114,22 @@ export async function getSRNature(image: File): Promise<string | null> {
   let result = mapToServerAddress(res?.folder_name);
   return result;
 }
+
+export async function getFile(url: string, name?: string) {
+  let response = await fetch(url);
+  let data = await response.blob();
+
+  name ??= 'unititled.' + data.type.split('/').slice(-1);
+
+  let options = {
+    type: data.type //'image/jpeg'
+  }
+
+  let file = new File([data], name, options)
+
+  return file
+}
+
 
 export async function download(url: string,
   options: { name?: string, internalDownload?: boolean }) {
@@ -150,9 +152,6 @@ export async function download(url: string,
     link.href = url;
   }
 
-
-  // document.body.appendChild(link);
   link.click();
-  // document.body.removeChild(link);
 }
 
