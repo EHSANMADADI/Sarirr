@@ -51,7 +51,7 @@ export default function BodyContainer() {
         key={1}
         bgClassName="bg-photoTranslator"
       />
-       <ItemsComponnets
+      <ItemsComponnets
         id={6}
         title="super resolution"
         discription="ابزار بهبود کیفیت تصاویر"
@@ -75,13 +75,21 @@ export default function BodyContainer() {
         key={1}
         bgClassName="bg-descreiption"
       />
-       <ItemsComponnets
+      <ItemsComponnets
         id={9}
         title="LLMUI"
         discription="رابط کاربری مدل های زبانی با قابلیت های متنوع"
         link="/LLMUI"
         key={1}
         bgClassName="bg-llmui"
+      />
+      <ItemsComponnets
+        id={10}
+        title="گیتی نما"
+        discription="تشخیص مکان یک تصویر با فناوری هوش مصنوعی"
+        link="/gitinama"
+        key={1}
+        bgClassName="bg-gitinama"
       />
     </div>
   );

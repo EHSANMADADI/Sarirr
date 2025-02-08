@@ -16,6 +16,7 @@ import SignIn from "./Page/SignIn";
 import AdminPanel from "./Page/AdminPanel";
 import AddUser from "./Componnent/AdminPanel/AddUser";
 import ListUser from "./Componnent/AdminPanel/ListUser";
+import Gitinam from "./Page/Gitinam";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Routes>
       <Route path="/signIn" element={<SignIn />} />
         <Route path="/" element={<FerstPage />} />
+        <Route path="/gitinama" element={<Gitinam />} />
         <Route path="/ASR" element={<ASRPage />} />
         <Route path="/VAD" element={<VADPage />} />
         <Route path="/SpeechEnhancement" element={<SpeechEnhancementPage />} />
@@ -36,6 +38,7 @@ function App() {
         <Route index element={<h1>صفحه اصلی</h1>} />
         <Route path="adduser" element={<AddUser />} />
         <Route path="listuser" element={<ListUser />} />
+       
         </Route>
       </Routes>
     </BrowserRouter>

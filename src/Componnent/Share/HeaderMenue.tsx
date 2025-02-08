@@ -98,6 +98,12 @@ export default function HeaderMenu() {
           >
             ترجمه
           </span>
+          <span
+            onClick={() => handlePageChange("/gitinama")}
+            className="font-semibold md:text-lg text-sm mx-3 cursor-pointer hover:bg-gray-200 duration-200 lg:border-none border-b-2  lg:w-auto w-full items-center p-5 lg:p-4 rounded-md flex justify-center"
+          >
+            گیتی نما
+          </span>
 
           {/* Dropdowns */}
           <Dropdown
