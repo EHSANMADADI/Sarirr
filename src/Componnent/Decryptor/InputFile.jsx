@@ -48,7 +48,7 @@ export default function InputFile({ setFiles, setError }) {
   return (
     <div className="md:w-1/2 w-full mx-auto max-h-full  flex justify-center">
       <div className="flex items-center w-full flex-col justify-center">
-        <div className="w-full flex flex-col border-2 border-gray-300 border-dashed h-[70vh] my-20 justify-center rounded-lg">
+        <div className="w-full flex flex-col border-2 border-gray-300 border-dashed h-[32rem] my-20 justify-center rounded-lg">
           <label
             htmlFor="dropzone-file"
             className="flex flex-col items-center justify-center w-full cursor-pointer"
