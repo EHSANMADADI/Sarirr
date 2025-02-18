@@ -7,7 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 export default function TranslatorBody() {
   const [selectedLanguage, setSelectedLanguage] = useState("English"); // ذخیره زبان انتخاب‌شده
   const ListLanguage = [
-    "Persian",
+    "فارسی",
     "Hebrew",
     "Arabic",
     "English",
@@ -47,7 +47,7 @@ export default function TranslatorBody() {
           },
         ],
       })
-      .then((res) => {
+      .then((res) => {  
         console.log(res.data);
 
         let content = res.data?.choices[0].message.content
