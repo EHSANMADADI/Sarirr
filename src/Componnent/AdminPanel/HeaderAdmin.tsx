@@ -21,10 +21,10 @@ export default function HeaderAdmin() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1,color:"black" }}>
       <AppBar
         position="static"
-        sx={{ backgroundColor: "#1877F2", padding: "5px" }}
+        sx={{ backgroundColor: "#f7f7f7", padding: "5px" }}
       >
         <Toolbar>
           <div className="flex items-center justify-between w-full">
@@ -32,7 +32,7 @@ export default function HeaderAdmin() {
               className="font-nastaliq"
               variant="h3"
               component="div"
-              sx={{ flexGrow: 1, fontFamily: "nastaliq" }}
+              sx={{ flexGrow: 1, fontFamily: "nastaliq",color: "#2254a3" }}
             >
               سریر
             </Typography>
@@ -40,7 +40,7 @@ export default function HeaderAdmin() {
             <IconButton
               size="large"
               edge="start"
-              color="inherit"
+             
               aria-label="menu"
               sx={{ mr: 2 }}
               onClick={toggleDrawer}
@@ -60,7 +60,7 @@ export default function HeaderAdmin() {
           sx={{
             "& .MuiDrawer-paper": {
               width: 250,
-              backgroundColor: "#6CB4EE",
+              backgroundColor: "#f7f7f7",
               textAlign: "center",
               display: "flex",
               flexDirection: "column",
@@ -81,65 +81,66 @@ export default function HeaderAdmin() {
             <div>
               <ListItem
                 sx={{
+                  color:"black",
                   textAlign: "center",
                   "&:hover": {
-                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                    backgroundColor: "rgba(255, 255, 255, 0.9)",
                   },
                 }}
                 component={Link}
                 to="/"
                 onClick={() => setOpen(false)}
               >
-                <ListItemText primary="صفحه اصلی" sx={{ color: "white" }} />
+                <ListItemText primary="صفحه اصلی" sx={{ color: "black" }} />
               </ListItem>
 
-              <Divider sx={{ backgroundColor: "white" }} />
+              <Divider sx={{ backgroundColor: "gray" }} />
 
               <ListItem
                 sx={{
                   textAlign: "center",
                   "&:hover": {
-                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                    backgroundColor: "rgba(255, 255, 255, 0.9)",
                   },
                 }}
                 component={Link}
                 to="/AdminPanel/adduser"
                 onClick={() => setOpen(false)}
               >
-                <ListItemText primary="افزودن کاربر" sx={{ color: "white" }} />
+                <ListItemText primary="افزودن کاربر" sx={{ color: "black" }} />
               </ListItem>
 
-              <Divider sx={{ backgroundColor: "white" }} />
+              <Divider sx={{ backgroundColor: "gray" }} />
 
               <ListItem
                 sx={{
                   textAlign: "center",
                   "&:hover": {
-                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                    backgroundColor: "rgba(255, 255, 255, 0.9)",
                   },
                 }}
                 component={Link}
                 to="/AdminPanel/listuser"
                 onClick={() => setOpen(false)}
               >
-                <ListItemText primary="لیست کاربران" sx={{ color: "white" }} />
+                <ListItemText primary="لیست کاربران" sx={{ color: "black" }} />
               </ListItem>
             </div>
 
             {/* آیتم پایین منو */}
             <div>
-              <Divider sx={{ backgroundColor: "white" }} />
+              <Divider sx={{ backgroundColor: "gray" }} />
               <ListItem
                 sx={{
                   font: "bold",
                   textAlign: "center",
                   "&:hover": {
-                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                    backgroundColor: "rgba(255, 255, 255, 0.6)",
                   },
                 }}
                 onClick={() => setOpen(false)}
               >
-                <ListItemText primary="احسان مددی" sx={{ color: "white" }} />
+                <ListItemText primary="احسان مددی" sx={{ color: "black" }} />
               </ListItem>
             </div>
           </List>

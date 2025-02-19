@@ -8,10 +8,10 @@ export default function AdminPanelComponnent() {
   return (
     <>
       {IsAdmin && (
-        <>
+        <div className="bg-blue-50 w-full h-screen">
           <HeaderAdmin />
           <Outlet />
-        </>
+        </div>
       )}
       {
         !IsAdmin &&(
