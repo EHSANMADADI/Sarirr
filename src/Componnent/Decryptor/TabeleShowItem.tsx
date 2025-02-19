@@ -37,7 +37,7 @@ export default function TabeleShowItem({ saveItems, setSaveItems }: ItemTable) {
   const startProgress = async (index: number) => {
     try {
       // وضعیت loading برای فایل انتخاب‌شده به true تغییر می‌کند
-      setLoadingStates((prev) =>
+      setLoadingStates((prev) => 
         prev.map((state, i) => (i === index ? true : state))
       );
 

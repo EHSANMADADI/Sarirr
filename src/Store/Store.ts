@@ -32,7 +32,7 @@ interface RecordingState {
 }
 
 export const useStore = create<RecordingState>((set) => ({
-  IsAdmin: false,
+  IsAdmin: true,
   setIsAdmin: (value: boolean) => set(() => ({ IsAdmin: value })),
 
   ///////////////

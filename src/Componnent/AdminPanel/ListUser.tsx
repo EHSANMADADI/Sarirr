@@ -17,6 +17,7 @@ import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Delete, Block, RestartAlt, Search } from "@mui/icons-material";
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 interface User {
   id: number;
@@ -41,8 +42,26 @@ const ListUser: React.FC = () => {
   };
 
   const handleDelete = (id: number) => {
-    setUsers((prev) => prev.filter((user) => user.id !== id));
+    Swal.fire({
+      title: "آیا مطمئن هستید؟",
+      text: "این عملیات قابل بازگشت نیست!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "بله، حذف کن",
+      cancelButtonText: "لغو",
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setUsers((prev) => prev.filter((user) => user.id !== id));
+        Swal.fire({
+          text: "کاربر با موفقیت حذف شد",
+          icon: "success"
+        });
+      }
+    });
   };
+  
   console.log(users);
 
   const handleBan = (id: number) => {
