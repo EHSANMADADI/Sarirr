@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { TextField, Button, Container, Typography, Box, Divider } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Container,
+  Typography,
+  Box,
+  Divider,
+} from "@mui/material";
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
 import { styled } from "@mui/material/styles";
@@ -10,12 +17,14 @@ interface FormData {
   lastName: string;
   email: string;
   password: string;
+  userName: string;
 }
 
 export default function AddUser() {
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
+    userName: "",
     email: "",
     password: "",
   });
@@ -32,6 +41,7 @@ export default function AddUser() {
 
     if (!formData.firstName) tempErrors.firstName = "نام الزامی است";
     if (!formData.lastName) tempErrors.lastName = "نام خانوادگی الزامی است";
+    if (!formData.userName) tempErrors.userName = "نام کاربری الزامی میباشد";
     if (!formData.email) {
       tempErrors.email = "ایمیل الزامی است";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
@@ -110,7 +120,18 @@ export default function AddUser() {
                   error={!!errors.lastName}
                   helperText={errors.lastName}
                   margin="normal"
-                   variant="filled"
+                  variant="filled"
+                />
+                <TextField
+                  fullWidth
+                  label="نام کاربری"
+                  name="username"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  error={!!errors.userName}
+                  helperText={errors.userName}
+                  margin="normal"
+                  variant="filled"
                 />
                 <TextField
                   fullWidth
@@ -122,7 +143,7 @@ export default function AddUser() {
                   error={!!errors.email}
                   helperText={errors.email}
                   margin="normal"
-                   variant="filled"
+                  variant="filled"
                 />
                 <TextField
                   fullWidth
@@ -134,7 +155,7 @@ export default function AddUser() {
                   error={!!errors.password}
                   helperText={errors.password}
                   margin="normal"
-                   variant="filled"
+                  variant="filled"
                 />
                 <Button
                   type="submit"
