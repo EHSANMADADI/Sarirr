@@ -19,7 +19,7 @@ export default function TextEreaUser() {
     setResult("");
     const txt = text + "به فارسی ترجمه کن";
     axios
-      .post("http://127.0.0.1:17016/v1/chat/completions", {
+      .post("http://109.230.90.198:17016/v1/chat/completions", {
         model:'aya-23-8b:2',
         messages: [
           {

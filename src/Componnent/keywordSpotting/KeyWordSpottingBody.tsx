@@ -142,7 +142,7 @@ export default function KeyWordSpottingBody() {
     });
     // Send files to server
     axios
-      .post("http://195.191.45.56:17010/process", formdata, {
+      .post("http://109.230.90.198:18017/process", formdata, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

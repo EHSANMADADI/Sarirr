@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/iframe-has-title */
 import React, { useState, useEffect, useRef } from 'react';
 import Modal from '../Share/Modal';
 import InputMultiple from './InputMultiple';
@@ -7,16 +8,33 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 import { useStore } from '../../Store/Store';
 import { FaCheckCircle } from 'react-icons/fa';
 import UploadMultipleFiles from './UploadMultipleFiles.jsx';
-import { FaDownload } from 'react-icons/fa6';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 import axios from 'axios';
 import { FaRegFilePdf } from "react-icons/fa";
-import api from '../../Config/api';
+// import api from '../../Config/api';
 import { FaAngleDown } from "react-icons/fa6";
 import { Dropdown, DropdownItem } from "flowbite-react";
 import { RiFileExcel2Line } from "react-icons/ri";
 import { AiFillFileWord } from "react-icons/ai";
+// // import { useStore } from '../../Store/Store';
+// import { Worker } from '@react-pdf-viewer/core';
+// // Import the main Viewer component
+// import { Viewer } from '@react-pdf-viewer/core';
+// // Import the styles
+// import '@react-pdf-viewer/core/lib/styles/index.css';
+// // default layout plugin
+// import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+// // Import styles of default layout plugin
+// import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+// import { Document, Page, pdfjs } from 'react-pdf';
+// import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+// import 'react-pdf/dist/esm/Page/TextLayer.css';
+
+// // استفاده از worker به صورت ماژول محلی
+// import pdfWorker from 'pdfjs-dist/build/pdf.worker.entry';
+
+// pdfjs.GlobalWorkerOptions.workerSrc = pdfWorker;
 export default function Multipel() {
     const [files, setFiles] = useState(null);
     const [error, setError] = useState('');
@@ -26,9 +44,11 @@ export default function Multipel() {
     const [isDownloadExcell, setIsDownloadExcell] = useState([]);
     const [isDownloadPdf, setIsDownloadPdf] = useState([]);
     const [isDownloadWord, setIsDownloadWord] = useState([]);
-    const[disabled, setDisabled] = useState(false)
+    const [disabled, setDisabled] = useState(false)
     console.log("multiple files", files);
     const hasSaved = useRef(false);
+    // const defaultLayoutPluginInstance = defaultLayoutPlugin();
+
 
     useEffect(() => {
         if (allFilesUploaded && !hasSaved.current) {
@@ -53,9 +73,16 @@ export default function Multipel() {
             }
         }
         getSavedItems();
+
     }, []);
 
+
+
     const { setShowBTN, ChangeIndexMultiple } = useStore();
+    // const pdfFileUrl = localStorage.getItem('pdfFileUrl')
+
+
+
 
     const handelremove = (id) => {
         const updatedItems = saveItems.filter((_, i) => i !== id);
@@ -101,8 +128,28 @@ export default function Multipel() {
                 let excelBlob = null;
 
                 // دریافت فایل اکسل تا زمانی که پردازش تمام شود
+                // while (isProcessing) {
+                //     const response = await api.post(
+                //         '/download_excel',
+                //         { document_url: url_document }
+                //     );
+
+                //     if (response.data.state === "processing") {
+                //         console.log(response.data.state);
+                //         await new Promise((resolve) => setTimeout(resolve, 3000));
+                //     } else {
+                //         const res = await api.post(
+                //             '/download_excel',
+                //             { document_url: url_document },
+                //             { responseType: 'blob' }
+                //         );
+                //         console.log('excel file received');
+                //         excelBlob = res.data;
+                //         isProcessing = false;
+                //     }
+                // }
                 while (isProcessing) {
-                    const response = await api.post(
+                    const response = await axios.post(
                         '/download_excel',
                         { document_url: url_document }
                     );
@@ -111,7 +158,7 @@ export default function Multipel() {
                         console.log(response.data.state);
                         await new Promise((resolve) => setTimeout(resolve, 3000));
                     } else {
-                        const res = await api.post(
+                        const res = await axios.post(
                             '/download_excel',
                             { document_url: url_document },
                             { responseType: 'blob' }
@@ -122,27 +169,56 @@ export default function Multipel() {
                     }
                 }
 
+                //     if (excelBlob) {
+                //         const formData = new FormData();
+                //         formData.append('file', excelBlob, 'uploaded_file.xlsx');
+
+                //         // بارگذاری فایل اکسل به سرور
+                //         const responseUpload = await api.post(
+                //             '/api/upload',
+                //             formData,
+                //             { headers: { 'Content-Type': 'multipart/form-data' } }
+                //         );
+
+                //         if (responseUpload.status === 200) {
+                //             const res = await api.post(
+                //                 '/api/extract',
+                //                 { file_path: responseUpload.data.file_path },
+                //                 { headers: { 'Content-Type': 'application/json' } }
+                //             );
+
+                //             if (res.status === 200) {
+                //                 const fileUrl = `http://109.230.90.198:17017//api/download/${res.data.output_file}`;
+                //                 const fileResponse = await api.get(`/api/download/${res.data.output_file}`, { responseType: 'blob' });
+
+                //                 // اضافه کردن فایل اکسل به زیپ
+                //                 const fileName = res.data.output_file; // نام پیش‌فرض فایل دانلودی
+                //                 zip.file(fileName, fileResponse.data);
+                //             }
+                //         }
+                //     }
+                // }
                 if (excelBlob) {
                     const formData = new FormData();
                     formData.append('file', excelBlob, 'uploaded_file.xlsx');
 
                     // بارگذاری فایل اکسل به سرور
-                    const responseUpload = await api.post(
-                        '/api/upload',
+                    const responseUpload = await axios.post(
+                        'http://109.230.90.198:17017/api/upload',
                         formData,
                         { headers: { 'Content-Type': 'multipart/form-data' } }
                     );
 
                     if (responseUpload.status === 200) {
-                        const res = await api.post(
-                            '/api/extract',
+                        const res = await axios.post(
+                            'http://109.230.90.198:17017/api/extract',
                             { file_path: responseUpload.data.file_path },
                             { headers: { 'Content-Type': 'application/json' } }
                         );
 
                         if (res.status === 200) {
-                            const fileUrl = `http://192.168.4.177:17017/api/download/${res.data.output_file}`;
-                            const fileResponse = await api.get(`/api/download/${res.data.output_file}`, { responseType: 'blob' });
+                            const fileUrl = `http://109.230.90.198:17017/api/download/${res.data.output_file}`;
+                            const fileResponse = await axios.get(`http://109.230.90.198:17017/api/download/${res.data.output_file}`, { responseType: 'blob' });
 
                             // اضافه کردن فایل اکسل به زیپ
                             const fileName = res.data.output_file; // نام پیش‌فرض فایل دانلودی
@@ -187,9 +263,29 @@ export default function Multipel() {
                 let excelBlob = null;
 
                 // دریافت فایل اکسل تا زمانی که پردازش تمام شود
+                // while (isProcessing) {
+                //     const response = await api.post(
+                //         '/download_excel',
+                //         { document_url: url_document }
+                //     );
+
+                //     if (response.data.state === "processing") {
+                //         console.log(response.data.state);
+                //         await new Promise((resolve) => setTimeout(resolve, 3000));
+                //     } else {
+                //         const res = await api.post(
+                //             '/download_excel',
+                //             { document_url: url_document },
+                //             { responseType: 'blob' }
+                //         );
+                //         console.log('excel file received');
+                //         excelBlob = res.data;
+                //         isProcessing = false;
+                //     }
+                // }
                 while (isProcessing) {
-                    const response = await api.post(
-                        '/download_excel',
+                    const response = await axios.post(
+                        'http://109.230.90.198:17017/download_excel',
                         { document_url: url_document }
                     );
 
@@ -197,8 +293,8 @@ export default function Multipel() {
                         console.log(response.data.state);
                         await new Promise((resolve) => setTimeout(resolve, 3000));
                     } else {
-                        const res = await api.post(
-                            '/download_excel',
+                        const res = await axios.post(
+                            'http://109.230.90.198:17017/download_excel',
                             { document_url: url_document },
                             { responseType: 'blob' }
                         );
@@ -252,9 +348,33 @@ export default function Multipel() {
                 let pdfBlob = null;
 
                 // دریافت فایل PDF تا زمانی که پردازش تمام شود
+                // while (isProcessing) {
+                //     const response = await api.post(
+                //         '/download_pdf',
+                //         { document_url: url_document }
+                //     );
+
+                //     if (response.data.state === "processing") {
+                //         console.log(response.data.state);
+                //         await new Promise((resolve) => setTimeout(resolve, 3000));
+                //     } else {
+                //         const res = await api.post(
+                //             '/download_pdf',
+                //             { document_url: url_document },
+                //             { responseType: 'blob' }
+                //         );
+                //         console.log('PDF file received');
+                //         pdfBlob = res.data;
+                //         isProcessing = false;
+
+                //         // اضافه کردن فایل به ZIP
+                //         const fileName = `file_${itemIndex + 1}.pdf`; // نام فایل
+                //         zip.file(fileName, pdfBlob); // اضافه کردن فایل به ZIP
+                //     }
+                // }
                 while (isProcessing) {
-                    const response = await api.post(
-                        '/download_pdf',
+                    const response = await axios.post(
+                        'http://109.230.90.198:17017/download_pdf',
                         { document_url: url_document }
                     );
 
@@ -262,8 +382,8 @@ export default function Multipel() {
                         console.log(response.data.state);
                         await new Promise((resolve) => setTimeout(resolve, 3000));
                     } else {
-                        const res = await api.post(
-                            '/download_pdf',
+                        const res = await axios.post(
+                            'http://109.230.90.198:17017/download_pdf',
                             { document_url: url_document },
                             { responseType: 'blob' }
                         );
@@ -315,9 +435,33 @@ export default function Multipel() {
                 let wordBlob = null;
 
                 // دریافت فایل PDF تا زمانی که پردازش تمام شود
+                // while (isProcessing) {
+                //     const response = await api.post(
+                //         '/download_word',
+                //         { document_url: url_document }
+                //     );
+
+                //     if (response.data.state === "processing") {
+                //         console.log(response.data.state);
+                //         await new Promise((resolve) => setTimeout(resolve, 3000));
+                //     } else {
+                //         const res = await api.post(
+                //             '/download_word',
+                //             { document_url: url_document },
+                //             { responseType: 'blob' }
+                //         );
+                //         console.log('word file received');
+                //         wordBlob = res.data;
+                //         isProcessing = false;
+
+                //         // اضافه کردن فایل به ZIP
+                //         const fileName = `file_${itemIndex + 1}.doc`; // نام فایل
+                //         zip.file(fileName, wordBlob); // اضافه کردن فایل به ZIP
+                //     }
+                // }
                 while (isProcessing) {
-                    const response = await api.post(
-                        '/download_word',
+                    const response = await axios.post(
+                        'http://109.230.90.198:17017/download_word',
                         { document_url: url_document }
                     );
 
@@ -325,8 +469,8 @@ export default function Multipel() {
                         console.log(response.data.state);
                         await new Promise((resolve) => setTimeout(resolve, 3000));
                     } else {
-                        const res = await api.post(
-                            '/download_word',
+                        const res = await axios.post(
+                            'http://109.230.90.198:17017/download_word',
                             { document_url: url_document },
                             { responseType: 'blob' }
                         );
@@ -442,13 +586,13 @@ export default function Multipel() {
                                                     )}
                                                 >
                                                     <DropdownItem onClick={() => (index)}>
-                                                    <button
+                                                        <button
                                                             className='border-none rounded-md border-2 md:px-4 px-2 pt-1 pb-2 mx-2 sm:text-xl text-xs font-semibold text-center flex items-center hover:scale-105 duration-200'
                                                             onClick={() => handelDownloadExcellDB(index)}
                                                             disabled={isDownloadExcell[index]}
                                                         >
                                                             <span className='text-center mr-2 text-xl text-green-700'>
-                                                                < RiFileExcel2Line/>
+                                                                < RiFileExcel2Line />
                                                             </span>
                                                             {isDownloadExcell[index] ? (<span className='text-sm'>صبر کنید</span>) : (<span>DB excell</span>)}
 
@@ -461,7 +605,7 @@ export default function Multipel() {
                                                             disabled={isDownloadPdf[index]}
                                                         >
                                                             <span className='text-center mr-2 text-xl text-green-700'>
-                                                                < RiFileExcel2Line/>
+                                                                < RiFileExcel2Line />
                                                             </span>
                                                             {isDownloadExcell[index] ? (<span className='text-sm'>صبر کنید</span>) : (<span>Alefba excell</span>)}
 
@@ -505,19 +649,37 @@ export default function Multipel() {
                                                 onClose={() => handleModalClose(index)}
                                             >
                                                 <div key={i} className="flex md:flex-row flex-col h-full">
-                                                    <div dir='rtl' className="md:w-1/2 w-full overflow-x-auto max-h-[80vh] p-2">
-                                                        <div className={`grid grid-cols-1 gap-1 md:grid-cols-2 xl:grid-cols-${Math.ceil(itemArray.length - 1 / 2)}`}>
-                                                            {itemArray.map((detail, index) => (
-                                                                <div key={index} className="relative w-full">
-                                                                    <img
-                                                                        className="w-full h-auto  object-cover rounded-lg"
-                                                                        src={detail.src}
-                                                                        alt={`detail-${index}`}
-                                                                    />
+                                                    {
+
+
+                                                        (file.isPdf) ? (
+                                                            <div className='pdf md:w-1/2 w-full overflow-x-auto max-h-[80vh] '>
+                                                                <iframe
+                                                                    src={file.src}
+                                                                    title="PDF Preview"
+                                                                    width="100%"
+                                                                    height="100%"
+                                                                    className="border rounded"
+                                                                ></iframe>
+                                                              
+                                                            </div>
+                                                        ) : (
+                                                            <div dir='rtl' className="md:w-1/2 w-full overflow-x-auto max-h-[80vh] p-2">
+                                                                <div className={`grid grid-cols-1 gap-1 md:grid-cols-2 xl:grid-cols-${Math.ceil(itemArray.length - 1 / 2)}`}>
+                                                                    {itemArray.map((detail, index) => (
+                                                                        <div key={index} className="relative w-full">
+                                                                            <img
+                                                                                className="w-full h-auto  object-cover rounded-lg"
+                                                                                src={detail.src}
+                                                                                alt={`detail-${index}`}
+                                                                            />
+                                                                        </div>
+                                                                    ))}
                                                                 </div>
-                                                            ))}
-                                                        </div>
-                                                    </div>
+                                                            </div>
+                                                        )
+                                                    }
+
 
                                                     <div dir="rtl" className="md:w-1/2 w-full md:p-4 p-2 bg-gray-50 overflow-auto max-h-[80vh]">
                                                         <p className="text-2xl font-black leading-8">

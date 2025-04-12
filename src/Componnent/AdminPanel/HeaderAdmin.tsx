@@ -11,6 +11,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { Divider } from "@mui/material";
 import { Link } from "react-router-dom";
+
 import { IoPersonCircleOutline } from "react-icons/io5";
 export default function HeaderAdmin() {
   const [open, setOpen] = React.useState(false);
@@ -21,7 +22,7 @@ export default function HeaderAdmin() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1,color:"black" }}>
+    <Box sx={{ flexGrow: 1, color: "black" }}>
       <AppBar
         position="static"
         sx={{ backgroundColor: "#f7f7f7", padding: "5px" }}
@@ -32,7 +33,7 @@ export default function HeaderAdmin() {
               className="font-nastaliq"
               variant="h3"
               component="div"
-              sx={{ flexGrow: 1, fontFamily: "nastaliq",color: "#2254a3" }}
+              sx={{ flexGrow: 1, fontFamily: "nastaliq", color: "#2254a3" }}
             >
               سریر
             </Typography>
@@ -40,7 +41,6 @@ export default function HeaderAdmin() {
             <IconButton
               size="large"
               edge="start"
-             
               aria-label="menu"
               sx={{ mr: 2 }}
               onClick={toggleDrawer}
@@ -81,7 +81,7 @@ export default function HeaderAdmin() {
             <div>
               <ListItem
                 sx={{
-                  color:"black",
+                  color: "black",
                   textAlign: "center",
                   "&:hover": {
                     backgroundColor: "rgba(255, 255, 255, 0.9)",
@@ -129,18 +129,32 @@ export default function HeaderAdmin() {
 
             {/* آیتم پایین منو */}
             <div>
-              <Divider sx={{ backgroundColor: "gray" }} />
+              <Divider
+                sx={{
+                  backgroundColor: "gray",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignContent:"center",
+                  
+                }}
+              />
               <ListItem
                 sx={{
                   font: "bold",
-                  textAlign: "center",
+                  textAlign: "right",
                   "&:hover": {
                     backgroundColor: "rgba(255, 255, 255, 0.6)",
                   },
                 }}
                 onClick={() => setOpen(false)}
               >
-                <ListItemText primary="احسان مددی" sx={{ color: "black" }} />
+                <ListItemText
+                  primary="احسان مددی"
+                  sx={{ color: "black", padding: "5px" }}
+                />
+                <span className="text-3xl">
+                  <IoPersonCircleOutline />
+                </span>
               </ListItem>
             </div>
           </List>

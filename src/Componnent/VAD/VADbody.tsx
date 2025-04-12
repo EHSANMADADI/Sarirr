@@ -267,7 +267,7 @@ export default function VADBody() {
                       </span>
                       <audio controls>
                         <source
-                          src={`http://195.191.45.56:18017${convertedAddressFile}`}
+                          src={`http://109.230.90.198:18017${convertedAddressFile}`}
                           type="audio/mpeg"
                         />
                       </audio>

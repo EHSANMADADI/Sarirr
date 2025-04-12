@@ -13,7 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from "../Share/Modal";
 import { useStore } from "../../Store/Store";
-
+import axios from "axios";
 export default function ASRbody() {
   const { lang, audioURLs, removeRecording } = useStore();
   const [savedRecordings, setSavedRecordings] = useState(audioURLs);
@@ -24,7 +24,7 @@ export default function ASRbody() {
   const [file, setFile] = useState<File | null>(null);
   const [selectedLanguages, setSelectedLanguages] = useState("persian");
   const handleChange = (event: { target: { value: any } }) => {
-    setSelectedLanguages(event.target.value); // مقدار گزینه انتخاب‌شده
+    setSelectedLanguages(event.target.value); //  value of selected 
   };
   console.log(lang);
 
@@ -133,11 +133,11 @@ export default function ASRbody() {
         .fill(0)
         .map((_, i) => byteCharacters.charCodeAt(i));
       const byteArray = new Uint8Array(byteNumbers);
-      const audioBlob = new Blob([byteArray], { type: "audio/webm" });
+      const audioBlob = new Blob([byteArray]);
 
       // ایجاد FormData و ارسال درخواست
       const formData = new FormData();
-      formData.append("file", audioBlob, `${recording.name}.webm`);
+      formData.append("file", audioBlob, `${recording.name}`);
       switch (lang) {
         case "persian":
           formData.append("language", "persian");
@@ -163,9 +163,12 @@ export default function ASRbody() {
       }
       console.log(formData);
 
-      const response = await api.post("/api/transcribe/file", formData, {
+      // const response = await api.post("/api/transcribe/file", formData, {
+      //   headers: { "Content-Type": "multipart/form-data" },
+      // });
+      const response = await axios.post('http://109.230.90.198:18011/api/transcribe/file',formData,{
         headers: { "Content-Type": "multipart/form-data" },
-      });
+      })
       toast.success("پردازش با موفقیت به اتمام رسید");
       console.log(response);
       
@@ -422,7 +425,7 @@ export default function ASRbody() {
           </span>
         </div>
 
-        <div className="mb-5 flex z-0 justify-center" dir="rtl">
+        <div className="mb-5 flex z-0 justify-center mt-3" dir="rtl">
           <button
             onClick={handleButtonClick}
             className="flex items-center sm:px-6 sm:py-2 px-3 py-1 bg-gradient-to-r from-blue-600 to-blue-950 opacity-80 rounded-xl font-black sm:text-xl text-base shadow-2xl hover:opacity-100 border-[3px] border-blue-200 text-white"
@@ -442,14 +445,14 @@ export default function ASRbody() {
           )}
         </div>
 
-        <div className="flex justify-center">
+        {/* <div className="flex justify-center">
           <span className="text-gray-400 md:text-2xl text-base">یا رکورد را شروع کنید </span>
-        </div>
+        </div> */}
 
-        <VoiceRecorder
+        {/* <VoiceRecorder
           nameComponent={"ASR"}
           onRecordingComplete={handleNewRecording}
-        />
+        /> */}
       </div>
       <ToastContainer position="bottom-right" />
     </div>

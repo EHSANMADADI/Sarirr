@@ -11,6 +11,7 @@ import {
   Paper,
   Slide,
   TextField,
+  TableSortLabel,
 } from "@mui/material";
 import rtlPlugin from "stylis-plugin-rtl";
 import createCache from "@emotion/cache";
@@ -39,6 +40,8 @@ const ListUser: React.FC = () => {
   const [users, setUsers] = useState<User[]>(usersData);
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortField, setSortField] = useState<keyof User | null>(null);
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   const handleSelect = (id: number) => {
     setSelectedUsers((prev) => prev.includes(id) ? prev.filter((uid) => uid !== id) : [...prev, id]);
@@ -70,11 +73,29 @@ const ListUser: React.FC = () => {
     alert(`رمز عبور کاربر ${id} ریست شد!`);
   };
 
-  const filteredUsers = users.filter((user) =>
-    user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    user.firstname.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    user.lastname.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const handleSort = (field: keyof User) => {
+    if (sortField === field) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortOrder("asc");
+    }
+  };
+
+  const filteredUsers = users
+    .filter((user) =>
+      user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.firstname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.lastname.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (!sortField) return 0;
+      const valueA = a[sortField]!;
+      const valueB = b[sortField]!;
+      if (valueA < valueB) return sortOrder === "asc" ? -1 : 1;
+      if (valueA > valueB) return sortOrder === "asc" ? 1 : -1;
+      return 0;
+    });
 
   const theme = createTheme({ direction: "rtl" });
   const cacheRtl = createCache({ key: "muirtl", stylisPlugins: [rtlPlugin] });
@@ -106,10 +127,18 @@ const ListUser: React.FC = () => {
               <TableHead>
                 <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
                   <TableCell>انتخاب</TableCell>
-                  <TableCell>نام کاربری</TableCell>
+                  <TableCell>
+                    <TableSortLabel active={sortField === "username"} direction={sortOrder} onClick={() => handleSort("username")}>
+                      نام کاربری
+                    </TableSortLabel>
+                  </TableCell>
                   <TableCell>نام</TableCell>
                   <TableCell>نام خانوادگی</TableCell>
-                  <TableCell>تاریخ ثبت نام</TableCell>
+                  <TableCell>
+                    <TableSortLabel active={sortField === "createDate"} direction={sortOrder} onClick={() => handleSort("createDate")}>
+                      تاریخ ثبت نام
+                    </TableSortLabel>
+                  </TableCell>
                   <TableCell>حذف</TableCell>
                   <TableCell>بن</TableCell>
                   <TableCell>ریست پسورد</TableCell>

@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import InputFile from "./InputFile";
-import { FaCheckCircle } from "react-icons/fa";
-import UploadFile from "./UploadFile";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import Swal from "sweetalert2";
+
 import TabeleShowItem from "./TabeleShowItem";
 import { ToastContainer } from "react-toastify";
 type FileItem = {

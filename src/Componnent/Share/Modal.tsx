@@ -1,5 +1,6 @@
 import React from 'react'
 import { MdClose } from "react-icons/md";
+import { useStore } from '../../Store/Store';
 interface ModalInput {
   Open: boolean,
   onClose: () => void,
@@ -7,7 +8,7 @@ interface ModalInput {
   
 }
 export default function Modal({ Open, onClose, children }: ModalInput) {
-
+  //  const {pdfFileUrl}=useStore()
 
   if (!Open) return null;
 

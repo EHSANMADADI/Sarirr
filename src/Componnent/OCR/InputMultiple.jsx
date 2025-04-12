@@ -9,6 +9,7 @@ export default function InputMultiple({ files, setFiles, error, setError }) {
     const MAX_FILE_SIZE = 104857600; // 10MB
     const [open, setOpen] = useState(false);
     const [tempFiles, setTempFiles] = useState([]); // Temporary storage for files
+    
 
     const handleChange = (event) => {
         setType(event.target.value); // مقدار گزینه انتخاب‌شده
@@ -18,11 +19,26 @@ export default function InputMultiple({ files, setFiles, error, setError }) {
         const selectedFiles = Array.from(event.target.files);
         const validFiles = [];
         let hasError = false;
-
         selectedFiles.forEach((file) => {
             if (file.size <= MAX_FILE_SIZE) {
-                validFiles.push(file);
-            } else {
+                // if (file.type === "application/pdf") {
+                //     let reader = new FileReader();
+                //     reader.readAsDataURL(file);
+                //     reader.onloadend = (e) => {
+                //         console.log(e.target.result);                        
+                //         // setPdfFileUrl(e.target.result);
+                //         localStorage.setItem('pdfFileUrl',e.target.result)
+                //     }
+                //     validFiles.push(file);
+                //     console.log('pdf');
+                    
+                // }
+               
+                    validFiles.push(file);
+                  
+                
+            }
+            else {
                 setError('File size must be less than 10MB');
                 alert('File size must be less than 10MB');
                 hasError = true;
@@ -59,7 +75,7 @@ export default function InputMultiple({ files, setFiles, error, setError }) {
                                 <p className='xl:text-2xl text-base font-bold'>فایل های خود را انتخاب کنید</p>
                             </div>
                             <button type="button" onClick={handleButtonClick} className='px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-950 opacity-80 rounded-xl font-black text-xl shadow-2xl hover:opacity-100 border-[3px] border-blue-200 text-white'>انتخاب فایل</button>
-                            <input multiple id="dropzone-file" type="file" accept='.jpg,.jpeg,.png' className="hidden" onChange={handleFileChange} />
+                            <input multiple id="dropzone-file" type="file" accept='.jpg,.jpeg,.png,.pdf' className="hidden" onChange={handleFileChange} />
                         </label>
                     </div>
                 </div>

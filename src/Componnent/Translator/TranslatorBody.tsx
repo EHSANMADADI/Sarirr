@@ -37,15 +37,17 @@ export default function TranslatorBody() {
     console.log(content);
 
     axios
-      .post("http://195.191.45.56:17021/v1/chat/completions", {
+      .post("http://109.230.90.198:17021/v1/chat/completions", {
         // model: model,
         model: "gemma-2-27b-it",
+        // model:"aya-expanse-32b",
         messages: [
           {
             role: "user",
             content,
           },
         ],
+        // stream:true,
       })
       .then((res) => {  
         console.log(res.data);

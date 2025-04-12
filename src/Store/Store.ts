@@ -18,6 +18,9 @@ interface RecordingState {
   setShowBTN: (showbtn: boolean) => void;
   indexMultiple: number;
   ChangeIndexMultiple: (index: number) => void;
+  // pdfFileUrl:string,
+  // setPdfFileUrl:(value:string)=>void;
+  /////////////
   keywords: string;
   setKeywords: (value: string) => void;
   type: string;
@@ -25,6 +28,7 @@ interface RecordingState {
   ///for Descriptor
   characterValue: String[];
   addCharacterValue: (value: string) => void;
+  
 
   ///
   IsAdmin: boolean;
@@ -32,7 +36,7 @@ interface RecordingState {
 }
 
 export const useStore = create<RecordingState>((set) => ({
-  IsAdmin: true,
+  IsAdmin: false,
   setIsAdmin: (value: boolean) => set(() => ({ IsAdmin: value })),
 
   ///////////////
@@ -74,4 +78,10 @@ export const useStore = create<RecordingState>((set) => ({
     set((state) => ({
       characterValue: [...state.characterValue, value],
     })),
+ 
+    // pdfFileUrl:'',
+    // setPdfFileUrl:(value:string)=>set((state)=>({
+    //     pdfFileUrl:value,
+    // }))
+
 }));

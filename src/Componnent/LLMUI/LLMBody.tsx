@@ -21,7 +21,7 @@ export const LLMBody = () => {
       )}
       <iframe
         className="w-full h-full z-0"
-        src="http://195.191.45.56:17022/auth"
+        src="http://109.230.90.198:17022/auth"
         onLoad={() => setIsLoading(false)}
       ></iframe>
     </div>

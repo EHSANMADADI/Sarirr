@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -47,10 +48,11 @@ export default function TabeleShowItem({ saveItems, setSaveItems }: ItemTable) {
 
       // مرحله 1: دریافت توکن
       const authResponse = await axios.post(
-        "http://195.191.45.56:17023/api/auth",
+        "http://109.230.90.198:17023/api/auth/signin",
         {
-          login: "ehsan",
+          login: "mehran",
           password: "123456",
+          role:"user"
         }
       );
       
@@ -60,7 +62,7 @@ export default function TabeleShowItem({ saveItems, setSaveItems }: ItemTable) {
 
       // مرحله 2: آپلود فایل
       const uploadResponse = await axios.post(
-        "http://195.191.45.56:17023/api/UploadesFile",
+        "http://109.230.90.198:17023/api/files/upload?attackType=0",
         formData,
         {
           headers: {
@@ -80,7 +82,7 @@ export default function TabeleShowItem({ saveItems, setSaveItems }: ItemTable) {
       const checkProcessingStatus = async () => {
         try {
           const resultResponse = await axios.get(
-            `http://195.191.45.56:17023/api/result?request_id=${processId}`,
+            `http://109.230.90.198:17023/api/files/result?request_id=${processId}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,

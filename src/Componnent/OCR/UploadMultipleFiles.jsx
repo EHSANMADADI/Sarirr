@@ -5,15 +5,17 @@ import { FaCheckCircle } from "react-icons/fa";
 import api from "../../Config/api";
 import { useStore } from '../../Store/Store';
 
-export default function UploadMultipleFiles({ files, setSaveItems, saveItems, setAllFilesUploaded, allFilesUploaded,setFiles }) {
+export default function UploadMultipleFiles({ files, setSaveItems, saveItems, setAllFilesUploaded, allFilesUploaded, setFiles }) {
   const { type } = useStore()
   const [fileStates, setFileStates] = useState(files.map(file => ({
-    file,
+   file,
     responseText: '',
     src: '',
     isSent: false,
     progress: 0,
     url_document: '',
+    isPdf: false,
+    TotalPagePdf: null
   })));
 
   const [progressAll, setProgressAll] = useState(0);
@@ -32,7 +34,7 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
       reader.readAsDataURL(fileState.file);
       console.log(type);
       if (type === "Hebrew") {
-        api.post('/process_Hebrew', formData, {
+        axios.post('http://109.230.90.198:17017/process_Hebrew', formData, {
           onUploadProgress: (progressEvent) => {
             const percentage = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
             setFileStates(prevStates => {
@@ -45,6 +47,7 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
           console.log("res form Hebrow=>", res);
           setFileStates(prevStates => {
             const updatedStates = [...prevStates];
+            fileState.file.type === "application/pdf" ? updatedStates[index].isPdf = true : updatedStates[index].isPdf = false
             updatedStates[index].isSent = true;
             updatedStates[index].responseText = res.data.Translated_Text;
             updatedStates[index].src = imageUrls;
@@ -54,7 +57,7 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
         })
       }
       else {
-        axios.post(`/process_image?type=${type}`, formData, {
+        axios.post(`http://109.230.90.198:17017/process_image?type=${type}`, formData, {
           onUploadProgress: (progressEvent) => {
             const percentage = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
             setFileStates(prevStates => {
@@ -68,6 +71,7 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
             console.log("res form eliaaa=>", res);
             setFileStates(prevStates => {
               const updatedStates = [...prevStates];
+              fileState.file.type === "application/pdf" ? updatedStates[index].isPdf = true : updatedStates[index].isPdf = false
               updatedStates[index].isSent = true;
               updatedStates[index].responseText = res.data.pages[0].text;
               updatedStates[index].src = imageUrls;
@@ -83,7 +87,7 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
 
     } catch (error) {
       console.log(error);
-      setFiles(null);  
+      setFiles(null);
     }
 
 
@@ -124,7 +128,7 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
       }
 
       {
-        !allFilesUploaded&&files && <div className='w-full'>
+        !allFilesUploaded && files && <div className='w-full'>
           <div className='border border-gray-100 shadow-2xl rounded-lg xl:mx-6 mx-1 xl:p-5 py-2 mb-10 bg-white'>
             <div className='flex justify-between items-center md:mx-5 mx-2'>
               <p className='text-lg  font-semibold overflow-clip py-2'>درحال پردازش لطفا صبر کنید</p>
