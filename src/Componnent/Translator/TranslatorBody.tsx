@@ -24,57 +24,83 @@ export default function TranslatorBody() {
   const handleLanguageClick = (language: string) => {
     setSelectedLanguage(language);
   };
-  const translate = () => {
-    console.log("click");
+  const translate = async () => {
+    if (text === "") {
+      toast.info("لطفا متن مورد نظر خود را برای ترجمه وارد کنید");
+      return;
+    }
+  
     setLoading(true);
     setResult("");
-  if(text===''){
-    setLoading(false);
-    return toast.info("لطفا متن مورد نظر خود را برای ترجمه وارد کنید");
-
-  }
-    const content = `{"phrase":"${text}",  "language":"${selectedLanguage}"} `;
-    console.log(content);
-
-    axios
-      .post("http://109.230.90.198:17021/v1/chat/completions", {
-        // model: model,
+  
+    const controller = new AbortController();
+    const { signal } = controller;
+  
+    const response = await fetch("http://109.230.90.198:17021/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
         model: "gemma-2-27b-it",
-        // model:"aya-expanse-32b",
+          // model: "aya-23-8b",
+          // model: "aya-expanse-32b",
         messages: [
           {
             role: "user",
-            content,
+            content: `{"phrase":"${text}", "language":"${selectedLanguage}"}`,
           },
         ],
-        // stream:true,
-      })
-      .then((res) => {  
-        console.log(res.data);
-
-        let content = res.data?.choices[0].message.content
-          .replaceAll("\n", "")
-          .replace(/(?<=("|}|{|(",)))(\r|\n|\t|\v|\f| )+(?=(,|"|{|}))/gi, "")
-          .replaceAll(/\n/gi, "\\\\n")
-          .replaceAll(/(\r|\t|\v|\f)/gi, "")
-          .replaceAll(/`/gi, "");
-        // بررسی و حذف json اضافی
-        if (content.startsWith("json")) {
-          content = content.replace(/^json/, "");
+        stream: true,
+      }),
+      signal,
+    });
+  
+    if (!response.body) {
+      toast.error("پاسخی از سرور دریافت نشد");
+      setLoading(false);
+      return;
+    }
+  
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder("utf-8");
+  
+    let partial = "";
+  
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+  
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split("\n").filter((line) => line.trim() !== "");
+  
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            const jsonStr = line.replace("data: ", "").trim();
+            if (jsonStr === "[DONE]") break;
+  
+            try {
+              const parsed = JSON.parse(jsonStr);
+              const contentChunk = parsed?.choices?.[0]?.delta?.content;
+              if (contentChunk) {
+                // نمایش کلمه‌به‌کلمه به صورت زنده
+                setResult((prev) => prev + contentChunk);
+              }
+            } catch (err) {
+              console.log("خطا در پارس کردن چانک:", err);
+            }
+          }
         }
-
-        console.log(content);
-        const resulttranslation = JSON.parse(content);
-        setResult(resulttranslation.translation);
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("مشکلی پیش آمده لطفا دوباره تلاش کنید");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      }
+    } catch (err) {
+      console.log("خطا در استریم:", err);
+      toast.error("مشکلی در خواندن پاسخ وجود دارد");
+    } finally {
+      setLoading(false);
+    }
   };
+  
 
   useEffect(() => {
     setResult("   ");
