@@ -2,6 +2,7 @@ import React from "react";
 import HeaderMenue from "../Share/HeaderMenue";
 import TitleDetails from "../Share/TitleDetails";
 import TranslatorBody from "./TranslatorBody";
+import TranslatorOlama from "./TranslatorOlama";
 
 export default function TranslatorComponnent() {
   return (
@@ -12,7 +13,8 @@ export default function TranslatorComponnent() {
           title={"ابزار مترجم هوشمند"}
           detailes="ابزاری قدرتمند برای ترجمه متون به زبان های مختلف است که دقت و سرعت بالایی را ارائه میدهد"
         />
-        <TranslatorBody />
+        {/* <TranslatorOlama /> */}
+        <TranslatorBody/>
       </div>
     </div>
   );
