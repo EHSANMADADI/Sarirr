@@ -8,7 +8,7 @@ import { useStore } from '../../Store/Store';
 export default function UploadMultipleFiles({ files, setSaveItems, saveItems, setAllFilesUploaded, allFilesUploaded, setFiles }) {
   const { type } = useStore()
   const [fileStates, setFileStates] = useState(files.map(file => ({
-   file,
+    file,
     responseText: '',
     src: '',
     isSent: false,
@@ -34,7 +34,7 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
       reader.readAsDataURL(fileState.file);
       console.log(type);
       if (type === "Hebrew") {
-        axios.post('http://109.230.90.198:17017/process_Hebrew', formData, {
+        axios.post('/process_Hebrew', formData, {
           onUploadProgress: (progressEvent) => {
             const percentage = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
             setFileStates(prevStates => {
@@ -54,10 +54,13 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
             updatedStates[index].url_document = res.data.document_url || '';
             return updatedStates;
           });
+        }).catch((err) => {
+          alert(`فایل ${fileState.file.name} ارسال نشد`);
+          console.log(err);
         })
       }
       else {
-        axios.post(`http://109.230.90.198:17017/process_image?type=${type}`, formData, {
+        api.post(`/process_image?type=${type}`, formData, {
           onUploadProgress: (progressEvent) => {
             const percentage = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
             setFileStates(prevStates => {
@@ -71,13 +74,25 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
             console.log("res form eliaaa=>", res);
             setFileStates(prevStates => {
               const updatedStates = [...prevStates];
-              fileState.file.type === "application/pdf" ? updatedStates[index].isPdf = true : updatedStates[index].isPdf = false
-              updatedStates[index].isSent = true;
-              updatedStates[index].responseText = res.data.pages[0].text;
-              updatedStates[index].src = imageUrls;
-              updatedStates[index].url_document = res.data.document_url;
+              const isPdf = fileState.file.type === "application/pdf";
+
+              // ترکیب متن صفحات با شماره صفحه و خط جداکننده
+              const combinedText = res.data.pages.map((page, i) => {
+                return `${page.text}\n----------------(صفحه شماره  ${i + 1})----------------\n`;
+              }).join('\n');
+
+              updatedStates[index] = {
+                ...updatedStates[index],
+                isPdf,
+                isSent: true,
+                responseText: combinedText,
+                src: imageUrls,
+                url_document: res.data.document_url
+              };
+
               return updatedStates;
             });
+
           })
           .catch(err => {
             alert(`فایل ${fileState.file.name} ارسال نشد`);
