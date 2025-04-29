@@ -86,12 +86,13 @@ export default function HeaderMenu() {
           >
             Decryptor
           </span>
-          <span
-            onClick={() => handlePageChange("/LLMUI")}
+          <a
+          href="http://109.230.90.198:17022/"
+            // onClick={() => handlePageChange("http://109.230.90.198:17022/")}
             className="font-semibold  md:text-lg text-sm mx-3 cursor-pointer hover:bg-gray-200 duration-200 lg:border-none border-b-2  lg:w-auto w-full items-center p-5 lg:p-4 rounded-md  flex justify-center"
           >
             LLMUI
-          </span>
+          </a>
           <span
             onClick={() => handlePageChange("/translate")}
             className="font-semibold md:text-lg text-sm mx-3 cursor-pointer hover:bg-gray-200 duration-200 lg:border-none border-b-2  lg:w-auto w-full items-center p-5 lg:p-4 rounded-md flex justify-center"

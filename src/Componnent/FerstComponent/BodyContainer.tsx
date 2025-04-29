@@ -79,7 +79,7 @@ export default function BodyContainer() {
         id={9}
         title="LLMUI"
         discription="رابط کاربری مدل های زبانی با قابلیت های متنوع"
-        link="/LLMUI"
+        link="http://109.230.90.198:17022"
         key={1}
         bgClassName="bg-llmui"
       />
