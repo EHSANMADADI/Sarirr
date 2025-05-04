@@ -8,7 +8,7 @@ import { useStore } from '../../Store/Store';
 export default function UploadMultipleFiles({ files, setSaveItems, saveItems, setAllFilesUploaded, allFilesUploaded, setFiles }) {
   const { type } = useStore()
   const [fileStates, setFileStates] = useState(files.map(file => ({
-   file,
+    file,
     responseText: '',
     src: '',
     isSent: false,
@@ -54,7 +54,8 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
             updatedStates[index].url_document = res.data.document_url || '';
             return updatedStates;
           });
-        }).catch((err)=>{
+
+        }).catch((err) => {
           alert(`فایل ${fileState.file.name} ارسال نشد`);
           console.log(err);
         })
@@ -89,8 +90,11 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
                 src: imageUrls,
                 url_document: res.data.document_url
               };
+
+
               return updatedStates;
             });
+
           })
           .catch(err => {
             alert(`فایل ${fileState.file.name} ارسال نشد`);

@@ -9,6 +9,7 @@ import loader from "../../IMG/tail-spin.svg";
 import axios from "axios";
 import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 import { ImCancelCircle } from "react-icons/im";
+import api from "../../Config/api";
 
 export default function KeyWordSpottingBody() {
   const [keyWord, setKeyword] = useState("");
@@ -141,8 +142,8 @@ export default function KeyWordSpottingBody() {
       formdata.append("support_files", blob, item.name);
     });
     // Send files to server
-    axios
-      .post("http://109.230.90.198:18017/process", formdata, {
+    api
+      .post("/process", formdata, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
