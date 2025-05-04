@@ -79,7 +79,7 @@ export default function BodyContainer() {
         id={9}
         title="LLMUI"
         discription="رابط کاربری مدل های زبانی با قابلیت های متنوع"
-        link="/LLMUI"
+        link="http://109.230.90.198:17022"
         key={1}
         bgClassName="bg-llmui"
       />
@@ -90,6 +90,14 @@ export default function BodyContainer() {
         link="/gitinama"
         key={1}
         bgClassName="bg-gitinama"
+      />
+       <ItemsComponnets
+        id={11}
+        title="Image-to-DB"
+        discription="استخراج اطلاعات اشخاص از تصویر"
+        link="/ImagetoDB"
+        key={1}
+        bgClassName="bg-extractInfo"
       />
     </div>
   );

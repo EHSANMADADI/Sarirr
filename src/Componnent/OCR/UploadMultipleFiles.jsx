@@ -34,7 +34,7 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
       reader.readAsDataURL(fileState.file);
       console.log(type);
       if (type === "Hebrew") {
-        axios.post('http://109.230.90.198:17017/process_Hebrew', formData, {
+        axios.post('/process_Hebrew', formData, {
           onUploadProgress: (progressEvent) => {
             const percentage = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
             setFileStates(prevStates => {
@@ -54,10 +54,13 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
             updatedStates[index].url_document = res.data.document_url || '';
             return updatedStates;
           });
+        }).catch((err)=>{
+          alert(`فایل ${fileState.file.name} ارسال نشد`);
+          console.log(err);
         })
       }
       else {
-        axios.post(`http://109.230.90.198:17017/process_image?type=${type}`, formData, {
+        api.post(`/process_image?type=${type}`, formData, {
           onUploadProgress: (progressEvent) => {
             const percentage = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
             setFileStates(prevStates => {
@@ -71,11 +74,21 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
             console.log("res form eliaaa=>", res);
             setFileStates(prevStates => {
               const updatedStates = [...prevStates];
-              fileState.file.type === "application/pdf" ? updatedStates[index].isPdf = true : updatedStates[index].isPdf = false
-              updatedStates[index].isSent = true;
-              updatedStates[index].responseText = res.data.pages[0].text;
-              updatedStates[index].src = imageUrls;
-              updatedStates[index].url_document = res.data.document_url;
+              const isPdf = fileState.file.type === "application/pdf";
+
+              // ترکیب متن صفحات با شماره صفحه و خط جداکننده
+              const combinedText = res.data.pages.map((page, i) => {
+                return `${page.text}\n----------------(صفحه شماره  ${i + 1})----------------\n`;
+              }).join('\n');
+
+              updatedStates[index] = {
+                ...updatedStates[index],
+                isPdf,
+                isSent: true,
+                responseText: combinedText,
+                src: imageUrls,
+                url_document: res.data.document_url
+              };
               return updatedStates;
             });
           })
@@ -137,11 +150,7 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
                   <FaCheckCircle />
                 </div>
               }
-              {/* {
-                progressAll !== 100 && <div className='text-3xl text-red-500 font-bold cursor-pointer hover:scale-110 duration-200'>
-                  <CiCircleRemove />
-                </div>
-              } */}
+            
             </div>
 
             <div className='mx-6 mt-1'>
@@ -151,14 +160,7 @@ export default function UploadMultipleFiles({ files, setSaveItems, saveItems, se
               <div className="flex justify-end mb-1">
                 <span className="text-sm font-medium text-gray-400 ">{progressAll}%</span>
               </div>
-              {/* <div className='flex'>
-                <div className='flex justify-between w-full items-center'>
-                  <button className='border-dotted border-black rounded-md border-2 sm:px-4 px-2 pt-1 pb-2 mx-2 sm:text-xl text-xs font-semibold flex items-center text-center hover:scale-105 duration-200'>
-                    <span className='text-center mr-2 text-2xl text-red-600'><RiDeleteBin6Line /></span>حذف
-                  </button>
-                
-                </div>
-              </div> */}
+         
             </div>
           </div>
         </div>

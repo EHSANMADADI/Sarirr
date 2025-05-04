@@ -298,7 +298,7 @@ export default function VADBody() {
             </span>
           </div>
           <div className="flex justify-center mb-7">
-            <span className="text-gray-500 font-Byekan font-bold text-lg">
+            <span className="text-gray-500 font-Byekan font-bold lg:text-lg text-sm">
               : انتخاب فایل از سیستم
             </span>
           </div>

@@ -17,12 +17,13 @@ import AdminPanel from "./Page/AdminPanel";
 import AddUser from "./Componnent/AdminPanel/AddUser";
 import ListUser from "./Componnent/AdminPanel/ListUser";
 import Gitinam from "./Page/Gitinam";
+import ImagetoDBPage from "./Page/ImagetoDBPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-      <Route path="/signIn" element={<SignIn />} />
+        <Route path="/signIn" element={<SignIn />} />
         <Route path="/" element={<FerstPage />} />
         <Route path="/gitinama" element={<Gitinam />} />
         <Route path="/ASR" element={<ASRPage />} />
@@ -33,12 +34,12 @@ function App() {
         <Route path="/LLMUI" element={<LLMUIPage />} />
         <Route path="/SuperResolution" element={<SuperResolutionPage />} />
         <Route path="/Decryptor" element={<DecryptorPage />} />
-        <Route path="/keywordSpotting" element={<KeywordSpotting/>} />
-        <Route path='/AdminPanel' element={<AdminPanel/>}>
-        <Route index element={<h1>صفحه اصلی</h1>} />
-        <Route path="adduser" element={<AddUser />} />
-        <Route path="listuser" element={<ListUser />} />
-       
+        <Route path="/ImagetoDB" element={<ImagetoDBPage />} />
+        <Route path="/keywordSpotting" element={<KeywordSpotting />} />
+        <Route path="/AdminPanel" element={<AdminPanel />}>
+          <Route index element={<h1>صفحه اصلی</h1>} />
+          <Route path="adduser" element={<AddUser />} />
+          <Route path="listuser" element={<ListUser />} />
         </Route>
       </Routes>
     </BrowserRouter>

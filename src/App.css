@@ -134,6 +134,11 @@
   background-size: contain;
   background-repeat: no-repeat;
 }
+.bg-extractInfo{
+  background-image: url("../src/IMG/extractInfo.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
 @media(max-width:500px){
   .bg-llmui ,.bg-descreiption ,.bg-ketWord, .bg-photoSuper, .bg-photoTranslator, .bg-photoOCR, .bg-photoSEGA, .bg-photoASR,  .bg-photoVAD, .bg-photoSE  {
     background-size: cover;

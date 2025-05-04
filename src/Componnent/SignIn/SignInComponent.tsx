@@ -18,6 +18,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 // import { GoogleIcon, FacebookIcon, SitemarkIcon } from './components/CustomIcons';
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
+import api from "../../Config/api";
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -31,7 +32,6 @@ const Card = styled(MuiCard)(({ theme }) => ({
   backgroundColor: "rgba(255, 255, 255, 0.5)",
   [theme.breakpoints.up("sm")]: {
     maxWidth: "550px",
-    
   },
   boxShadow:
     "hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px",
@@ -82,44 +82,35 @@ export default function SignInComponent(props: {
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
-      return;
-    }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+   
+      event.preventDefault(); // جلوگیری از رفرش
+
+      const data = new FormData(event.currentTarget);
+      const username = data.get("username");
+      const password = data.get("password");
+
+      // اعتبارسنجی اولیه
+      if (!username || !password) {
+        setEmailError(!username);
+        setPasswordError(!password);
+        if (!username) setEmailErrorMessage("نام کاربری الزامی است");
+        if (!password) setPasswordErrorMessage("رمز عبور الزامی است");
+        return;
+      }
+
+      try {
+        const response = api.get(
+          `https://192.168.4.85:3300/api/TokenQuery/Auth?Username=${username}&Password=${password}&FingerPrint=1`
+        ).then((res)=>console.log(res)).catch((err)=>console.log(err)
+        )
+      
+        
+      } catch (error) {
+        console.error("خطای شبکه:", error);
+      }
+
   };
-
-  const validateInputs = () => {
-    const email = document.getElementById("email") as HTMLInputElement;
-    const password = document.getElementById("password") as HTMLInputElement;
-
-    let isValid = true;
-
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      setEmailErrorMessage("Please enter a valid email address.");
-      isValid = false;
-    } else {
-      setEmailError(false);
-      setEmailErrorMessage("");
-    }
-
-    if (!password.value || password.value.length < 6) {
-      setPasswordError(true);
-      setPasswordErrorMessage("Password must be at least 6 characters long.");
-      isValid = false;
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage("");
-    }
-
-    return isValid;
-  };
-
+ 
   const theme = () =>
     createTheme({
       direction: "rtl",
@@ -139,101 +130,100 @@ export default function SignInComponent(props: {
         <div dir="rtl" className="hero-banrlogin">
           {/* <CssBaseline enableColorScheme /> */}
           <div className="backdrop-blur-sm">
-          <SignInContainer
-            dir="rtl"
-            direction="column"
-            justifyContent="space-between"
-          >
-            <Card>
-              <div dir="rtl">
-                <Typography component="h1" variant="h4" sx={{ width: "100%" }}>
-                  <span className="font-Byekan text-2xl">ورود</span>
-                </Typography>
-              </div>
-
-              <Divider>
-                <span className="font-nastaliqh text-xl">سریر</span>
-              </Divider>
-              <Box
-                component="form"
-                onSubmit={handleSubmit}
-                noValidate
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  width: "100%",
-                  gap: 2,
-                }}
-              >
-                <FormControl>
-                  <div dir="rtl">
-                    <TextField
-                      className="text-right"
-                      dir="rtl"
-                      label="نام کاربری"
-                      error={emailError}
-                      helperText={emailErrorMessage}
-                      id="username"
-                      type="text"
-                      name="username"
-                      autoFocus
-                      required
-                      fullWidth
-                      variant="outlined"
-                      color={emailError ? "error" : "primary"}
-                    />
-                  </div>
-                </FormControl>
-                <FormControl>
-                  <div dir="rtl">
-                    <TextField
-                      dir="rtl"
-                      error={passwordError}
-                      helperText={passwordErrorMessage}
-                      name="password"
-                      label="رمز عبور"
-                      type="password"
-                      id="password"
-                      autoComplete="current-password"
-                      autoFocus
-                      required
-                      fullWidth
-                      variant="outlined"
-                      color={passwordError ? "error" : "primary"}
-                    />
-                  </div>
-                </FormControl>
+            <SignInContainer
+              dir="rtl"
+              direction="column"
+              justifyContent="space-between"
+            >
+              <Card>
                 <div dir="rtl">
-                  <FormControlLabel
-                    control={<Checkbox value="remember" color="primary" />}
-                    label="مرا به خاطر بسپار"
-                  />
+                  <Typography
+                    component="h1"
+                    variant="h4"
+                    sx={{ width: "100%" }}
+                  >
+                    <span className="font-Byekan text-2xl">ورود</span>
+                  </Typography>
                 </div>
 
-                {/* <ForgotPassword open={open} handleClose={handleClose} /> */}
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  onClick={validateInputs}
+                <Divider>
+                  <span className="font-nastaliqh text-xl">سریر</span>
+                </Divider>
+                <Box
+                  component="form"
+                  onSubmit={handleSubmit}
+                  noValidate
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "100%",
+                    gap: 2,
+                  }}
                 >
-                  ورود
-                </Button>
-                <Link
-                  component="button"
-                  type="button"
-                  onClick={handleClickOpen}
-                  variant="body2"
-                  sx={{ alignSelf: "center" }}
-                >
-                  رمز عبور خود را فراموش کرده اید؟
-                </Link>
-              </Box>
-              
-            </Card>
-          </SignInContainer>
+                  <FormControl>
+                    <div dir="rtl">
+                      <TextField
+                        className="text-right"
+                        dir="rtl"
+                        label="نام کاربری"
+                        error={emailError}
+                        helperText={emailErrorMessage}
+                        id="username"
+                        type="text"
+                        name="username"
+                        autoFocus
+                        fullWidth
+                        variant="outlined"
+                        color={emailError ? "error" : "primary"}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormControl>
+                    <div dir="rtl">
+                      <TextField
+                        dir="rtl"
+                        error={passwordError}
+                        helperText={passwordErrorMessage}
+                        name="password"
+                        label="رمز عبور"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                        autoFocus
+                        fullWidth
+                        variant="outlined"
+                        color={passwordError ? "error" : "primary"}
+                      />
+                    </div>
+                  </FormControl>
+                  <div dir="rtl">
+                    <FormControlLabel
+                      control={<Checkbox value="remember" color="primary" />}
+                      label="مرا به خاطر بسپار"
+                    />
+                  </div>
+
+                  {/* <ForgotPassword open={open} handleClose={handleClose} /> */}
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                  >
+                    ورود
+                  </Button>
+                  <Link
+                    component="button"
+                    type="button"
+                    onClick={handleClickOpen}
+                    variant="body2"
+                    sx={{ alignSelf: "center" }}
+                  >
+                    رمز عبور خود را فراموش کرده اید؟
+                  </Link>
+                </Box>
+              </Card>
+            </SignInContainer>
           </div>
-         
         </div>
       </ThemeProvider>
     </CacheProvider>
